@@ -1,0 +1,40 @@
+# R
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Editors and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*~
+
+# Temporary files
+*.tmp
+*.log
+
+# Raw sequencing and alignment files
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.sam
+*.bam
+*.bai
+*.cram
+*.crai
+
+# Large archives
+*.zip
+*.tar
+*.tar.gz
+
+# Generated temporary directories
+results/**/tmp/
+results/**/cache/
+
+# Microsoft Office lock files
+~$*.docx
+~$*.xlsx
