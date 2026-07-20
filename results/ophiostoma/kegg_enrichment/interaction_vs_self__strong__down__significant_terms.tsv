@@ -1,0 +1,2 @@
+ID	Description	GeneRatio	BgRatio	RichFactor	FoldEnrichment	zScore	pvalue	p.adjust	qvalue	geneID	Count	contrast	gene_set	direction	significant_padj_0.05	pathway_class	pathway_type
+N-Glycan degradation	N-Glycan degradation	5/105	9/1145	0.555555555555556	6.05820105820106	4.83859385165631	0.000552804780178498	0.0403547489530304	0.0384053847281904	gene_705/gene_928/gene_2690/gene_6122/gene_6171	5	interaction_vs_self	strong	down	TRUE	Metabolism of Complex Carbohydrates	METABOLIC
