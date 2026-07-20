@@ -1,0 +1,36 @@
+{
+  "counts": {
+    "duplicate_raw_protein_pathway_pairs": 0,
+    "genes_without_valid_pathway": 7491,
+    "pathway_class_collisions": 0,
+    "pathway_type_collisions": 0,
+    "raw_kegg_rows": 3397,
+    "raw_rows_with_valid_pathway": 2754,
+    "total_structural_genes": 8640,
+    "unique_gene_pathway_pairs": 2754,
+    "unique_genes_with_valid_pathway": 1149,
+    "unique_pathways": 111,
+    "unique_proteins_anywhere_in_kegg": 1789,
+    "unique_proteins_with_valid_pathway": 1149,
+    "unmapped_pathway_proteins": 0
+  },
+  "coverage": {
+    "fraction_of_structural_genes_with_valid_pathway": 0.1329861111111111
+  },
+  "input_sha256": {
+    "gene_map": "b4902fa632ef87c7067d7f95169445ff30bb4464c1b08e89e1e63c04619a59d0",
+    "kegg": "c547c7cf31750c64a96e4e85e7ec82d66884da935d59794475cdab49d1261d32"
+  },
+  "inputs": {
+    "gene_map": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/annotation/ophiostoma_gene_annotation_map.tsv",
+    "kegg": "/home/alex/dual-rnaseq-elm-fungi/data/annotation/ophiostoma/KEGG/Ophnu1_GeneCatalog_proteins_20170425_KEGG.tab"
+  },
+  "outputs": {
+    "gene_kegg_pathways": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/kegg_annotation/ophiostoma_gene_kegg_pathways.tsv",
+    "genes_without_kegg_pathway": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/kegg_annotation/genes_without_kegg_pathway.tsv",
+    "pathway_metadata": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/kegg_annotation/ophiostoma_kegg_pathway_metadata.tsv",
+    "term2gene": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/kegg_annotation/ophiostoma_kegg_term2gene.tsv"
+  },
+  "run_timestamp": "2026-07-20T20:20:59+02:00",
+  "validation_passed": true
+}

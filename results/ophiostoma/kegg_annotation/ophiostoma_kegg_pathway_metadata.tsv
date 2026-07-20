@@ -1,0 +1,112 @@
+pathway	pathway_class	pathway_type
+1,2-Dichloroethane degradation	Biodegradation of Xenobiotics	METABOLIC
+1,4-Dichlorobenzene degradation	Biodegradation of Xenobiotics	METABOLIC
+2,4-Dichlorobenzoate degradation	Biodegradation of Xenobiotics	METABOLIC
+3-Chloroacrylic acid degradation	Biodegradation of Xenobiotics	METABOLIC
+ATP synthesis	Energy Metabolism	METABOLIC
+Alanine and aspartate metabolism	Amino Acid Metabolism	METABOLIC
+Alkaloid biosynthesis I	Biosynthesis of Secondary Metabolites	METABOLIC
+Alkaloid biosynthesis II	Biosynthesis of Secondary Metabolites	METABOLIC
+Aminoacyl-tRNA biosynthesis	TRANSLATION	REGULATORY
+Aminophosphonate metabolism	Metabolism of Other Amino Acids	METABOLIC
+Aminosugars metabolism	Metabolism of Complex Carbohydrates	METABOLIC
+Androgen and estrogen metabolism	Lipid Metabolism	METABOLIC
+Arginine and proline metabolism	Amino Acid Metabolism	METABOLIC
+Ascorbate and aldarate metabolism	Carbohydrate Metabolism	METABOLIC
+Atrazine degradation	Biodegradation of Xenobiotics	METABOLIC
+Benzoate degradation via CoA ligation	Biodegradation of Xenobiotics	METABOLIC
+Benzoate degradation via hydroxylation	Biodegradation of Xenobiotics	METABOLIC
+Bile acid biosynthesis	Lipid Metabolism	METABOLIC
+Biotin metabolism	Metabolism of Cofactors and Vitamins	METABOLIC
+Blood group glycolipid biosynthesis - lact series	Metabolism of Complex Lipids	METABOLIC
+Blood group glycolipid biosynthesis - neolact series	Metabolism of Complex Lipids	METABOLIC
+Butanoate metabolism	Carbohydrate Metabolism	METABOLIC
+Caprolactam degradation	Biodegradation of Xenobiotics	METABOLIC
+Carbazole degradation	Biodegradation of Xenobiotics	METABOLIC
+Carbon fixation	Energy Metabolism	METABOLIC
+Chondroitin / heparan sulfate biosynthesis	Metabolism of Complex Carbohydrates	METABOLIC
+Citrate cycle (TCA cycle)	Carbohydrate Metabolism	METABOLIC
+Cyanoamino acid metabolism	Metabolism of Other Amino Acids	METABOLIC
+Cysteine metabolism	Amino Acid Metabolism	METABOLIC
+D-Arginine and D-ornithine metabolism	Metabolism of Other Amino Acids	METABOLIC
+DNA polymerase	REPLICATION AND REPAIR	REGULATORY
+Erythromycin biosynthesis	Biosynthesis of Secondary Metabolites	METABOLIC
+Ethylbenzene degradation	Biodegradation of Xenobiotics	METABOLIC
+Fatty acid biosynthesis (path 1)	Lipid Metabolism	METABOLIC
+Fatty acid biosynthesis (path 2)	Lipid Metabolism	METABOLIC
+Fatty acid metabolism	Lipid Metabolism	METABOLIC
+Flagellar assembly	\N	\N
+Flavonoids, stilbene and lignin biosynthesis	Biosynthesis of Secondary Metabolites	METABOLIC
+Fluorene degradation	Biodegradation of Xenobiotics	METABOLIC
+Folate biosynthesis	Metabolism of Cofactors and Vitamins	METABOLIC
+Fructose and mannose metabolism	Carbohydrate Metabolism	METABOLIC
+Galactose metabolism	Carbohydrate Metabolism	METABOLIC
+Globoside metabolism	Metabolism of Complex Lipids	METABOLIC
+Glutamate metabolism	Amino Acid Metabolism	METABOLIC
+Glutathione metabolism	Metabolism of Other Amino Acids	METABOLIC
+Glycerolipid metabolism	Metabolism of Complex Lipids	METABOLIC
+Glycine, serine and threonine metabolism	Amino Acid Metabolism	METABOLIC
+Glycolysis / Gluconeogenesis	Carbohydrate Metabolism	METABOLIC
+Glycosaminoglycan degradation	Metabolism of Complex Carbohydrates	METABOLIC
+Glycosylphosphatidylinositol(GPI)-anchor biosynthesis	\N	\N
+Glyoxylate and dicarboxylate metabolism	Carbohydrate Metabolism	METABOLIC
+Histidine metabolism	Amino Acid Metabolism	METABOLIC
+Inositol metabolism	Carbohydrate Metabolism	METABOLIC
+Inositol phosphate metabolism	Metabolism of Complex Lipids	METABOLIC
+Keratan sulfate biosynthesis	Metabolism of Complex Carbohydrates	METABOLIC
+Lipopolysaccharide biosynthesis	Metabolism of Complex Carbohydrates	METABOLIC
+Lysine biosynthesis	Amino Acid Metabolism	METABOLIC
+Lysine degradation	Amino Acid Metabolism	METABOLIC
+Methane metabolism	Energy Metabolism	METABOLIC
+Methionine metabolism	Amino Acid Metabolism	METABOLIC
+N-Glycan degradation	Metabolism of Complex Carbohydrates	METABOLIC
+N-Glycans biosynthesis	Metabolism of Complex Carbohydrates	METABOLIC
+Nicotinate and nicotinamide metabolism	Metabolism of Cofactors and Vitamins	METABOLIC
+Nitorobenzene degradation	Biodegradation of Xenobiotics	METABOLIC
+Nitrogen metabolism	Energy Metabolism	METABOLIC
+Nucleotide sugars metabolism	Nucleotide Metabolism	METABOLIC
+O-Glycans biosynthesis	Metabolism of Complex Carbohydrates	METABOLIC
+One carbon pool by folate	Metabolism of Cofactors and Vitamins	METABOLIC
+Oxidative phosphorylation	Energy Metabolism	METABOLIC
+Pantothenate and CoA biosynthesis	Metabolism of Cofactors and Vitamins	METABOLIC
+Pentose and glucuronate interconversions	Carbohydrate Metabolism	METABOLIC
+Pentose phosphate pathway	Carbohydrate Metabolism	METABOLIC
+Peptidoglycan biosynthesis	Metabolism of Complex Carbohydrates	METABOLIC
+Phenylalanine metabolism	Amino Acid Metabolism	METABOLIC
+Phenylalanine, tyrosine and tryptophan biosynthesis	Amino Acid Metabolism	METABOLIC
+Phospholipid degradation	Metabolism of Complex Lipids	METABOLIC
+Porphyrin and chlorophyll metabolism	Metabolism of Cofactors and Vitamins	METABOLIC
+Propanoate metabolism	Carbohydrate Metabolism	METABOLIC
+Prostaglandin and leukotriene metabolism	Metabolism of Complex Lipids	METABOLIC
+Purine metabolism	Nucleotide Metabolism	METABOLIC
+Pyrimidine metabolism	Nucleotide Metabolism	METABOLIC
+Pyruvate metabolism	Carbohydrate Metabolism	METABOLIC
+RNA polymerase	TRANSCRIPTION	REGULATORY
+Reductive carboxylate cycle (CO2 fixation)	Energy Metabolism	METABOLIC
+Retinol metabolism	Metabolism of Cofactors and Vitamins	METABOLIC
+Riboflavin metabolism	Metabolism of Cofactors and Vitamins	METABOLIC
+Selenoamino acid metabolism	Metabolism of Other Amino Acids	METABOLIC
+Sphingoglycolipid metabolism	Metabolism of Complex Lipids	METABOLIC
+Sphingophospholipid biosynthesis	Metabolism of Complex Lipids	METABOLIC
+Starch and sucrose metabolism	Metabolism of Complex Carbohydrates	METABOLIC
+Sterol biosynthesis	Lipid Metabolism	METABOLIC
+Streptomycin biosynthesis	Biosynthesis of Secondary Metabolites	METABOLIC
+Styrene degradation	Biodegradation of Xenobiotics	METABOLIC
+Sulfur metabolism	Energy Metabolism	METABOLIC
+Synthesis and degradation of ketone bodies	Lipid Metabolism	METABOLIC
+Taurine and hypotaurine metabolism	Metabolism of Other Amino Acids	METABOLIC
+Terpenoid biosynthesis	Biosynthesis of Secondary Metabolites	METABOLIC
+Tetrachloroethene degradation	Biodegradation of Xenobiotics	METABOLIC
+Thiamine metabolism	Metabolism of Cofactors and Vitamins	METABOLIC
+Toluene and xylene degradation	Biodegradation of Xenobiotics	METABOLIC
+Tryptophan metabolism	Amino Acid Metabolism	METABOLIC
+Type II secretion system	SORTING AND DEGRADATION	REGULATORY
+Type III secretion system	SORTING AND DEGRADATION	REGULATORY
+Tyrosine metabolism	Amino Acid Metabolism	METABOLIC
+Ubiquinone biosynthesis	Metabolism of Cofactors and Vitamins	METABOLIC
+Urea cycle and metabolism of amino groups	Amino Acid Metabolism	METABOLIC
+Valine, leucine and isoleucine biosynthesis	Amino Acid Metabolism	METABOLIC
+Valine, leucine and isoleucine degradation	Amino Acid Metabolism	METABOLIC
+Vitamin B6 metabolism	Metabolism of Cofactors and Vitamins	METABOLIC
+beta-Alanine metabolism	Metabolism of Other Amino Acids	METABOLIC
+gamma-Hexachlorocyclohexane degradation	Biodegradation of Xenobiotics	METABOLIC
