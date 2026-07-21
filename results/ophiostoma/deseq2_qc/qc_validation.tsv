@@ -1,0 +1,6 @@
+metric	value
+input_genes	8640
+all_zero_genes_removed	80
+genes_retained_for_qc	8560
+samples	9
+vst_blind	1

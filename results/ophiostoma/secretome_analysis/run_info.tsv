@@ -1,0 +1,13 @@
+field	value
+script	14_secretome_analysis.py
+run_timestamp_utc	2026-07-21T11:40:38.615091+00:00
+repository_root	/home/alex/dual-rnaseq-elm-fungi
+annotation_file	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/functional_annotation/ophiostoma_functional_annotation.tsv
+annotation_sha256	b9221a2d297621c33661cc1ce943413f9eb197e1fae785c3a4b460fe6c10b920
+signalp_definition	signalp_is_sp == TRUE
+significant_de_definition	padj < 0.05
+strong_de_definition	padj < 0.05 and abs(log2FoldChange) > 1
+interpretation	SignalP-positive candidates for classical Sec/SPI secretion; not a membrane-filtered complete secretome
+interaction_vs_self_input_sha256	e6d947a7d32775e988f944ba37a064fa2fb13bfe6008f536b0392679e9403223
+interaction_vs_onu_input_sha256	9f9cadd0141ee779e7122ad166663f7b9e57d09d2b5f7812de8e2adc30eb80b1
+onu_vs_self_input_sha256	a2746cf73d8e38db3b2b8474abf7efee91f9b5361deda77d398d6738d6d60195

@@ -1,0 +1,16 @@
+plate_well	original_sample_name	original_condition_label	reported_million_reads	reported_q30_percent
+F:6	Fungi 1A	MNN-1	72.55	93.33
+G:6	Fungi 1B	MNN-2	28.57	93.58
+H:6	Fungi 1C	MNN-3	76.11	93.21
+A:7	Fungi 2A	ONU-interactions-1	24.96	94.66
+B:7	Fungi 2B	ONU-interactions-2	23.95	93.92
+C:7	Fungi 2C	ONU-interactions-3	21.44	94.89
+D:7	Fungi 3A	onu-back-1	23.93	94.61
+E:7	Fungi 3B	onu-back-2	19.52	94.37
+F:7	Fungi 3C	onu-back-3	44.38	92.67
+G:7	Fungi 4A	ONU-ONU-1	53.85	92.43
+H:7	Fungi 4B	ONU-ONU-2	56.92	92.94
+A:8	Fungi 4C	ONU-ONU-3	75.36	92.69
+B:8	Fungi 5A	MNN-MNN-1	36.99	92.79
+C:8	Fungi 5B	MNN-MNN-2	18.72	95.41
+D:8	Fungi 5C	MNN-MNN-3	56.50	93.49

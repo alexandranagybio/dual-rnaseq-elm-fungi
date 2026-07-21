@@ -1,0 +1,14 @@
+dbCAN:
+dbCAN version: 5.2.8
+
+DIAMOND:
+diamond version 2.1.23
+
+Python:
+Python 3.10.19
+
+Input SHA256:
+7342469fd6393fc4534864dee220aac95f772124fa34c7bfc4257ea3855bcbf3  data/reference/ophiostoma/ophiostoma.proteins.clean.fa
+
+Database directory:
+/home/alex/rnaseq/06_annotation/dbcan/dbcan_db

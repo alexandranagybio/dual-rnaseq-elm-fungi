@@ -1,0 +1,79 @@
+{
+  "expected_gene_rows": 8640,
+  "input_featurecounts": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/gene_counts/ophiostoma_gene_featurecounts.txt",
+  "input_sha256": "7f4cbd6f90ce8be588aaa19a91e6b6f2390c36fe52f010706cce238337d3402e",
+  "library_sizes": {
+    "149": 17575692,
+    "150": 16584298,
+    "151": 15318805,
+    "152": 16300846,
+    "153": 13255429,
+    "154": 27812589,
+    "155": 33529070,
+    "156": 37813020,
+    "157": 49633557
+  },
+  "matrix": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/gene_counts/ophiostoma_gene_counts_matrix.tsv",
+  "metadata": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/gene_counts/sample_metadata.tsv",
+  "observed_gene_rows": 8640,
+  "sample_ids": [
+    "149",
+    "150",
+    "151",
+    "152",
+    "153",
+    "154",
+    "155",
+    "156",
+    "157"
+  ],
+  "sample_metadata": [
+    {
+      "condition": "interaction",
+      "replicate": "1",
+      "sample_id": "149"
+    },
+    {
+      "condition": "interaction",
+      "replicate": "2",
+      "sample_id": "150"
+    },
+    {
+      "condition": "interaction",
+      "replicate": "3",
+      "sample_id": "151"
+    },
+    {
+      "condition": "self",
+      "replicate": "1",
+      "sample_id": "152"
+    },
+    {
+      "condition": "self",
+      "replicate": "2",
+      "sample_id": "153"
+    },
+    {
+      "condition": "self",
+      "replicate": "3",
+      "sample_id": "154"
+    },
+    {
+      "condition": "onu",
+      "replicate": "1",
+      "sample_id": "155"
+    },
+    {
+      "condition": "onu",
+      "replicate": "2",
+      "sample_id": "156"
+    },
+    {
+      "condition": "onu",
+      "replicate": "3",
+      "sample_id": "157"
+    }
+  ],
+  "status": "PASS",
+  "zero_total_gene_rows": 80
+}

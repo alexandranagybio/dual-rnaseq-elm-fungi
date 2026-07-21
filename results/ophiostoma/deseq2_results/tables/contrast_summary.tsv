@@ -1,0 +1,4 @@
+contrast	numerator	denominator	total_rows	genes_tested	genes_with_padj	genes_with_na_padj	significant_padj_lt_0_05	significant_up	significant_down	strong_padj_lt_0_05_abs_lfc_gt_1	strong_up	strong_down	alpha	strong_abs_log2fc_threshold
+interaction_vs_self	interaction	self	8560	8560	8560	0	5238	2529	2709	1367	623	744	0.05	1
+onu_vs_self	onu	self	8560	8560	8560	0	4477	2288	2189	821	365	456	0.05	1
+interaction_vs_onu	interaction	onu	8560	8560	8560	0	4938	2587	2351	1082	461	621	0.05	1

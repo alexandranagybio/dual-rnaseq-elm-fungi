@@ -1,0 +1,31 @@
+Recorded: 2026-07-17T16:49:28+02:00
+Conda environment: dualrnaseq-counting
+
+infer_experiment.py executable:
+/home/alex/miniconda3/envs/dualrnaseq-counting/bin/infer_experiment.py
+RSeQC version:
+infer_experiment.py 5.0.4
+
+featureCounts executable:
+/usr/bin/featureCounts
+featureCounts version:
+
+featureCounts v2.0.6
+
+
+gffread executable:
+/home/alex/miniconda3/envs/dualrnaseq-counting/bin/gffread
+gffread version:
+0.12.9
+
+gtfToGenePred executable:
+/home/alex/miniconda3/envs/dualrnaseq-counting/bin/gtfToGenePred
+
+genePredToBed executable:
+/home/alex/miniconda3/envs/dualrnaseq-counting/bin/genePredToBed
+
+samtools executable:
+/home/alex/miniconda3/envs/dualrnaseq-counting/bin/samtools
+samtools version:
+samtools 1.24
+Using htslib 1.24

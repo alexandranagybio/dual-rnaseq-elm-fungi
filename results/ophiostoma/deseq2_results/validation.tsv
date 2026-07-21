@@ -1,0 +1,13 @@
+check	value
+input_is_DESeqDataSet	TRUE
+gene_count_matches_expected	TRUE
+sample_count_matches_expected	TRUE
+condition_levels_match_expected	TRUE
+reference_level_is_self	TRUE
+no_all_zero_genes	TRUE
+no_duplicate_gene_ids	TRUE
+sample_order_matches_metadata	TRUE
+positive_finite_size_factors	TRUE
+positive_finite_dispersions	TRUE
+required_outputs_created	TRUE
+overall_status	PASS

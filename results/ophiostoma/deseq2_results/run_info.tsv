@@ -1,0 +1,14 @@
+field	value
+script	08_run_deseq2.R
+run_timestamp	2026-07-18 13:50:42 CEST
+input_rds	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_qc/ophiostoma_gene_level_dds_nonzero.rds
+output_dir	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_results
+R_version	R version 4.4.3 (2025-02-28)
+DESeq2_version	1.46.0
+design	~ condition
+reference_level	self
+alpha	0.05
+strong_abs_log2fc_threshold	1
+fitType	parametric
+sfType	ratio
+test	Wald

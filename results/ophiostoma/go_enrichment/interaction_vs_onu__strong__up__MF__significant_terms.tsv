@@ -1,0 +1,4 @@
+ID	Description	GeneRatio	BgRatio	RichFactor	FoldEnrichment	zScore	pvalue	p.adjust	qvalue	geneID	Count	contrast	gene_set	direction	ontology	significant_padj_0.05
+GO:0019131	tripeptidyl-peptidase I activity	6/226	8/4328	0.75	14.3628318584071	8.87874254558229	4.87299113597282e-07	0.000119875581944931	0.000101563394202381	gene_1497/gene_3437/gene_3992/gene_4133/gene_5572/gene_8014	6	interaction_vs_onu	strong	up	MF	TRUE
+GO:0008236	serine-type peptidase activity	7/226	18/4328	0.388888888888889	7.44739429695182	6.43326864523056	1.87403116486602e-05	0.0023050583327852	0.0019529377402288	gene_1490/gene_1497/gene_3437/gene_3992/gene_4133/gene_5572/gene_8014	7	interaction_vs_onu	strong	up	MF	TRUE
+GO:0004289	subtilase activity	7/226	25/4328	0.28	5.36212389380531	5.13371986762584	0.000206603184743495	0.0169414611489666	0.0143534844137586	gene_1497/gene_3437/gene_3992/gene_4133/gene_5407/gene_5572/gene_8014	7	interaction_vs_onu	strong	up	MF	TRUE

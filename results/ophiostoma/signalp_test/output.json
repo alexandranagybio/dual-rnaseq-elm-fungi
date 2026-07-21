@@ -1,0 +1,96 @@
+{
+  "INFO": {
+    "failedjobs": 0,
+    "size": 5
+  },
+  "CSV_FILE": "results/ophiostoma/signalp_test/prediction_results.txt",
+  "MATURE_FILE": "results/ophiostoma/signalp_test/processed_entries.fasta",
+  "GFF_FILE": "results/ophiostoma/signalp_test/output.gff3",
+  "ZIP_FILE": "",
+  "SEQUENCES": {
+    "mRNA_1": {
+      "Name": "mRNA_1",
+      "Plot_eps": "",
+      "Plot_png": "",
+      "Plot_txt": "",
+      "Prediction": "Other",
+      "Likelihood": [
+        1.0,
+        0.0
+      ],
+      "Protein_types": [
+        "Other",
+        "Signal Peptide (Sec/SPI)"
+      ],
+      "CS_pos": ""
+    },
+    "mRNA_2": {
+      "Name": "mRNA_2",
+      "Plot_eps": "",
+      "Plot_png": "",
+      "Plot_txt": "",
+      "Prediction": "Other",
+      "Likelihood": [
+        1.0,
+        0.0
+      ],
+      "Protein_types": [
+        "Other",
+        "Signal Peptide (Sec/SPI)"
+      ],
+      "CS_pos": ""
+    },
+    "mRNA_3": {
+      "Name": "mRNA_3",
+      "Plot_eps": "",
+      "Plot_png": "",
+      "Plot_txt": "",
+      "Prediction": "Other",
+      "Likelihood": [
+        1.0,
+        0.0
+      ],
+      "Protein_types": [
+        "Other",
+        "Signal Peptide (Sec/SPI)"
+      ],
+      "CS_pos": ""
+    },
+    "mRNA_4": {
+      "Name": "mRNA_4",
+      "Plot_eps": "",
+      "Plot_png": "",
+      "Plot_txt": "",
+      "Prediction": "Other",
+      "Likelihood": [
+        1.0,
+        0.0
+      ],
+      "Protein_types": [
+        "Other",
+        "Signal Peptide (Sec/SPI)"
+      ],
+      "CS_pos": ""
+    },
+    "mRNA_5": {
+      "Name": "mRNA_5",
+      "Plot_eps": "",
+      "Plot_png": "",
+      "Plot_txt": "",
+      "Prediction": "Other",
+      "Likelihood": [
+        1.0,
+        0.0
+      ],
+      "Protein_types": [
+        "Other",
+        "Signal Peptide (Sec/SPI)"
+      ],
+      "CS_pos": ""
+    }
+  },
+  "FORMAT": "none",
+  "ORG": "eukarya",
+  "MODE": "fast",
+  "REGION_GFF_FILE": "results/ophiostoma/signalp_test/region_output.gff3"
+}

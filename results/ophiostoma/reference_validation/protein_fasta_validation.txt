@@ -1,0 +1,26 @@
+Ophiostoma novo-ulmi protein FASTA validation
+
+Authoritative input:
+data/reference/ophiostoma/ophiostoma.proteins.clean.fa
+
+Number of sequences:
+8640
+
+Identifier range:
+mRNA_1 to mRNA_8640
+
+Comparison with original FASTA:
+- Identical identifier sets
+- 8639 sequences identical
+- One sequence corrected: mRNA_6352
+- Original length: 466 amino-acid characters
+- Clean length: 465 amino acids
+- Difference caused by removal of one invalid "." character
+- No standard amino-acid residues were altered
+
+SHA256:
+Original:
+a917b97849427aa44c3c2d62317e40df4e27a12d828829e66f09bcd017f09a8b
+
+Clean:
+7342469fd6393fc4534864dee220aac95f772124fa34c7bfc4257ea3855bcbf3

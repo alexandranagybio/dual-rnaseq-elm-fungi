@@ -1,0 +1,13 @@
+historical_GO_ID	historical_term	biological_module	rebuilt_evidence	rebuilt_direction	classification	audit_interpretation
+GO:0008643	carbohydrate transport	carbohydrate acquisition	carbohydrate transport	down	exactly_reproduced	Carbohydrate transport signal reproduced and resolved as downregulated
+GO:0005351	sugar:hydrogen symporter activity	carbohydrate acquisition	sugar:hydrogen symporter activity	down	exactly_reproduced	Sugar-proton symporter signal reproduced and resolved as downregulated
+GO:0005215	transporter activity	membrane transport	transporter activity	down	exactly_reproduced	General transporter signal reproduced and resolved as downregulated
+GO:0006810	transport	transport	transport	down	exactly_reproduced	Broad transport signal reproduced and resolved as downregulated
+GO:0016021	integral to membrane	membrane functions	integral to membrane	down	exactly_reproduced	Membrane-localized protein signal reproduced and resolved as downregulated
+GO:0016020	membrane	membrane functions	membrane	down	exactly_reproduced	Membrane signal reproduced and resolved as downregulated
+GO:0005975	carbohydrate metabolic process	carbon metabolism	glycolysis; carbohydrate transport	up and down	biologically_reproduced_refined	Broad carbohydrate metabolism resolves into increased glycolysis and decreased carbohydrate transport
+GO:0016491	oxidoreductase activity	redox and energy metabolism	oxidoreductase activity acting on NADH or NADPH; NADH dehydrogenase activity	up	biologically_reproduced_refined	Broad oxidoreductase signal resolves into specific NADH-associated energy functions
+GO:0008152	metabolic process	general metabolism	glycolysis; ATP synthesis; cellular protein metabolic process; translation	up	biologically_reproduced_broad	Historical term was generic; rebuilt analysis identifies more specific metabolic processes
+GO:0004553	hydrolase activity, hydrolyzing O-glycosyl compounds	carbohydrate-active enzymes	none	none	not_reproduced	No significant equivalent identified in rebuilt GO enrichment
+GO:0006979	response to oxidative stress	oxidative stress	none	none	not_reproduced	Oxidative-stress enrichment was not recovered in the rebuilt analysis
+GO:0020037	heme binding	heme and redox functions	none	none	not_reproduced	Heme-binding enrichment was not recovered in the rebuilt analysis

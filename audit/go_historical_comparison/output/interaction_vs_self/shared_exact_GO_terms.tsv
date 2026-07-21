@@ -1,0 +1,7 @@
+contrast	ID	historical_description	rebuilt_description	direction	ontology	historical_gene_ratio	rebuilt_gene_ratio	historical_bg_ratio	rebuilt_bg_ratio	historical_fold_enrichment	rebuilt_fold_enrichment	historical_p_adjust	rebuilt_p_adjust	historical_count	rebuilt_count	comparison_status
+interaction_vs_self	GO:0008643	carbohydrate transport	carbohydrate transport	down	BP	27/807	38/915	48/4680	48/3113	3.26208178438662	2.6933970856102	9.44328371270537e-08	5.044683599524029e-11	27	38	exact_GO_ID_reproduced
+interaction_vs_self	GO:0006810	transport	transport	down	BP	62/807	96/915	205/4680	204/3113	1.75392147973524	1.60102860816458	7.44111400989905e-05	7.43093372195732e-07	62	96	exact_GO_ID_reproduced
+interaction_vs_self	GO:0016021	integral to membrane	integral to membrane	down	CC	81/807	119/584	270/4680	268/1791	1.73977695167286	1.36174223062768	3.55368144371837e-06	0.0001118739729113	81	119	exact_GO_ID_reproduced
+interaction_vs_self	GO:0016020	membrane	membrane	down	CC	83/807	125/584	319/4680	318/1791	1.50889746069851	1.20549560609977	0.0008643630343926	0.0230576307309115	83	125	exact_GO_ID_reproduced
+interaction_vs_self	GO:0005351	sugar:hydrogen symporter activity	sugar:hydrogen symporter activity	down	MF	27/807	38/1321	48/4680	48/4328	3.26208178438662	2.59374211455968	9.44328371270537e-08	1.67950635849095e-09	27	38	exact_GO_ID_reproduced
+interaction_vs_self	GO:0005215	transporter activity	transporter activity	down	MF	41/807	58/1321	94/4680	93/4328	2.52946294392154	2.0432875062066	1.07914133234615e-07	3.3108369373419e-08	41	58	exact_GO_ID_reproduced

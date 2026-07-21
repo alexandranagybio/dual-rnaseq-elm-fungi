@@ -1,0 +1,9 @@
+field	value
+contrast	onu_vs_self
+numerator	onu
+denominator	self
+alpha	0.05
+independent_filtering	TRUE
+cooks_cutoff	TRUE
+filter_threshold	0.0473515065079595
+strong_abs_log2fc_threshold	1

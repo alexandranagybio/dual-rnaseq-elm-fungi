@@ -1,0 +1,7 @@
+metric	value
+gene_rows	8640
+samples	9
+zero_total_genes	80
+design	~ condition
+condition_reference	self
+dataset_path	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/gene_counts/ophiostoma_gene_level_dds_unfiltered.rds

@@ -1,0 +1,23 @@
+SignalP version:
+SignalP 6.0 Signal peptide prediction tool 6.0h
+
+Prediction mode:
+fast
+
+Organism:
+eukarya
+
+Model file:
+/home/alex/software/signalp6_models_fast/signalp6_fast/signalp-6-package/models/distilled_model_signalp6.pt
+
+Model SHA256:
+d80f9ffd6b2005f42cad47e4de7b6070356b7c5c07721915a77e429fe15a07a4  /home/alex/software/signalp6_models_fast/signalp6_fast/signalp-6-package/models/distilled_model_signalp6.pt
+
+Input FASTA:
+/home/alex/dual-rnaseq-elm-fungi/data/reference/ophiostoma/ophiostoma.proteins.clean.fa
+
+Input SHA256:
+7342469fd6393fc4534864dee220aac95f772124fa34c7bfc4257ea3855bcbf3  data/reference/ophiostoma/ophiostoma.proteins.clean.fa
+
+Parameters:
+--mode fast --organism eukarya --format none --bsize 10 --write_procs 4 --torch_num_threads 4

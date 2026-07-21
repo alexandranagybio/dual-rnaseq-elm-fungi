@@ -1,0 +1,5 @@
+item	organism	stage	historical_path	proposed_repository_path	status	notes
+sample_metadata	both	experimental_design	/home/alex/rnaseq/04_counts/ophiostoma_counts/sample_metadata.tsv	config/samples.tsv	pending	Must reconstruct from physical sampling design, not copy blindly
+ophiostoma_count_matrix	ophiostoma	differential_expression	/home/alex/rnaseq/04_counts/ophiostoma_counts/merged_counts_matrix.tsv	NA	historical_comparison	Exon-level matrix; not automatically used for manuscript
+ophiostoma_annotation	ophiostoma	reference_annotation	/home/alex/rnaseq/02_reference/reference_genomes/ophiostoma_novo_ulmi/annotation.gff3	data/annotation/ophiostoma/annotation.gff3	pending	Verify reference release and relation to FASTA
+combined_annotation	both	competitive_mapping	/home/alex/rnaseq/02_reference/combined_reference/combined_genes.gff3	data/annotation/combined/combined_genes.gff3	pending	Verify how generated

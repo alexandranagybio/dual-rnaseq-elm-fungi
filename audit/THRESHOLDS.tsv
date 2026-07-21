@@ -1,0 +1,8 @@
+analysis	parameter	historical_value	historical_rationale	proposed_manuscript_value	decision	status
+DESeq2	FDR	0.05	to_verify	pending	pending	not_audited
+DESeq2	absolute_log2FC	1_or_dynamic	to_verify	pending	remove_dynamic_rule	not_audited
+GO	FDR	to_verify	to_verify	pending	pending	not_audited
+KEGG	FDR	to_verify	to_verify	pending	pending	not_audited
+dbCAN	FDR	0.05	to_verify	pending	pending	not_audited
+dbCAN	absolute_log2FC	0_direction_only	to_verify	pending	pending	not_audited
+SignalP	DE_filter	to_verify	to_verify	pending	pending	not_audited

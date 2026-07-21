@@ -1,0 +1,15 @@
+Status	/home/alex/rnaseq/03_alignment/ophiostoma_alignments/149_ophiostoma.sorted.bam	/home/alex/rnaseq/03_alignment/ophiostoma_alignments/150_ophiostoma.sorted.bam	/home/alex/rnaseq/03_alignment/ophiostoma_alignments/151_ophiostoma.sorted.bam	/home/alex/rnaseq/03_alignment/ophiostoma_alignments/152_ophiostoma.sorted.bam	/home/alex/rnaseq/03_alignment/ophiostoma_alignments/153_ophiostoma.sorted.bam	/home/alex/rnaseq/03_alignment/ophiostoma_alignments/154_ophiostoma.sorted.bam	/home/alex/rnaseq/03_alignment/ophiostoma_alignments/155_ophiostoma.sorted.bam	/home/alex/rnaseq/03_alignment/ophiostoma_alignments/156_ophiostoma.sorted.bam	/home/alex/rnaseq/03_alignment/ophiostoma_alignments/157_ophiostoma.sorted.bam
+Assigned	17575692	16584298	15318805	16300846	13255429	27812589	33529070	37813020	49633557
+Unassigned_Unmapped	1078395	968236	863052	1231881	1025233	2680780	3525657	3384180	4410721
+Unassigned_Read_Type	0	0	0	0	0	0	0	0	0
+Unassigned_Singleton	825369	854433	613722	833959	563254	2146746	2694854	2218902	3492004
+Unassigned_MappingQuality	0	0	0	0	0	0	0	0	0
+Unassigned_Chimera	143482	263039	176977	211431	60804	363788	609191	385989	600657
+Unassigned_FragmentLength	0	0	0	0	0	0	0	0	0
+Unassigned_Duplicate	0	0	0	0	0	0	0	0	0
+Unassigned_MultiMapping	79610	67660	66247	63093	46623	122825	182178	223120	294198
+Unassigned_Secondary	0	0	0	0	0	0	0	0	0
+Unassigned_NonSplit	0	0	0	0	0	0	0	0	0
+Unassigned_NoFeatures	4986768	4539069	4192972	5021073	4180387	10821998	12636097	12357356	16288591
+Unassigned_Overlapping_Length	0	0	0	0	0	0	0	0	0
+Unassigned_Ambiguity	7883	13652	9311	11371	4294	17947	27482	21375	31349

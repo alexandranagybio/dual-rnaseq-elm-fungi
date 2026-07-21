@@ -1,0 +1,13 @@
+metric	value
+input_genes	8560
+samples	9
+conditions	self,onu,interaction
+reference_level	self
+design	~ condition
+genes_with_nonconverged_beta	0
+minimum_dispersion	0.00122976215936973
+median_dispersion	0.00968036936475581
+maximum_dispersion	10
+minimum_size_factor	0.571127404963544
+median_size_factor	0.737861336057926
+maximum_size_factor	2.34651691794503

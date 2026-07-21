@@ -1,0 +1,3 @@
+contrast	ID	historical_description	rebuilt_description	direction	ontology	historical_gene_ratio	rebuilt_gene_ratio	historical_bg_ratio	rebuilt_bg_ratio	historical_fold_enrichment	rebuilt_fold_enrichment	historical_p_adjust	rebuilt_p_adjust	historical_count	rebuilt_count	comparison_status
+onu_vs_self	GO:0016020	membrane	membrane	up	CC	49/467	105/462	319/4680	318/1791	1.53933934337095	1.28001715265866	0.0400138748470153	0.011207068265459	49	105	exact_GO_ID_reproduced
+onu_vs_self	GO:0016491	oxidoreductase activity	oxidoreductase activity	up	MF	67/467	146/1217	372/4680	372/4328	1.80493196104165	1.39574663591946	7.27997163047538e-05	0.0003265750214926	67	146	exact_GO_ID_reproduced

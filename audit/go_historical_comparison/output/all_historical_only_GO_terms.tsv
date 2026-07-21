@@ -1,0 +1,21 @@
+contrast	ID	Description	GeneRatio	BgRatio	FoldEnrichment	pvalue	p.adjust	Count	comparison_status
+interaction_vs_self	GO:0005975	carbohydrate metabolic process	53/807	134/4680	2.29373578205626	4.47505177563634e-10	9.44328371270537e-08	53	historical_only_exact_GO_ID
+interaction_vs_self	GO:0016491	oxidoreductase activity	107/807	372/4680	1.66806571531359	6.011432802393821e-09	3.63090541264586e-07	107	historical_only_exact_GO_ID
+interaction_vs_self	GO:0008152	metabolic process	123/807	473/4680	1.50805190314138	2.65439066221764e-07	1.1451799714139e-05	123	historical_only_exact_GO_ID
+interaction_vs_self	GO:0004553	hydrolase activity, hydrolyzing O-glycosyl compounds	30/807	80/4680	2.17472118959108	1.05788988663711e-05	0.0003549808286271	30	historical_only_exact_GO_ID
+interaction_vs_self	GO:0006979	response to oxidative stress	7/807	11/4680	3.69043595809395	0.0007670805652379	0.0210598482456247	7	historical_only_exact_GO_ID
+interaction_vs_self	GO:0020037	heme binding	26/807	86/4680	1.75326359470909	0.0019687477592061	0.0495468186066871	26	historical_only_exact_GO_ID
+interaction_vs_onu	GO:0005975	carbohydrate metabolic process	45/628	134/4680	2.50261431695028	1.0856598550807302e-09	4.97594100245335e-08	45	historical_only_exact_GO_ID
+interaction_vs_onu	GO:0016491	oxidoreductase activity	82/628	372/4680	1.64269570577358	1.29252520407256e-06	4.44305538899942e-05	82	historical_only_exact_GO_ID
+interaction_vs_onu	GO:0006118	electron transport	51/628	222/4680	1.71199862282665	4.85943836867382e-05	0.0012148595921684	51	historical_only_exact_GO_ID
+interaction_vs_onu	GO:0030246	carbohydrate binding	8/628	13/4680	4.5859872611465	6.96257875753403e-05	0.0015955909652682	8	historical_only_exact_GO_ID
+interaction_vs_onu	GO:0008152	metabolic process	91/628	473/4680	1.43372698994088	0.0001139038664055	0.0024095048662711	91	historical_only_exact_GO_ID
+interaction_vs_onu	GO:0005506	iron ion binding	25/628	96/4680	1.9406847133758	0.0006251479966564	0.0107447311925327	25	historical_only_exact_GO_ID
+interaction_vs_onu	GO:0018664	benzoate 4-monooxygenase activity	6/628	12/4680	3.72611464968153	0.0025675641486642	0.0371621126780353	6	historical_only_exact_GO_ID
+interaction_vs_onu	GO:0008422	beta-glucosidase activity	7/628	16/4680	3.26035031847134	0.0028892263811672	0.0397268627410497	7	historical_only_exact_GO_ID
+onu_vs_self	GO:0008152	metabolic process	81/467	473/4680	1.7161405399043	2.60618080804752e-07	7.27997163047538e-05	81	historical_only_exact_GO_ID
+onu_vs_self	GO:0015171	amino acid transmembrane transporter activity	14/467	42/4680	3.34047109207709	3.04031310534258e-05	0.0028882974500754	14	historical_only_exact_GO_ID
+onu_vs_self	GO:0006865	amino acid transport	14/467	44/4680	3.18863149698267	5.47805842794818e-05	0.003903116629913	14	historical_only_exact_GO_ID
+onu_vs_self	GO:0005975	carbohydrate metabolic process	26/467	134/4680	1.94445332225383	0.000598554554801	0.0256349377162823	26	historical_only_exact_GO_ID
+onu_vs_self	GO:0006118	electron transport	38/467	222/4680	1.71537704728283	0.0005220996371658	0.0256349377162823	38	historical_only_exact_GO_ID
+onu_vs_self	GO:0020037	heme binding	19/467	86/4680	2.214033165679	0.0006296300491718	0.0256349377162823	19	historical_only_exact_GO_ID

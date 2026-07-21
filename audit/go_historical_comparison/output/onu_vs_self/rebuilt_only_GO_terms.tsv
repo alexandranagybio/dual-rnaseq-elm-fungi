@@ -1,0 +1,13 @@
+contrast	direction	ontology	ID	Description	GeneRatio	BgRatio	FoldEnrichment	pvalue	p.adjust	Count	comparison_status
+onu_vs_self	down	BP	GO:0006364	rRNA processing	15/788	18/3113	3.292089678511	3.7284139753406e-07	4.3622443511485e-05	15	rebuilt_only_exact_GO_ID
+onu_vs_self	down	BP	GO:0006355	regulation of transcription, DNA-dependent	92/788	266/3113	1.36634097935193	0.0002644475672406	0.0154701826835805	92	rebuilt_only_exact_GO_ID
+onu_vs_self	down	BP	GO:0006629	lipid metabolic process	15/788	26/3113	2.27913900819992	0.0004257067804036	0.0166025644357409	15	rebuilt_only_exact_GO_ID
+onu_vs_self	down	BP	GO:0006072	glycerol-3-phosphate metabolic process	5/788	5/3113	3.9505076142132	0.0010294597807575	0.0248945755375883	5	rebuilt_only_exact_GO_ID
+onu_vs_self	down	BP	GO:0008654	phospholipid biosynthetic process	9/788	13/3113	2.73496680983991	0.0010638707494695	0.0248945755375883	9	rebuilt_only_exact_GO_ID
+onu_vs_self	up	BP	GO:0006270	DNA replication initiation	7/904	7/3113	3.44358407079646	0.0001712947105881	0.0184998287435211	7	rebuilt_only_exact_GO_ID
+onu_vs_self	up	CC	GO:0005839	proteasome core complex	12/462	14/1791	3.32282003710575	4.17135969719098e-06	0.000154340308796	12	rebuilt_only_exact_GO_ID
+onu_vs_self	up	CC	GO:0000786	nucleosome	7/462	8/1791	3.39204545454545	0.0004565711199125	0.0084465657183816	7	rebuilt_only_exact_GO_ID
+onu_vs_self	up	CC	GO:0016272	prefoldin complex	5/462	6/1791	3.23051948051948	0.0053054900764747	0.0490757832073913	5	rebuilt_only_exact_GO_ID
+onu_vs_self	up	MF	GO:0004175	endopeptidase activity	9/1217	9/4328	3.55628594905505	1.07589002785014e-05	0.0011907566439134	9	rebuilt_only_exact_GO_ID
+onu_vs_self	up	MF	GO:0004298	threonine endopeptidase activity	12/1217	14/4328	3.04824509919005	1.17896697417171e-05	0.0011907566439134	12	rebuilt_only_exact_GO_ID
+onu_vs_self	up	MF	GO:0004299	proteasome endopeptidase activity	12/1217	14/4328	3.04824509919005	1.17896697417171e-05	0.0011907566439134	12	rebuilt_only_exact_GO_ID

@@ -1,0 +1,2 @@
+ID	Description	GeneRatio	BgRatio	RichFactor	FoldEnrichment	zScore	pvalue	p.adjust	qvalue	geneID	Count	contrast	gene_set	direction	ontology	significant_padj_0.05
+GO:0006270	DNA replication initiation	7/904	7/3113	1	3.44358407079646	4.1398226006577	0.000171294710588158	0.0184998287435211	0.0171294710588158	gene_1037/gene_1171/gene_4164/gene_4996/gene_7771/gene_7905/gene_8153	7	onu_vs_self	significant	up	BP	TRUE

@@ -1,0 +1,4 @@
+contrast	historical_significant_terms	rebuilt_significant_rows	rebuilt_unique_GO_IDs	shared_unique_GO_IDs	historical_only_unique_GO_IDs	rebuilt_only_unique_GO_IDs	shared_up_rows	shared_down_rows
+interaction_vs_self	12	47	47	6	6	41	0	6
+interaction_vs_onu	20	32	32	12	8	20	0	12
+onu_vs_self	8	14	14	2	6	12	2	0

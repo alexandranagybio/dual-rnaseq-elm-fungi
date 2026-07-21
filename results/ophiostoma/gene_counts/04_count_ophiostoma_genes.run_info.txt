@@ -1,0 +1,37 @@
+run_timestamp	2026-07-18 12:08:45
+repository_root	/home/alex/dual-rnaseq-elm-fungi
+rnaseq_root	/home/alex/rnaseq
+annotation_gtf	/home/alex/dual-rnaseq-elm-fungi/audit/strandedness/ophiostoma.gtf
+bam_directory	/home/alex/rnaseq/03_alignment/ophiostoma_alignments
+expected_gene_rows	8640
+observed_gene_rows	8640
+feature_type	exon
+grouping_attribute	gene_id
+strandedness	1
+paired_end	true
+require_both_ends_mapped	true
+exclude_chimeric_fragments	true
+threads	4
+
+[featureCounts version]
+
+featureCounts v2.0.6
+
+
+[samtools version]
+samtools 1.19.2
+Using htslib 1.19
+
+[python version]
+Python 3.13.5
+
+[input BAM files]
+/home/alex/rnaseq/03_alignment/ophiostoma_alignments/149_ophiostoma.sorted.bam
+/home/alex/rnaseq/03_alignment/ophiostoma_alignments/150_ophiostoma.sorted.bam
+/home/alex/rnaseq/03_alignment/ophiostoma_alignments/151_ophiostoma.sorted.bam
+/home/alex/rnaseq/03_alignment/ophiostoma_alignments/152_ophiostoma.sorted.bam
+/home/alex/rnaseq/03_alignment/ophiostoma_alignments/153_ophiostoma.sorted.bam
+/home/alex/rnaseq/03_alignment/ophiostoma_alignments/154_ophiostoma.sorted.bam
+/home/alex/rnaseq/03_alignment/ophiostoma_alignments/155_ophiostoma.sorted.bam
+/home/alex/rnaseq/03_alignment/ophiostoma_alignments/156_ophiostoma.sorted.bam
+/home/alex/rnaseq/03_alignment/ophiostoma_alignments/157_ophiostoma.sorted.bam

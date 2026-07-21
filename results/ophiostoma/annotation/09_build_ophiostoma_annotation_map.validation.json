@@ -1,0 +1,74 @@
+{
+  "deseq2_tables": [
+    {
+      "gene_id_column": "gene_id",
+      "input_file": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_results/tables/interaction_vs_self_all_genes.tsv",
+      "matched_rows": 8560,
+      "output_file": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/annotation/interaction_vs_self_all_genes.annotated.tsv",
+      "rows": 8560,
+      "unique_unmatched_gene_ids": 0,
+      "unmatched_rows": 0
+    },
+    {
+      "gene_id_column": "gene_id",
+      "input_file": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_results/tables/onu_vs_self_all_genes.tsv",
+      "matched_rows": 8560,
+      "output_file": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/annotation/onu_vs_self_all_genes.annotated.tsv",
+      "rows": 8560,
+      "unique_unmatched_gene_ids": 0,
+      "unmatched_rows": 0
+    },
+    {
+      "gene_id_column": "gene_id",
+      "input_file": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_results/tables/interaction_vs_onu_all_genes.tsv",
+      "matched_rows": 8560,
+      "output_file": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/annotation/interaction_vs_onu_all_genes.annotated.tsv",
+      "rows": 8560,
+      "unique_unmatched_gene_ids": 0,
+      "unmatched_rows": 0
+    }
+  ],
+  "functional_annotation": {
+    "GO_protein_ids_not_in_GFF3": 0,
+    "GO_rows_missing_protein_id": 0,
+    "KEGG_protein_ids_not_in_GFF3": 0,
+    "KEGG_rows_missing_protein_id": 0,
+    "exact_duplicate_GO_rows": 0,
+    "exact_duplicate_KEGG_rows": 0,
+    "genes_with_GO": 4680,
+    "genes_with_KEGG": 1789,
+    "genes_without_GO": 3960,
+    "genes_without_KEGG": 6851
+  },
+  "input_sha256": {
+    "de_file_1": "e6d947a7d32775e988f944ba37a064fa2fb13bfe6008f536b0392679e9403223",
+    "de_file_2": "a2746cf73d8e38db3b2b8474abf7efee91f9b5361deda77d398d6738d6d60195",
+    "de_file_3": "9f9cadd0141ee779e7122ad166663f7b9e57d09d2b5f7812de8e2adc30eb80b1",
+    "gff3": "ad6ba3fb2ba403f082561d632f04ebe0e5da42eea2678858ff0d96c7ea33723b",
+    "go": "778436d125d1ec17380b3e8f93e75ca7a81068f67d920439ac6a99a79d9b5b7f",
+    "kegg": "c547c7cf31750c64a96e4e85e7ec82d66884da935d59794475cdab49d1261d32"
+  },
+  "inputs": {
+    "de_files": [
+      "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_results/tables/interaction_vs_self_all_genes.tsv",
+      "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_results/tables/onu_vs_self_all_genes.tsv",
+      "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_results/tables/interaction_vs_onu_all_genes.tsv"
+    ],
+    "gff3": "/home/alex/dual-rnaseq-elm-fungi/data/annotation/ophiostoma/annotation.gff3",
+    "go": "/home/alex/dual-rnaseq-elm-fungi/data/annotation/ophiostoma/GO/Ophnu1_GeneCatalog_proteins_20170425_GO.tab",
+    "kegg": "/home/alex/dual-rnaseq-elm-fungi/data/annotation/ophiostoma/KEGG/Ophnu1_GeneCatalog_proteins_20170425_KEGG.tab"
+  },
+  "outputs": {
+    "annotation_map": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/annotation/ophiostoma_gene_annotation_map.tsv",
+    "output_directory": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/annotation"
+  },
+  "run_timestamp": "2026-07-18T14:38:57+02:00",
+  "structural_annotation": {
+    "duplicated_gene_ids": 0,
+    "expected_unique_genes": 8640,
+    "genes_missing_protein_id": 0,
+    "observed_unique_genes": 8640,
+    "protein_ids_mapping_to_multiple_genes": 0,
+    "validation_passed": true
+  }
+}

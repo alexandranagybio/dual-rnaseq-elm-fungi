@@ -1,0 +1,18 @@
+Ophiostoma functional annotation validation
+
+Authoritative FASTA proteins: 8640
+SignalP predictions: 8640
+SignalP SP predictions: 591
+SignalP OTHER predictions: 8049
+dbCAN proteins with >=1 method hit: 1440
+dbCAN high-confidence proteins (#ofTools >=2): 315
+Proteins with no dbCAN hit: 7200
+
+dbCAN support distribution across complete proteome:
+  0 tool(s): 7200
+  1 tool(s): 1125
+  2 tool(s): 26
+  3 tool(s): 289
+
+Validation status: PASS
+Output: /home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/functional_annotation/ophiostoma_functional_annotation.tsv

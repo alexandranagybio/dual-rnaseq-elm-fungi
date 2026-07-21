@@ -1,0 +1,4 @@
+7f4cbd6f90ce8be588aaa19a91e6b6f2390c36fe52f010706cce238337d3402e  /home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/gene_counts/ophiostoma_gene_featurecounts.txt
+eea17eb2f7ed282421f3a55359408cae63bb1317bf40de36ec8773a675a51d3b  /home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/gene_counts/ophiostoma_gene_counts_matrix.tsv
+22a478cf7c17c7b0bac5d553d6c491f796537b398d55bea085e3ac7a5bf59b6b  /home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/gene_counts/sample_metadata.tsv
+cadb705661876d0f77e9c8ebcacd77e7722e3e046bc6dea99f00ad68169bdb5d  /home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/gene_counts/05_prepare_deseq2_matrix.validation.json
