@@ -18,7 +18,7 @@
     "fraction_of_structural_genes_with_valid_pathway": 0.1329861111111111
   },
   "input_sha256": {
-    "gene_map": "b4902fa632ef87c7067d7f95169445ff30bb4464c1b08e89e1e63c04619a59d0",
+    "gene_map": "720d8dbf6227d683cfb0ec6c6ff2dd23082d55eb200d7bc863680ee071d91b6a",
     "kegg": "c547c7cf31750c64a96e4e85e7ec82d66884da935d59794475cdab49d1261d32"
   },
   "inputs": {
@@ -31,6 +31,6 @@
     "pathway_metadata": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/kegg_annotation/ophiostoma_kegg_pathway_metadata.tsv",
     "term2gene": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/kegg_annotation/ophiostoma_kegg_term2gene.tsv"
   },
-  "run_timestamp": "2026-07-20T20:20:59+02:00",
+  "run_timestamp": "2026-07-21T21:41:40+02:00",
   "validation_passed": true
 }

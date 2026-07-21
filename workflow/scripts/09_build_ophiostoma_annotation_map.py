@@ -310,7 +310,14 @@ def unique_join(values: Iterable[str], separator: str = "; ") -> str:
             continue
         observed.add(value)
         ordered.append(value)
-    return separator.join(ordered)
+
+    def natural_key(text: str) -> tuple:
+        return tuple(
+            (0, int(part)) if part.isdigit() else (1, part.casefold())
+            for part in re.split(r"(\d+)", text)
+        )
+
+    return separator.join(sorted(ordered, key=natural_key))
 
 
 def find_column(fieldnames: list[str], candidates: list[str]) -> str | None:
@@ -396,13 +403,14 @@ def discover_de_files(de_dir: Path) -> list[Path]:
     if not de_dir.is_dir():
         raise FileNotFoundError(f"DESeq2 result directory not found: {de_dir}")
 
+    tables_dir = de_dir / "tables"
+    search_dir = tables_dir if tables_dir.is_dir() else de_dir
+
     candidates = sorted(
         path
-        for path in de_dir.iterdir()
+        for path in search_dir.iterdir()
         if path.is_file()
-        and path.suffix.lower() in {".tsv", ".txt", ".csv"}
-        and "summary" not in path.name.lower()
-        and "annotated" not in path.name.lower()
+        and path.name.lower().endswith("_all_genes.tsv")
     )
 
     scored: list[tuple[int, Path]] = []
@@ -422,7 +430,18 @@ def discover_de_files(de_dir: Path) -> list[Path]:
     likely = [path for score, path in scored if score >= 3]
 
     if len(likely) == 3:
-        return likely
+        contrast_order = {
+            "interaction_vs_self_all_genes.tsv": 0,
+            "onu_vs_self_all_genes.tsv": 1,
+            "interaction_vs_onu_all_genes.tsv": 2,
+        }
+        return sorted(
+            likely,
+            key=lambda path: (
+                contrast_order.get(path.name.lower(), 99),
+                path.name.lower(),
+            ),
+        )
 
     # Fall back to inspecting table headers for a gene identifier and DESeq2
     # result columns.

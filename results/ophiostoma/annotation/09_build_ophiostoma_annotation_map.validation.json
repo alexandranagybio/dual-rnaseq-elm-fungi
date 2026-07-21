@@ -62,7 +62,7 @@
     "annotation_map": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/annotation/ophiostoma_gene_annotation_map.tsv",
     "output_directory": "/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/annotation"
   },
-  "run_timestamp": "2026-07-18T14:38:57+02:00",
+  "run_timestamp": "2026-07-21T21:58:07+02:00",
   "structural_annotation": {
     "duplicated_gene_ids": 0,
     "expected_unique_genes": 8640,
