@@ -38,3 +38,15 @@ results/**/cache/
 # Microsoft Office lock files
 ~$*.docx
 ~$*.xlsx
+
+# Local reference literature
+*.pdf
+
+# R session files
+.Rhistory
+.RData
+.Rproj.user/
+
+# Runtime logs
+logs/
+*.log
