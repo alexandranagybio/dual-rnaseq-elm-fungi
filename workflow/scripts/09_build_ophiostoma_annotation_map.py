@@ -15,7 +15,7 @@ This script:
 The script does not modify counts or rerun DESeq2.
 
 Default paths assume the repository layout used for the rebuilt workflow and the
-historical annotation files under ~/rnaseq.
+validated annotation files under data/annotation/ophiostoma/.
 """
 
 from __future__ import annotations
