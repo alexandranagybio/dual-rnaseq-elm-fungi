@@ -50,3 +50,7 @@ results/**/cache/
 # Runtime logs
 logs/
 *.log
+
+# Local links to large sequencing and intermediate data
+data/external/*
+!data/external/README.md
