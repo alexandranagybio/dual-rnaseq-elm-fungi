@@ -54,3 +54,4 @@ logs/
 # Local links to large sequencing and intermediate data
 data/external/*
 !data/external/README.md
+results/fusarium/deseq2_results/fusarium_deseq2_dataset.rds

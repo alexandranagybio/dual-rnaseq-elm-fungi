@@ -1,0 +1,16 @@
+repository_root	.
+sample_table	config/samples.tsv
+quantification_root	data/external/fusarium_salmon/quants
+gene_transcript_map	data/external/fusarium_assembly/Fusarium_pure.Trinity.fasta.gene_trans_map
+sample_count	6
+sample_ids	146,147,148,158,159,160
+reference_condition	control
+contrast	interaction_vs_control
+input_gene_count	15192
+retained_gene_count	10414
+filtered_gene_count	4778
+filter	counts >= 10 in at least 2 samples
+significant_padj_lt_0.05	2929
+up_in_interaction	1526
+down_in_interaction	1403
+vst_blind	TRUE
