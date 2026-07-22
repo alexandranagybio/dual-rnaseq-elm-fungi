@@ -1,7 +1,0 @@
-contrast	ID	Description	GeneRatio	BgRatio	FoldEnrichment	pvalue	p.adjust	Count	comparison_status
-onu_vs_self	GO:0008152	metabolic process	81/467	473/4680	1.7161405399043	2.60618080804752e-07	7.27997163047538e-05	81	historical_only_exact_GO_ID
-onu_vs_self	GO:0015171	amino acid transmembrane transporter activity	14/467	42/4680	3.34047109207709	3.04031310534258e-05	0.0028882974500754	14	historical_only_exact_GO_ID
-onu_vs_self	GO:0006865	amino acid transport	14/467	44/4680	3.18863149698267	5.47805842794818e-05	0.003903116629913	14	historical_only_exact_GO_ID
-onu_vs_self	GO:0005975	carbohydrate metabolic process	26/467	134/4680	1.94445332225383	0.000598554554801	0.0256349377162823	26	historical_only_exact_GO_ID
-onu_vs_self	GO:0006118	electron transport	38/467	222/4680	1.71537704728283	0.0005220996371658	0.0256349377162823	38	historical_only_exact_GO_ID
-onu_vs_self	GO:0020037	heme binding	19/467	86/4680	2.214033165679	0.0006296300491718	0.0256349377162823	19	historical_only_exact_GO_ID

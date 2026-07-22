@@ -1,7 +1,0 @@
-contrast	ID	Description	GeneRatio	BgRatio	FoldEnrichment	pvalue	p.adjust	Count	comparison_status
-interaction_vs_self	GO:0005975	carbohydrate metabolic process	53/807	134/4680	2.29373578205626	4.47505177563634e-10	9.44328371270537e-08	53	historical_only_exact_GO_ID
-interaction_vs_self	GO:0016491	oxidoreductase activity	107/807	372/4680	1.66806571531359	6.011432802393821e-09	3.63090541264586e-07	107	historical_only_exact_GO_ID
-interaction_vs_self	GO:0008152	metabolic process	123/807	473/4680	1.50805190314138	2.65439066221764e-07	1.1451799714139e-05	123	historical_only_exact_GO_ID
-interaction_vs_self	GO:0004553	hydrolase activity, hydrolyzing O-glycosyl compounds	30/807	80/4680	2.17472118959108	1.05788988663711e-05	0.0003549808286271	30	historical_only_exact_GO_ID
-interaction_vs_self	GO:0006979	response to oxidative stress	7/807	11/4680	3.69043595809395	0.0007670805652379	0.0210598482456247	7	historical_only_exact_GO_ID
-interaction_vs_self	GO:0020037	heme binding	26/807	86/4680	1.75326359470909	0.0019687477592061	0.0495468186066871	26	historical_only_exact_GO_ID

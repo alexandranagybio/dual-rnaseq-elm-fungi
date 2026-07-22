@@ -1,7 +1,0 @@
-check	value
-structural_genes	8640
-tested_genes_each_contrast	8560;8560;8560
-identical_tested_universe	TRUE
-GO_annotated_genes_any_ontology	4680
-primary_background_recommendation	annotation_aware
-full_tested_background_role	sensitivity_only
