@@ -74,6 +74,8 @@
       "sample_id": "157"
     }
   ],
+  "sample_table": "/home/alex/dual-rnaseq-elm-fungi/config/samples.tsv",
+  "sample_table_sha256": "dc81c32d3fc3a555b10f810cb31d0a66470b18d3b99aeccf214e7ece11f669c1",
   "status": "PASS",
   "zero_total_gene_rows": 80
 }
