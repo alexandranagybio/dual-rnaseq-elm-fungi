@@ -4,7 +4,7 @@ options(stringsAsFactors = FALSE, width = 120)
 suppressPackageStartupMessages(library(DESeq2))
 
 args <- commandArgs(trailingOnly = TRUE)
-input_rds <- if (length(args) >= 1L) args[[1]] else "results/ophiostoma/deseq2_qc/ophiostoma_dds_filtered.rds"
+input_rds <- if (length(args) >= 1L) args[[1]] else "results/ophiostoma/deseq2_qc/ophiostoma_gene_level_dds_nonzero.rds"
 output_dir <- if (length(args) >= 2L) args[[2]] else "results/ophiostoma/deseq2_results"
 
 expected_gene_count <- 8560L
