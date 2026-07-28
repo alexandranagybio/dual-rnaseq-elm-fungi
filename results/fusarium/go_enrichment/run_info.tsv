@@ -1,0 +1,17 @@
+field	value
+script	20_run_fusarium_go_enrichment.R
+run_timestamp_utc	2026-07-27 14:07:42 UTC
+contrast	interaction_vs_self
+analysis_level	Trinity gene
+GO_source	original protein-level eggNOG-mapper annotations
+GO_metadata_source	GO.db
+background_definition	all 10414 genes present in DESeq2, restricted per ontology to GO-annotated genes
+primary_selection	raw_padj < 0.05
+sensitivity_selection	raw_padj < 0.05 and abs(raw_log2FoldChange) > 1
+direction_definition	sign of raw_log2FoldChange
+ontology_handling	BP, MF, and CC separately
+multiple_testing	Benjamini-Hochberg
+protein_annotation_file	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/functional_annotation/tables/fusarium_protein_functional_annotation.tsv
+gene_annotation_file	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/functional_annotation/tables/fusarium_gene_functional_annotation.tsv
+publication_file	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/publication_annotation/tables/fusarium_publication_annotation_full.tsv
+eggnog_file	/home/alex/rnaseq/results/fusarium/eggnog_complete/fusarium_complete.emapper.annotations

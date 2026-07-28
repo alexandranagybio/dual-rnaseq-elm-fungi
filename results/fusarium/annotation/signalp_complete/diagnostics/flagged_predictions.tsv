@@ -1,0 +1,6 @@
+protein_id	raw_prediction	other_probability	sp_probability	cleavage_site	recommended_status
+TRINITY_DN1378_c0_g1_i2|m.26864	SP	0.446506	0.553496	missing	ambiguous_no_cleavage_site
+TRINITY_DN1378_c0_g1_i3|m.26869	SP	0.446506	0.553496	missing	ambiguous_no_cleavage_site
+TRINITY_DN1378_c0_g1_i4|m.26874	SP	0.446504	0.553495	missing	ambiguous_no_cleavage_site
+TRINITY_DN2301_c0_g1_i1|m.37853	OTHER	0.996000	0.003991	not_applicable	other
+TRINITY_DN2301_c0_g1_i2|m.37864	OTHER	0.996000	0.003991	not_applicable	other

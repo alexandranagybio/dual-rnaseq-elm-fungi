@@ -1,0 +1,12 @@
+category	total	significant_up	significant_down
+all_annotation_genes	15192		
+genes_in_deseq2_dataset	10414		
+genes_with_padj	9000		
+all_significant_genes	2973	1550	1423
+dbcan_any_hit_genes	2015		
+high_confidence_cazyme_genes	420		
+high_confidence_cazymes_in_deseq2_dataset	404	80	62
+high_confidence_cazymes_with_padj	378	80	62
+significant_high_confidence_cazymes	142	80	62
+strong_raw_lfc_high_confidence_cazymes	8	8	0
+strong_shrunk_lfc_high_confidence_cazymes	5	5	0

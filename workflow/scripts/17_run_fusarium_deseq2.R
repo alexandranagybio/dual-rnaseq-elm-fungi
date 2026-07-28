@@ -348,19 +348,39 @@ if (!coef_name %in% resultsNames(dds)) {
 
 res_raw <- results(
   dds,
-  contrast = c(
-    "condition",
-    "interaction",
-    "control"
-  ),
+  name = coef_name,
   alpha = 0.05
 )
 
 res_shrunk <- lfcShrink(
   dds,
   coef = coef_name,
+  res = res_raw,
   type = "apeglm"
 )
+
+same_pvalue <- (
+  is.na(res_raw$pvalue) & is.na(res_shrunk$pvalue)
+) | (
+  !is.na(res_raw$pvalue) &
+    !is.na(res_shrunk$pvalue) &
+    res_raw$pvalue == res_shrunk$pvalue
+)
+
+same_padj <- (
+  is.na(res_raw$padj) & is.na(res_shrunk$padj)
+) | (
+  !is.na(res_raw$padj) &
+    !is.na(res_shrunk$padj) &
+    res_raw$padj == res_shrunk$padj
+)
+
+if (!all(same_pvalue) || !all(same_padj)) {
+  stop(
+    "Raw and shrunken DESeq2 results do not share identical ",
+    "p-values and adjusted p-values."
+  )
+}
 
 raw_table <- cbind(
   gene_id = rownames(as.data.frame(res_raw)),
@@ -447,19 +467,21 @@ dev.off()
 # Summary and provenance
 # ---------------------------------------------------------------------------
 
-significant <- sum(
-  res_shrunk$padj < 0.05,
-  na.rm = TRUE
+significant_mask <- (
+  !is.na(res_raw$padj) &
+    res_raw$padj < 0.05
 )
 
+significant <- sum(significant_mask)
+
 upregulated <- sum(
-  res_shrunk$padj < 0.05 &
+  significant_mask &
     res_shrunk$log2FoldChange > 0,
   na.rm = TRUE
 )
 
 downregulated <- sum(
-  res_shrunk$padj < 0.05 &
+  significant_mask &
     res_shrunk$log2FoldChange < 0,
   na.rm = TRUE
 )

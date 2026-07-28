@@ -1,0 +1,4 @@
+gene_id	transcript_id	protein_id	signalp_prediction	signalp_other_score	signalp_sp_score	signalp_cs_position	recommended_interpretation
+TRINITY_DN1378_c0_g1	TRINITY_DN1378_c0_g1_i2	TRINITY_DN1378_c0_g1_i2|m.26864	SP	0.446506	0.553496		raw SignalP-positive; exclude from conservative cleavage-site-supported secretome count
+TRINITY_DN1378_c0_g1	TRINITY_DN1378_c0_g1_i3	TRINITY_DN1378_c0_g1_i3|m.26869	SP	0.446506	0.553496		raw SignalP-positive; exclude from conservative cleavage-site-supported secretome count
+TRINITY_DN1378_c0_g1	TRINITY_DN1378_c0_g1_i4	TRINITY_DN1378_c0_g1_i4|m.26874	SP	0.446504	0.553495		raw SignalP-positive; exclude from conservative cleavage-site-supported secretome count

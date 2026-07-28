@@ -1,0 +1,5 @@
+contrast	gene_set	direction	selected_genes_total	selected_genes_KEGG_annotated	universe_genes_total	universe_genes_KEGG_annotated	KEGG_pathways_in_annotation	KEGG_pathways_within_size_limits	enriched_pathways_padj_0.05	status
+interaction_vs_self	significant	up	1550	379	10414	2403	383	325	0	completed
+interaction_vs_self	significant	down	1423	598	10414	2403	383	325	12	completed
+interaction_vs_self	strong	up	114	11	10414	2403	383	325	1	completed
+interaction_vs_self	strong	down	35	3	10414	2403	383	325	0	too_few_annotated_selected_genes

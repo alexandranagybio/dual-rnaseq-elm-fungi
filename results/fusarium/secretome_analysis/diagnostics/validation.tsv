@@ -1,0 +1,11 @@
+check	value	expected	status
+total_gene_rows	15192	15192	PASS
+unique_gene_ids	15192	15192	PASS
+genes_in_deseq2_dataset	10414	10414	PASS
+genes_with_padj	9000	9000	PASS
+significant_genes	2973	2973	PASS
+raw_signalp_gene_flag_matches_counts	15192	15192	PASS
+confident_signalp_gene_flag_matches_counts	15192	15192	PASS
+confident_signalp_subset_of_raw_signalp	907	<= 908	PASS
+significant_secretome_subset_of_confident_secretome	346	<= 907	PASS
+strong_shrunk_secretome_subset_of_significant	13	<= 346	PASS

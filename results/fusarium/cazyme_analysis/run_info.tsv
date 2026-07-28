@@ -1,0 +1,13 @@
+field	value
+script	24_run_fusarium_cazyme_analysis.py
+run_timestamp_utc	2026-07-28T09:28:22.878511+00:00
+repository_root	/home/alex/dual-rnaseq-elm-fungi
+input_file	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/publication_annotation/tables/fusarium_publication_annotation_full.tsv
+input_sha256	2540957beade596f462ae9859241e9807d79753fdc356c24cc73d3c7d4d38b05
+primary_cazyme_definition	dbcan_high_confidence == TRUE; one or more gene-associated proteins supported by at least two dbCAN methods
+secondary_cazyme_definition	dbcan_any_hit == TRUE; one or more gene-associated proteins supported by at least one dbCAN method
+significant_definition	raw_padj < 0.05
+strong_raw_definition	raw_padj < 0.05 and abs(raw_log2FoldChange) > 1
+strong_shrunk_definition	raw_padj < 0.05 and abs(shrunk_log2FoldChange) > 1
+family_summary_source	dbcan_recommended; semicolon-delimited assignments parsed and deduplicated within each Trinity gene
+statistical_testing	No new statistical test performed; tables are descriptive subsets of validated DESeq2 results

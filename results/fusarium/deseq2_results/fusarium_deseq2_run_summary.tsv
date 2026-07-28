@@ -10,7 +10,7 @@ input_gene_count	15192
 retained_gene_count	10414
 filtered_gene_count	4778
 filter	counts >= 10 in at least 2 samples
-significant_padj_lt_0.05	2929
-up_in_interaction	1526
-down_in_interaction	1403
+significant_padj_lt_0.05	2973
+up_in_interaction	1550
+down_in_interaction	1423
 vst_blind	TRUE

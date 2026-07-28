@@ -1,0 +1,13 @@
+contrast	gene_set	direction	ontology	selected_genes_total	selected_genes_GO_annotated	universe_genes_total	universe_genes_GO_annotated	available_GO_terms	tested_GO_terms	enriched_terms_padj_0.05	status
+interaction_vs_self	significant	up	BP	1550	438	10414	3016	5752	2248	0	completed
+interaction_vs_self	significant	up	MF	1550	388	10414	2680	2272	510	0	completed
+interaction_vs_self	significant	up	CC	1550	422	10414	2946	1042	398	0	completed
+interaction_vs_self	significant	down	BP	1423	722	10414	3016	5752	2491	122	completed
+interaction_vs_self	significant	down	MF	1423	662	10414	2680	2272	566	4	completed
+interaction_vs_self	significant	down	CC	1423	717	10414	2946	1042	466	16	completed
+interaction_vs_self	strong	up	BP	114	5	10414	3016	5752	55	0	completed
+interaction_vs_self	strong	up	MF	114	5	10414	2680	2272	27	0	completed
+interaction_vs_self	strong	up	CC	114	3	10414	2946	1042	0	0	too_few_annotated_selected_genes
+interaction_vs_self	strong	down	BP	35	1	10414	3016	5752	0	0	too_few_annotated_selected_genes
+interaction_vs_self	strong	down	MF	35	1	10414	2680	2272	0	0	too_few_annotated_selected_genes
+interaction_vs_self	strong	down	CC	35	0	10414	2946	1042	0	0	too_few_annotated_selected_genes

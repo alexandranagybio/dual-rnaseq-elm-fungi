@@ -1,0 +1,25 @@
+field	value
+script	18_build_fusarium_functional_annotation.py
+run_timestamp_utc	2026-07-27T12:34:43.608083+00:00
+repository_root	/home/alex/dual-rnaseq-elm-fungi
+protein_annotation_scope	all 35327 TransDecoder predicted proteins
+transcript_annotation_scope	all 27979 Trinity transcripts, including 8172 without a predicted protein
+gene_annotation_scope	all 15192 Trinity genes, including 5995 without a predicted protein
+signalp_raw_positive_definition	Prediction == SP
+signalp_confident_positive_definition	Prediction == SP and cleavage-site position present
+dbcan_any_hit_definition	protein present in dbCAN overview.tsv
+dbcan_high_confidence_definition	dbCAN #ofTools >= 2
+gene_level_collapse_definition	Boolean presence if at least one associated predicted protein satisfies the criterion; multiplicity retained in protein-count fields
+proteins_file	/home/alex/rnaseq/05_transcriptome/trinity_fs_pure/assemblies/trinity_fusarium_pure.Trinity.fasta.transdecoder.pep
+proteins_sha256	8f61cbbf8dd87cbf0634b45667673c5203a87a09f7995facc128b36b10def599
+gene_transcript_map_file	/home/alex/rnaseq/05_transcriptome/trinity_fs_pure/final/Fusarium_pure.Trinity.fasta.gene_trans_map
+gene_transcript_map_sha256	a398fe4be02fadc36a32538c4555fcf7ebcf590d88226c25003ed29c4648ceb9
+eggnog_file	/home/alex/rnaseq/results/fusarium/eggnog_complete/fusarium_complete.emapper.annotations
+eggnog_sha256	5a2df60b7d63e904f2d56d7220cacfb96eba358a79bcfd3abfc61b6772f2073f
+signalp_file	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/annotation/signalp_complete/prediction_results.txt
+signalp_sha256	279ad6b25b7000686b093c291f1e413544f31db4a5d6f3c513e2ae2f1ee382e5
+dbcan_file	/home/alex/rnaseq/07_results/fusarium/fusarium_results/dbcan_out_all/overview.tsv
+dbcan_sha256	28c02669f95c526e850e895906bbe6dac0a058e4d8ff9a14dbd8b724a0237aca
+protein_output	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/functional_annotation/tables/fusarium_protein_functional_annotation.tsv
+transcript_output	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/functional_annotation/tables/fusarium_transcript_functional_annotation.tsv
+gene_output	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/functional_annotation/tables/fusarium_gene_functional_annotation.tsv

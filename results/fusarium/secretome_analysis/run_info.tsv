@@ -1,0 +1,9 @@
+parameter	value
+script	workflow/scripts/23_run_fusarium_secretome_analysis.py
+run_utc	2026-07-28T09:10:42.264432+00:00
+input	results/fusarium/publication_annotation/tables/fusarium_publication_annotation_full.tsv
+primary_secretome_definition	signalp_confident_positive == TRUE
+secondary_secretome_definition	signalp_raw_positive == TRUE
+significance_definition	raw_padj < 0.05
+strong_primary_definition	raw_padj < 0.05 and abs(shrunk_log2FoldChange) > 1
+new_statistical_test	FALSE

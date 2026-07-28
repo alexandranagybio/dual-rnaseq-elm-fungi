@@ -1,0 +1,17 @@
+field	value
+signalp_version	6.0+h
+torch_version	1.13.1
+organism	eukarya
+mode	fast
+format	none
+batch_size	10
+write_processes	4
+torch_threads	8
+input_proteins	35327
+raw_sp_predictions	1706
+sp_with_cleavage_site	1703
+sp_without_cleavage_site	3
+model_directory	/home/alex/software/signalp6_fast/signalp-6-package/models
+other_predictions	33621
+production_input	results/fusarium/annotation/input/fusarium_transdecoder_signalp.faa
+prediction_output	results/fusarium/annotation/signalp_complete/prediction_results.txt

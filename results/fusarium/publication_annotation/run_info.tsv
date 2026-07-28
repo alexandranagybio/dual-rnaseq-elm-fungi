@@ -1,0 +1,10 @@
+key	value
+generated_utc	2026-07-27T13:15:10.786381+00:00
+python_version	3.13.5
+script	/home/alex/dual-rnaseq-elm-fungi/workflow/scripts/19_build_fusarium_publication_annotation.py
+annotation_input	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/functional_annotation/tables/fusarium_gene_functional_annotation.tsv
+raw_deseq2_input	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/deseq2_results/fusarium_interaction_vs_self_raw.tsv
+shrunk_deseq2_input	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/deseq2_results/fusarium_interaction_vs_self_lfcshrunk.tsv
+significance_rule	raw padj < 0.05
+raw_lfc1_rule	raw padj < 0.05 and abs(raw LFC) > 1
+shrunk_lfc1_rule	raw padj < 0.05 and abs(shrunken LFC) > 1

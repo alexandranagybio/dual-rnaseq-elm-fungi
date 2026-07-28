@@ -55,3 +55,14 @@ logs/
 data/external/*
 !data/external/README.md
 results/fusarium/deseq2_results/fusarium_deseq2_dataset.rds
+
+# Regenerable large Fusarium annotation intermediates
+results/fusarium/annotation/input/fusarium_transdecoder_signalp.faa
+results/fusarium/annotation/input/fusarium_transdecoder_signalp_clean.faa
+results/fusarium/annotation/signalp_complete/output.json
+results/fusarium/annotation/signalp_complete/processed_entries.fasta
+results/fusarium/functional_annotation/tables/fusarium_protein_functional_annotation.tsv
+results/fusarium/functional_annotation/tables/fusarium_transcript_functional_annotation.tsv
+results/fusarium/go_enrichment/tables/fusarium_GO_protein_to_gene_long.tsv
+results/fusarium/go_enrichment/tables/fusarium_GO_TERM2GENE_long.tsv
+results/fusarium/kegg_annotation/fusarium_protein_kegg_pathways.tsv

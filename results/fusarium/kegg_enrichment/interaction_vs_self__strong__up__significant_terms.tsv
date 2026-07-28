@@ -1,0 +1,2 @@
+ID	Description	GeneRatio	BgRatio	RichFactor	FoldEnrichment	zScore	pvalue	p.adjust	qvalue	geneID	Count	contrast	gene_set	direction	significant_padj_0.05	pathway_numeric_id	pathway_name	raw_prefixes_observed
+map00460	map00460	3/11	33/2403	0.0909090909090909	19.8595041322314	7.39631370912412	0.000361492873412749	0.0202436009111139	0.0178843842635781	TRINITY_DN17196_c0_g1/TRINITY_DN2554_c0_g1/TRINITY_DN5016_c0_g1	3	interaction_vs_self	strong	up	TRUE	460	map00460	ko,map

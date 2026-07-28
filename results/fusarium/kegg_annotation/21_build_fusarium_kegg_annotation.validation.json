@@ -1,0 +1,72 @@
+{
+  "counts": {
+    "canonical_kegg_pathways": 383,
+    "genes_with_canonical_kegg_pathway": 2503,
+    "invalid_kegg_pathway_tokens": 0,
+    "protein_rows": 35327,
+    "proteins_with_nonempty_kegg_pathway_field": 8282,
+    "structural_genes": 15192,
+    "unique_gene_pathway_pairs": 10897,
+    "unique_genes_in_protein_table": 9197,
+    "unique_protein_pathway_pairs": 33884,
+    "unique_proteins": 35327,
+    "unique_raw_kegg_pathway_strings": 914,
+    "unique_raw_kegg_pathway_tokens": 766
+  },
+  "derived_counts": {
+    "canonical_pathways_missing_one_prefix": 0,
+    "canonical_pathways_with_both_ko_and_map_prefixes": 383,
+    "genes_without_canonical_kegg_pathway": 12689
+  },
+  "expected_counts": {
+    "canonical_kegg_pathways": 383,
+    "genes_with_canonical_kegg_pathway": 2503,
+    "invalid_kegg_pathway_tokens": 0,
+    "protein_rows": 35327,
+    "proteins_with_nonempty_kegg_pathway_field": 8282,
+    "structural_genes": 15192,
+    "unique_gene_pathway_pairs": 10897,
+    "unique_genes_in_protein_table": 9197,
+    "unique_protein_pathway_pairs": 33884,
+    "unique_proteins": 35327,
+    "unique_raw_kegg_pathway_strings": 914,
+    "unique_raw_kegg_pathway_tokens": 766
+  },
+  "input_sha256": {
+    "gene_annotation": "780d420a82c73e6d41f8fe81291ccf4514c4e69b376347ac6816c3652eab6d17",
+    "protein_annotation": "9bd4982bcc8abc0084eb5b549c90b0ee35c9d69be98db6039ec228772a65e6ce"
+  },
+  "inputs": {
+    "gene_annotation": "/home/alex/dual-rnaseq-elm-fungi/results/fusarium/functional_annotation/tables/fusarium_gene_functional_annotation.tsv",
+    "protein_annotation": "/home/alex/dual-rnaseq-elm-fungi/results/fusarium/functional_annotation/tables/fusarium_protein_functional_annotation.tsv"
+  },
+  "normalization": {
+    "accepted_raw_pattern": "^(ko|map)(\\d{5})$",
+    "canonical_form": "map#####",
+    "example": {
+      "ko00010": "map00010",
+      "map00010": "map00010"
+    },
+    "missing_tokens": [
+      "",
+      "-",
+      "NA",
+      "NaN",
+      "None",
+      "\\N",
+      "nan"
+    ]
+  },
+  "outputs": {
+    "gene_kegg_pathways": "/home/alex/dual-rnaseq-elm-fungi/results/fusarium/kegg_annotation/fusarium_gene_kegg_pathways.tsv",
+    "genes_without_kegg_pathway": "/home/alex/dual-rnaseq-elm-fungi/results/fusarium/kegg_annotation/genes_without_kegg_pathway.tsv",
+    "invalid_kegg_pathway_tokens": "/home/alex/dual-rnaseq-elm-fungi/results/fusarium/kegg_annotation/diagnostics/invalid_kegg_pathway_tokens.tsv",
+    "pathway_metadata": "/home/alex/dual-rnaseq-elm-fungi/results/fusarium/kegg_annotation/fusarium_kegg_pathway_metadata.tsv",
+    "pathway_normalization": "/home/alex/dual-rnaseq-elm-fungi/results/fusarium/kegg_annotation/pathway_normalization.tsv",
+    "protein_kegg_pathways": "/home/alex/dual-rnaseq-elm-fungi/results/fusarium/kegg_annotation/fusarium_protein_kegg_pathways.tsv",
+    "term2gene": "/home/alex/dual-rnaseq-elm-fungi/results/fusarium/kegg_annotation/fusarium_kegg_term2gene.tsv"
+  },
+  "run_timestamp_utc": "2026-07-27T15:30:38.438453+00:00",
+  "script": "21_build_fusarium_kegg_annotation.py",
+  "validation_passed": true
+}

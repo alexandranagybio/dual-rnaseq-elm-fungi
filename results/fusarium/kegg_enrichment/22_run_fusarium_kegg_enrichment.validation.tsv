@@ -1,0 +1,16 @@
+check	value
+structural_genes_in_annotation_table	15192
+contrasts_present	1
+tested_genes_per_contrast	10414
+identical_universe_across_contrasts	TRUE
+all_tested_genes_present_in_structural_annotation	TRUE
+KEGG_annotated_genes_in_full_TERM2GENE	2503
+gene_pathway_pairs_in_full_TERM2GENE	10897
+pathways_in_full_TERM2GENE	383
+KEGG_annotated_genes_in_tested_universe	2403
+pathway_metadata_available	TRUE
+TERM2NAME_used	TRUE
+primary_padj_cutoff	0.05
+strong_abs_log2fc_cutoff	1
+min_gene_set_size	5
+max_gene_set_size	500
