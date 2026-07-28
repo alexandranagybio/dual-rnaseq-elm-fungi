@@ -66,3 +66,7 @@ results/fusarium/functional_annotation/tables/fusarium_transcript_functional_ann
 results/fusarium/go_enrichment/tables/fusarium_GO_protein_to_gene_long.tsv
 results/fusarium/go_enrichment/tables/fusarium_GO_TERM2GENE_long.tsv
 results/fusarium/kegg_annotation/fusarium_protein_kegg_pathways.tsv
+
+# Python bytecode caches
+__pycache__/
+*.py[cod]
