@@ -1,0 +1,3 @@
+direction	significant_genes	abs_lfc_gt_1	informative_jgi_name	has_go	has_kegg	readable_annotation	signal_peptide	cazyme	readable_annotation_percent
+Downregulated	2709	744	2709	1429	504	2709	146	457	100
+Upregulated	2529	623	2529	1478	660	2529	237	490	100

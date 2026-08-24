@@ -1,0 +1,10 @@
+sample_id	condition	replicate	sizeFactor	condition_raw	condition_display	replicate_number	replicate_label
+152	self	1	0.695475883906781	self	Non-contact	1	R1
+153	self	2	0.5711274049635444	self	Non-contact	2	R2
+154	self	3	1.1255229705065777	self	Non-contact	3	R3
+155	onu	1	1.5470862617666816	onu	Control	1	R1
+156	onu	2	1.8464739235509937	onu	Control	2	R2
+157	onu	3	2.346516917945031	onu	Control	3	R3
+149	interaction	1	0.7378613360579264	interaction	Reaction zone	1	R1
+150	interaction	2	0.7083252195992257	interaction	Reaction zone	2	R2
+151	interaction	3	0.6592028778376994	interaction	Reaction zone	3	R3

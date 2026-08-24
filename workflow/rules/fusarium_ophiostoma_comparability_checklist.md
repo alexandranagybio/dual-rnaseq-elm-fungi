@@ -14,7 +14,7 @@ logic at the final gene-level comparison stage.
 |---|---|---|
 | Statistical unit | Gene-level DESeq2 analysis | Aggregate transcript estimates to a validated gene-level unit before comparison; do not compare Ophiostoma genes with uncollapsed Fusarium isoforms |
 | DESeq2 design | `~ condition` | Use the equivalent condition-only design unless a documented design difference is biologically required |
-| DESeq2 reference | `self` | Define the biologically corresponding Fusarium control explicitly and document every contrast numerator and denominator |
+| DESeq2 condition coding / biological reference | Internal factor labels must be mapped explicitly to biological sample classes. For Ophiostoma, `interaction` = reaction zone, `self` = non-contact region of the confrontation plate, and `onu` = control colony | Define the biologically corresponding Fusarium conditions explicitly and document every contrast numerator and denominator; do not assume that internal factor labels denote equivalent biological conditions across organisms |
 | DE test | DESeq2 Wald test | Use the same test unless a justified model change is documented |
 | Multiple-testing threshold | `padj < 0.05` | Use `padj < 0.05` |
 | “Significant DE” | `padj < 0.05` | Use exactly the same definition |
@@ -39,6 +39,22 @@ logic at the final gene-level comparison stage.
 | Annotation denominator | Report complete annotation set separately from DESeq2-tested set | Always distinguish complete Fusarium annotation, tested genes, significant genes, and strong genes |
 | Direction | Positive log2FC = up in the named numerator; negative = down | Verify every contrast orientation before comparing counts |
 | Reproducibility | Save scripts, versions, hashes, validation tables, and run metadata | Mirror the same audit structure for Fusarium |
+
+## Manuscript-level functional comparison
+
+For the current manuscript, GO and KEGG analyses are retained as validated
+exploratory/supporting analyses but are not used as the primary cross-species
+functional comparison.
+
+The primary manuscript-level functional comparison uses gene-level COG
+enrichment with organism-specific tested-gene backgrounds. Differences in
+functional response between Fusarium and Ophiostoma are additionally evaluated
+using the formal species × COG interaction analysis.
+
+The same comparability principle applies: upstream organism-specific resources
+may differ, but biological definitions, gene-level statistical units,
+significance thresholds, annotation logic, contrast orientation, and reporting
+rules must be explicit and reproducible.
 
 ## Required denominator reporting for each organism
 

@@ -1,0 +1,15 @@
+field	value
+script	38_make_ophiostoma_spatial_heatmap.R
+run_timestamp	2026-08-18 10:51:02 UTC
+dds_file	results/ophiostoma/deseq2_results/objects/ophiostoma_dds_deseq2_fitted.rds
+alpha_threshold	0.05
+zscore_limit	2
+selected_gene_count	210
+column_order	Non-contact | Control | Reaction zone
+row_program_order	Reaction-zone specific | Plate-wide response | Multi-region differential response | Non-contact specific
+row_clustering	hierarchical clustering within response programs
+column_clustering	none; fixed Non-contact -> Control -> Reaction zone order
+heatmap_palette	ltc::heatmap1
+palette_generation	ltc(name, n = 101, type = continuous)
+response_program_display_labels	Reaction-zone specific | Plate-wide response | Multi-region differential response | Non-contact specific
+selected_rows_per_program	Reaction-zone specific=60 | Plate-wide response=60 | Multi-region differential response=60 | Non-contact specific=30

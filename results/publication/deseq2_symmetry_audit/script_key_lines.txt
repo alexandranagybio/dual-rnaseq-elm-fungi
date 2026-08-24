@@ -1,0 +1,134 @@
+============================================================
+OPHIOSTOMA DESEQ2: SCRIPT 08
+============================================================
+13:alpha_threshold <- 0.05
+41:write_tsv <- function(x, path) {
+42:  write.table(x, path, sep = "\t", quote = FALSE, row.names = FALSE,
+46:sanitize_result_table <- function(res, contrast_name) {
+50:  df$contrast <- contrast_name
+51:  df[, c("gene_id", "contrast", "baseMean", "log2FoldChange", "lfcSE",
+52:         "stat", "pvalue", "padj")]
+55:summarize_contrast <- function(df, contrast_name, numerator, denominator) {
+56:  significant <- !is.na(df$padj) & df$padj < alpha_threshold
+57:  strong <- significant & !is.na(df$log2FoldChange) &
+58:    abs(df$log2FoldChange) > strong_lfc_threshold
+61:    contrast = contrast_name,
+66:    genes_with_padj = sum(!is.na(df$padj)),
+67:    genes_with_na_padj = sum(is.na(df$padj)),
+68:    significant_padj_lt_0_05 = sum(significant),
+69:    significant_up = sum(significant & df$log2FoldChange > 0, na.rm = TRUE),
+70:    significant_down = sum(significant & df$log2FoldChange < 0, na.rm = TRUE),
+71:    strong_padj_lt_0_05_abs_lfc_gt_1 = sum(strong),
+72:    strong_up = sum(strong & df$log2FoldChange > strong_lfc_threshold, na.rm = TRUE),
+73:    strong_down = sum(strong & df$log2FoldChange < -strong_lfc_threshold, na.rm = TRUE),
+74:    alpha = alpha_threshold,
+80:if (!file.exists(input_rds)) fail("Input DESeqDataSet not found: ", input_rds)
+81:log_message("Reading filtered DESeqDataSet: ", input_rds)
+84:if (!inherits(dds, "DESeqDataSet")) fail("Input object is not a DESeqDataSet.")
+95:dds$condition <- factor(as.character(dds$condition), levels = c("self", "onu", "interaction"))
+96:design(dds) <- ~ condition
+99:if (any(rowSums(counts(dds)) == 0L)) fail("Filtered object still contains all-zero genes.")
+104:write_tsv(data.frame(
+112:            " samples, design = ~ condition, reference = self.")
+115:log_message("Running DESeq().")
+116:dds <- DESeq(dds, test = "Wald", fitType = "parametric", sfType = "ratio",
+118:log_message("DESeq() completed.")
+132:  fail("Non-finite or non-positive size factors detected.")
+136:saveRDS(dds, fitted_dds_path)
+138:write_tsv(data.frame(
+139:  metric = c("input_genes", "samples", "conditions", "reference_level", "design",
+141:             "maximum_dispersion", "minimum_size_factor", "median_size_factor", "maximum_size_factor"),
+149:write_tsv(data.frame(
+151:  baseMean = mcols(dds)$baseMean,
+158:contrasts <- list(
+164:contrast_summaries <- list()
+167:for (contrast_name in names(contrasts)) {
+168:  contrast_vector <- contrasts[[contrast_name]]
+169:  numerator <- contrast_vector[[2]]
+170:  denominator <- contrast_vector[[3]]
+171:  log_message("Extracting ", contrast_name, ": ", numerator, " vs ", denominator, ".")
+173:  res <- results(dds, contrast = contrast_vector, alpha = alpha_threshold,
+174:                 independentFiltering = TRUE, cooksCutoff = TRUE)
+175:  result_df <- sanitize_result_table(res, contrast_name)
+178:  significant_df <- result_df[!is.na(result_df$padj) & result_df$padj < alpha_threshold, , drop = FALSE]
+179:  strong_df <- significant_df[!is.na(significant_df$log2FoldChange) &
+180:                                abs(significant_df$log2FoldChange) > strong_lfc_threshold, , drop = FALSE]
+182:  significant_df <- significant_df[order(significant_df$padj,
+183:                                         -abs(significant_df$log2FoldChange),
+185:  strong_df <- strong_df[order(strong_df$padj,
+186:                               -abs(strong_df$log2FoldChange),
+189:  write_tsv(result_df, file.path(tables_dir, paste0(contrast_name, "_all_genes.tsv")))
+190:  write_tsv(significant_df, file.path(tables_dir, paste0(contrast_name, "_significant_padj_0.05.tsv")))
+191:  write_tsv(strong_df, file.path(tables_dir, paste0(contrast_name, "_strong_padj_0.05_abs_log2fc_gt_1.tsv")))
+193:  summary_df <- summarize_contrast(result_df, contrast_name, numerator, denominator)
+194:  contrast_summaries[[contrast_name]] <- summary_df
+195:  all_complete_results[[contrast_name]] <- result_df
+197:  filter_threshold <- if (!is.null(metadata(res)$filterThreshold)) metadata(res)$filterThreshold else NA
+198:  write_tsv(data.frame(
+199:    field = c("contrast", "numerator", "denominator", "alpha", "independent_filtering",
+200:              "cooks_cutoff", "filter_threshold", "strong_abs_log2fc_threshold"),
+201:    value = c(contrast_name, numerator, denominator, alpha_threshold, TRUE, TRUE,
+202:              filter_threshold, strong_lfc_threshold),
+204:  ), file.path(diagnostics_dir, paste0(contrast_name, "_results_metadata.tsv")))
+206:  log_message(contrast_name, ": significant = ", summary_df$significant_padj_lt_0_05,
+207:              "; strong = ", summary_df$strong_padj_lt_0_05_abs_lfc_gt_1,
+208:              "; NA padj = ", summary_df$genes_with_na_padj, ".")
+211:summary_table <- do.call(rbind, contrast_summaries)
+213:write_tsv(summary_table, file.path(tables_dir, "contrast_summary.tsv"))
+217:write_tsv(combined_results, file.path(tables_dir, "all_contrasts_complete_results.tsv"))
+221:write_tsv(data.frame(
+223:            "DESeq2_version", "design", "reference_level", "alpha",
+226:            normalizePath(input_rds), normalizePath(output_dir), R.version.string,
+228:            alpha_threshold, strong_lfc_threshold, "parametric", "ratio", "Wald"),
+234:  file.path(tables_dir, "contrast_summary.tsv"),
+235:  file.path(tables_dir, "all_contrasts_complete_results.tsv"),
+245:write_tsv(data.frame(
+246:  check = c("input_is_DESeqDataSet", "gene_count_matches_expected", "sample_count_matches_expected",
+248:            "no_duplicate_gene_ids", "sample_order_matches_metadata", "positive_finite_size_factors",
+252:            !any(rowSums(counts(dds)) == 0L), anyDuplicated(rownames(dds)) == 0L,
+268:  cat(summary_table$contrast[[i]], ":\n", sep = "")
+269:  cat("  Significant (padj < 0.05): ", summary_table$significant_padj_lt_0_05[[i]], "\n", sep = "")
+270:  cat("  Strong (padj < 0.05 and |log2FC| > 1): ",
+271:      summary_table$strong_padj_lt_0_05_abs_lfc_gt_1[[i]], "\n", sep = "")
+272:  cat("  NA adjusted p-values: ", summary_table$genes_with_na_padj[[i]], "\n\n", sep = "")
+
+============================================================
+FUSARIUM DESEQ2: SCRIPT 17
+============================================================
+29:  library(apeglm)
+44:script_path <- normalizePath(
+49:repo_root <- normalizePath(
+184:samples$analysis_condition <- factor(
+298:dds <- DESeqDataSetFromTximport(
+301:  design = ~ condition
+306:keep <- rowSums(counts(dds) >= 10) >= 2
+311:filtered_gene_count <- input_gene_count - retained_gene_count
+314:  stop("No genes remained after the low-count filter.")
+318:  "DESeq2 genes before filtering: ",
+329:  format(filtered_gene_count, big.mark = ",")
+336:dds <- DESeq(dds)
+349:res_raw <- results(
+352:  alpha = 0.05
+355:res_shrunk <- lfcShrink(
+359:  type = "apeglm"
+370:same_padj <- (
+371:  is.na(res_raw$padj) & is.na(res_shrunk$padj)
+373:  !is.na(res_raw$padj) &
+374:    !is.na(res_shrunk$padj) &
+375:    res_raw$padj == res_shrunk$padj
+378:if (!all(same_pvalue) || !all(same_padj)) {
+395:write.table(
+406:write.table(
+417:saveRDS(
+471:  !is.na(res_raw$padj) &
+472:    res_raw$padj < 0.05
+479:    res_shrunk$log2FoldChange > 0,
+485:    res_shrunk$log2FoldChange < 0,
+521:    "contrast",
+536:    "filtered_gene_count",
+537:    filtered_gene_count,
+541:    "filter",
+546:    "significant_padj_lt_0.05",
+567:writeLines(
+575:writeLines(
+584:  "Significant genes (padj < 0.05): ",

@@ -1,0 +1,5 @@
+organism	contrast_id	contrast_label	story	expected_tested	source_file
+Fusarium	interaction_vs_self	Interaction vs control	Cross-species confrontation	9000	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/deseq2_results/fusarium_interaction_vs_self_lfcshrunk.tsv
+Ophiostoma	interaction_vs_self	Interaction vs control	Cross-species confrontation	8560	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_results/tables/interaction_vs_self_all_genes.tsv
+Ophiostoma	interaction_vs_outside	Interaction vs outside	Ophiostoma spatial response	8560	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_results/tables/interaction_vs_onu_all_genes.tsv
+Ophiostoma	outside_vs_self	Outside vs control	Ophiostoma spatial response	8560	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/deseq2_results/tables/onu_vs_self_all_genes.tsv

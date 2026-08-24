@@ -1,0 +1,49 @@
+species	class	direction	genes	layer	signed_genes
+Fusarium	AA	up	8	All significant	8
+Fusarium	AA	down	10	All significant	-10
+Fusarium	CBM	up	2	All significant	2
+Fusarium	CBM	down	4	All significant	-4
+Fusarium	CE	up	4	All significant	4
+Fusarium	CE	down	3	All significant	-3
+Fusarium	GH	up	51	All significant	51
+Fusarium	GH	down	32	All significant	-32
+Fusarium	GT	up	16	All significant	16
+Fusarium	GT	down	16	All significant	-16
+Fusarium	PL	up	1	All significant	1
+Fusarium	PL	down	1	All significant	-1
+Ophiostoma	AA	up	20	All significant	20
+Ophiostoma	AA	down	12	All significant	-12
+Ophiostoma	CBM	up	5	All significant	5
+Ophiostoma	CBM	down	10	All significant	-10
+Ophiostoma	CE	up	4	All significant	4
+Ophiostoma	CE	down	4	All significant	-4
+Ophiostoma	GH	up	46	All significant	46
+Ophiostoma	GH	down	63	All significant	-63
+Ophiostoma	GT	up	36	All significant	36
+Ophiostoma	GT	down	17	All significant	-17
+Ophiostoma	PL	up	0	All significant	0
+Ophiostoma	PL	down	0	All significant	-0
+Fusarium	AA	up	3	Secreted	3
+Fusarium	AA	down	8	Secreted	-8
+Fusarium	CBM	up	0	Secreted	0
+Fusarium	CBM	down	2	Secreted	-2
+Fusarium	CE	up	4	Secreted	4
+Fusarium	CE	down	3	Secreted	-3
+Fusarium	GH	up	30	Secreted	30
+Fusarium	GH	down	19	Secreted	-19
+Fusarium	GT	up	3	Secreted	3
+Fusarium	GT	down	0	Secreted	-0
+Fusarium	PL	up	1	Secreted	1
+Fusarium	PL	down	1	Secreted	-1
+Ophiostoma	AA	up	13	Secreted	13
+Ophiostoma	AA	down	6	Secreted	-6
+Ophiostoma	CBM	up	2	Secreted	2
+Ophiostoma	CBM	down	6	Secreted	-6
+Ophiostoma	CE	up	2	Secreted	2
+Ophiostoma	CE	down	2	Secreted	-2
+Ophiostoma	GH	up	24	Secreted	24
+Ophiostoma	GH	down	35	Secreted	-35
+Ophiostoma	GT	up	1	Secreted	1
+Ophiostoma	GT	down	1	Secreted	-1
+Ophiostoma	PL	up	0	Secreted	0
+Ophiostoma	PL	down	0	Secreted	-0

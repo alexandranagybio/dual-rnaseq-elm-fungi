@@ -1,0 +1,4 @@
+contrast	genes	significant_padj_0.05	raw_abs_lfc_gt_1	shrunk_abs_lfc_gt_1
+interaction_vs_self	8560	5238	1367	1279
+interaction_vs_onu	8560	4938	1082	992
+onu_vs_self	8560	4477	821	759

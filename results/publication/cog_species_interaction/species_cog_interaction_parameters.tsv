@@ -1,0 +1,14 @@
+parameter	value
+response_definition_induced	padj < 0.05 and raw log2FoldChange > 0
+response_definition_repressed	padj < 0.05 and raw log2FoldChange < 0
+background_definition	all DESeq2-result genes with at least one valid COG category, separately by species
+model	binomial GLM: response ~ species * COG_membership
+interaction_test	Wald test for speciesOphiostoma:COG_membershipTRUE
+reference_species	Fusarium
+multiple_testing_method	Benjamini-Hochberg
+multiple_testing_scope	separately for induced and repressed tests
+interaction_padj_threshold	0.05
+minimum_category_genes_per_species	10
+multiple_COG_assignments	each category tested independently as binary membership
+category_S_in_statistics	included
+category_S_in_plot	excluded

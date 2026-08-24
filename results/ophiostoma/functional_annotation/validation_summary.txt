@@ -1,9 +1,15 @@
 Ophiostoma functional annotation validation
 
 Authoritative FASTA proteins: 8640
+Complete output genes: 8640
+
+eggNOG final annotation rows: 8231
+Proteins without final eggNOG annotation: 409
+
 SignalP predictions: 8640
 SignalP SP predictions: 591
 SignalP OTHER predictions: 8049
+
 dbCAN proteins with >=1 method hit: 1440
 dbCAN high-confidence proteins (#ofTools >=2): 315
 Proteins with no dbCAN hit: 7200
@@ -16,3 +22,4 @@ dbCAN support distribution across complete proteome:
 
 Validation status: PASS
 Output: /home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/functional_annotation/ophiostoma_functional_annotation.tsv
+Validation table: /home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/functional_annotation/validation.tsv

@@ -1,0 +1,10 @@
+field	value
+script	34_build_cazyme_plotting_tables.py
+run_timestamp_utc	2026-08-13T10:11:43.148846+00:00
+input_file	/home/alex/dual-rnaseq-elm-fungi/results/publication/cazyme_comparison/comparative_cazyme_gene_family_long.tsv
+input_sha256	28ef7ae6116dcd26c253465495b37dadbb2c4bbf8e47a022cf6f5fc0964fa337
+family_counting_rule	one gene once per distinct CAZyme family
+class_counting_rule	one gene once per CAZyme class
+substrate_counting_rule	one gene once per standardized substrate; multi-substrate annotations are expanded
+direction	sign of raw log2 fold change
+effect_size	apeglm-shrunken log2 fold change

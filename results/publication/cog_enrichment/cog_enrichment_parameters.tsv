@@ -1,0 +1,11 @@
+parameter	value
+significance_threshold	0.05
+foreground_definition	padj < 0.05; direction from raw log2FoldChange; no LFC cutoff
+background_definition	all DESeq2-result genes with at least one valid COG category, separately by species
+minimum_foreground_hits	5
+fisher_alternative	greater
+multiple_testing_method	Benjamini-Hochberg
+multiple_testing_scope	separately within each organism and regulation direction
+plot_padj_threshold	0.1
+category_S_in_complete_results	included
+category_S_in_plot	excluded

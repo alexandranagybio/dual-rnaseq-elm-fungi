@@ -1,0 +1,26 @@
+cog	cog_name
+A	RNA processing and modification
+B	Chromatin structure and dynamics
+C	Energy production and conversion
+D	Cell-cycle control and chromosome partitioning
+E	Amino-acid transport and metabolism
+F	Nucleotide transport and metabolism
+G	Carbohydrate transport and metabolism
+H	Coenzyme transport and metabolism
+I	Lipid transport and metabolism
+J	Translation and ribosome biogenesis
+K	Transcription
+L	Replication, recombination and repair
+M	Cell wall, membrane and envelope biogenesis
+N	Cell motility
+O	Post-translational modification and protein turnover
+P	Inorganic-ion transport and metabolism
+Q	Secondary-metabolite biosynthesis and transport
+R	General function prediction only
+S	Function unknown
+T	Signal-transduction mechanisms
+U	Intracellular trafficking and secretion
+V	Defense mechanisms
+W	Extracellular structures
+Y	Nuclear structure
+Z	Cytoskeleton

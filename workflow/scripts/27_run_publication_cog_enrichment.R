@@ -1,0 +1,819 @@
+#!/usr/bin/env Rscript
+
+suppressPackageStartupMessages({
+  library(readr)
+  library(dplyr)
+  library(tidyr)
+  library(purrr)
+  library(stringr)
+  library(ggplot2)
+})
+
+# ==========================================================================
+# Configuration
+# ==========================================================================
+
+alpha_threshold <- 0.05
+minimum_foreground_hits <- 5
+plot_padj_threshold <- 0.10
+maximum_categories_per_group <- 10
+
+fusarium_colour <- "#D9792B"
+ophiostoma_colour <- "#76519D"
+
+output_dir <- file.path(
+  "results",
+  "publication",
+  "cog_enrichment"
+)
+
+figure_dir <- file.path(
+  "figures",
+  "figure4_cog_enrichment"
+)
+
+dir.create(
+  output_dir,
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+dir.create(
+  figure_dir,
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+fusarium_input <- file.path(
+  "results",
+  "fusarium",
+  "publication_annotation",
+  "tables",
+  "fusarium_publication_annotation_deseq2_dataset.tsv"
+)
+
+ophiostoma_input <- file.path(
+  "results",
+  "ophiostoma",
+  "publication_annotation",
+  "tables",
+  "interaction_vs_onu_publication_annotation.tsv"
+)
+
+# ==========================================================================
+# COG category dictionary
+# ==========================================================================
+
+cog_dictionary <- tibble::tribble(
+  ~cog, ~cog_name,
+  "A", "RNA processing and modification",
+  "B", "Chromatin structure and dynamics",
+  "C", "Energy production and conversion",
+  "D", "Cell-cycle control and chromosome partitioning",
+  "E", "Amino-acid transport and metabolism",
+  "F", "Nucleotide transport and metabolism",
+  "G", "Carbohydrate transport and metabolism",
+  "H", "Coenzyme transport and metabolism",
+  "I", "Lipid transport and metabolism",
+  "J", "Translation and ribosome biogenesis",
+  "K", "Transcription",
+  "L", "Replication, recombination and repair",
+  "M", "Cell wall, membrane and envelope biogenesis",
+  "N", "Cell motility",
+  "O", "Post-translational modification and protein turnover",
+  "P", "Inorganic-ion transport and metabolism",
+  "Q", "Secondary-metabolite biosynthesis and transport",
+  "R", "General function prediction only",
+  "S", "Function unknown",
+  "T", "Signal-transduction mechanisms",
+  "U", "Intracellular trafficking and secretion",
+  "V", "Defense mechanisms",
+  "W", "Extracellular structures",
+  "Y", "Nuclear structure",
+  "Z", "Cytoskeleton"
+)
+
+valid_cog_codes <- cog_dictionary$cog
+
+# ==========================================================================
+# Helpers
+# ==========================================================================
+
+as_logical_safe <- function(x) {
+  if (is.logical(x)) {
+    x[is.na(x)] <- FALSE
+    return(x)
+  }
+
+  out <- str_to_lower(as.character(x)) %in%
+    c("true", "t", "1", "yes", "y")
+
+  out[is.na(out)] <- FALSE
+  out
+}
+
+clean_cog <- function(x) {
+  x <- as.character(x)
+  x[is.na(x)] <- ""
+  x <- str_to_upper(x)
+
+  x[
+    x %in% c(
+      "",
+      "-",
+      "NA",
+      "N/A",
+      "NONE"
+    )
+  ] <- ""
+
+  x
+}
+
+expand_cog_assignments <- function(dat) {
+  dat %>%
+    mutate(
+      cog_raw = clean_cog(cog_raw),
+      cog = str_extract_all(
+        cog_raw,
+        "[A-Z]"
+      )
+    ) %>%
+    unnest(cog) %>%
+    filter(
+      cog %in% valid_cog_codes
+    ) %>%
+    distinct(
+      organism,
+      gene_id,
+      direction,
+      significant,
+      cog
+    )
+}
+
+run_cog_enrichment <- function(
+  gene_table,
+  organism_name,
+  direction_name
+) {
+  background_genes <- gene_table %>%
+    filter(
+      organism == organism_name
+    ) %>%
+    distinct(gene_id)
+
+  foreground_genes <- gene_table %>%
+    filter(
+      organism == organism_name,
+      significant,
+      direction == direction_name
+    ) %>%
+    distinct(gene_id)
+
+  category_memberships <- expand_cog_assignments(
+    gene_table %>%
+      filter(
+        organism == organism_name
+      )
+  )
+
+  background_with_cog <- category_memberships %>%
+    distinct(gene_id) %>%
+    pull(gene_id)
+
+  foreground_with_cog <- intersect(
+    foreground_genes$gene_id,
+    background_with_cog
+  )
+
+  background_size <- length(
+    unique(background_with_cog)
+  )
+
+  foreground_size <- length(
+    unique(foreground_with_cog)
+  )
+
+  if (background_size == 0) {
+    stop(
+      organism_name,
+      ": no background genes with valid COG categories."
+    )
+  }
+
+  if (foreground_size == 0) {
+    stop(
+      organism_name,
+      " ",
+      direction_name,
+      ": no foreground genes with valid COG categories."
+    )
+  }
+
+  category_memberships %>%
+    distinct(
+      gene_id,
+      cog
+    ) %>%
+    count(
+      cog,
+      name = "background_hits"
+    ) %>%
+    mutate(
+      foreground_hits = vapply(
+        cog,
+        function(category_code) {
+          category_memberships %>%
+            filter(
+              cog == category_code,
+              gene_id %in% foreground_with_cog
+            ) %>%
+            distinct(gene_id) %>%
+            nrow()
+        },
+        integer(1)
+      ),
+
+      foreground_nonhits =
+        foreground_size - foreground_hits,
+
+      background_only_hits =
+        background_hits - foreground_hits,
+
+      background_only_nonhits =
+        (
+          background_size - foreground_size
+        ) -
+        background_only_hits
+    ) %>%
+    rowwise() %>%
+    mutate(
+      fisher_test = list(
+        fisher.test(
+          matrix(
+            c(
+              foreground_hits,
+              foreground_nonhits,
+              background_only_hits,
+              background_only_nonhits
+            ),
+            nrow = 2,
+            byrow = TRUE
+          ),
+          alternative = "greater"
+        )
+      ),
+
+      odds_ratio = unname(
+        fisher_test$estimate
+      ),
+
+      pvalue = fisher_test$p.value
+    ) %>%
+    ungroup() %>%
+    mutate(
+      padj = p.adjust(
+        pvalue,
+        method = "BH"
+      ),
+
+      organism = organism_name,
+      direction = direction_name,
+      foreground_size = foreground_size,
+      background_size = background_size,
+
+      foreground_percent =
+        100 * foreground_hits / foreground_size,
+
+      background_percent =
+        100 * background_hits / background_size,
+
+      enrichment_ratio =
+        foreground_percent / background_percent
+    ) %>%
+    select(
+      organism,
+      direction,
+      cog,
+      foreground_hits,
+      foreground_size,
+      foreground_percent,
+      background_hits,
+      background_size,
+      background_percent,
+      enrichment_ratio,
+      odds_ratio,
+      pvalue,
+      padj
+    ) %>%
+    left_join(
+      cog_dictionary,
+      by = "cog"
+    ) %>%
+    arrange(
+      padj,
+      desc(odds_ratio),
+      desc(foreground_hits)
+    )
+}
+
+# ==========================================================================
+# Read and standardize Fusarium
+# ==========================================================================
+
+if (!file.exists(fusarium_input)) {
+  stop(
+    "Missing Fusarium publication table: ",
+    fusarium_input
+  )
+}
+
+fusarium_raw <- read_tsv(
+  fusarium_input,
+  show_col_types = FALSE,
+  progress = FALSE
+)
+
+fusarium <- fusarium_raw %>%
+  transmute(
+    organism = "Fusarium",
+    gene_id,
+    padj = raw_padj,
+    raw_lfc = raw_log2FoldChange,
+    shrunk_lfc = shrunk_log2FoldChange,
+    cog_raw = eggnog_cog_category,
+
+    significant =
+      !is.na(raw_padj) &
+      raw_padj < alpha_threshold,
+
+    direction = case_when(
+      raw_log2FoldChange > 0 ~ "Induced",
+      raw_log2FoldChange < 0 ~ "Repressed",
+      TRUE ~ "Unchanged"
+    )
+  ) %>%
+  filter(
+    !is.na(gene_id),
+    gene_id != "",
+    !is.na(raw_lfc)
+  )
+
+# ==========================================================================
+# Read and standardize Ophiostoma
+# ==========================================================================
+
+if (!file.exists(ophiostoma_input)) {
+  stop(
+    "Missing Ophiostoma publication table: ",
+    ophiostoma_input
+  )
+}
+
+ophiostoma_raw <- read_tsv(
+  ophiostoma_input,
+  show_col_types = FALSE,
+  progress = FALSE
+)
+
+ophiostoma <- ophiostoma_raw %>%
+  transmute(
+    organism = "Ophiostoma",
+    gene_id,
+    padj,
+    raw_lfc = log2FoldChange,
+    shrunk_lfc = NA_real_,
+    cog_raw = eggnog_cog_category,
+
+    significant =
+      !is.na(padj) &
+      padj < alpha_threshold,
+
+    direction = case_when(
+      log2FoldChange > 0 ~ "Induced",
+      log2FoldChange < 0 ~ "Repressed",
+      TRUE ~ "Unchanged"
+    )
+  ) %>%
+  filter(
+    !is.na(gene_id),
+    gene_id != "",
+    !is.na(raw_lfc)
+  )
+
+combined <- bind_rows(
+  fusarium,
+  ophiostoma
+)
+
+# ==========================================================================
+# Annotation coverage audit
+# ==========================================================================
+
+coverage_summary <- combined %>%
+  mutate(
+    has_valid_cog = map_lgl(
+      clean_cog(cog_raw),
+      function(value) {
+        any(
+          str_extract_all(
+            value,
+            "[A-Z]"
+          )[[1]] %in% valid_cog_codes
+        )
+      }
+    )
+  ) %>%
+  group_by(
+    organism,
+    direction,
+    significant
+  ) %>%
+  summarise(
+    genes = n_distinct(gene_id),
+    genes_with_cog = n_distinct(
+      gene_id[has_valid_cog]
+    ),
+    cog_coverage_percent =
+      100 * genes_with_cog / genes,
+    .groups = "drop"
+  )
+
+# ==========================================================================
+# Run enrichment
+# ==========================================================================
+
+enrichment_results <- bind_rows(
+  run_cog_enrichment(
+    combined,
+    "Fusarium",
+    "Induced"
+  ),
+
+  run_cog_enrichment(
+    combined,
+    "Fusarium",
+    "Repressed"
+  ),
+
+  run_cog_enrichment(
+    combined,
+    "Ophiostoma",
+    "Induced"
+  ),
+
+  run_cog_enrichment(
+    combined,
+    "Ophiostoma",
+    "Repressed"
+  )
+)
+
+# ==========================================================================
+# Build plotting table
+# ==========================================================================
+
+plot_data <- enrichment_results %>%
+  filter(
+    cog != "S",
+    foreground_hits >= minimum_foreground_hits,
+    padj < plot_padj_threshold,
+    is.finite(odds_ratio),
+    odds_ratio > 1
+  ) %>%
+  group_by(
+    organism,
+    direction
+  ) %>%
+  slice_min(
+    order_by = padj,
+    n = maximum_categories_per_group,
+    with_ties = FALSE
+  ) %>%
+  ungroup()
+
+if (nrow(plot_data) == 0) {
+  warning(
+    "No enriched COG categories passed the plotting thresholds. ",
+    "Complete statistical results were still written."
+  )
+}
+
+plot_data <- plot_data %>%
+  mutate(
+    organism = factor(
+      organism,
+      levels = c(
+        "Fusarium",
+        "Ophiostoma"
+      )
+    ),
+
+    direction = factor(
+      direction,
+      levels = c(
+        "Induced",
+        "Repressed"
+      )
+    ),
+
+    category_label = paste0(
+      cog,
+      " · ",
+      cog_name
+    ),
+
+    negative_log10_padj = -log10(
+      pmax(
+        padj,
+        .Machine$double.xmin
+      )
+    )
+  )
+
+category_order <- plot_data %>%
+  group_by(
+    category_label
+  ) %>%
+  summarise(
+    strongest_padj = min(
+      padj,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  ) %>%
+  arrange(
+    desc(strongest_padj)
+  ) %>%
+  pull(category_label)
+
+plot_data <- plot_data %>%
+  mutate(
+    category_label = factor(
+      category_label,
+      levels = category_order
+    )
+  )
+
+# ==========================================================================
+# Plot
+# ==========================================================================
+
+if (nrow(plot_data) > 0) {
+  cog_plot <- ggplot(
+    plot_data,
+    aes(
+      x = enrichment_ratio,
+      y = category_label
+    )
+  ) +
+    geom_vline(
+      xintercept = 1,
+      linewidth = 0.35,
+      colour = "grey75"
+    ) +
+    geom_point(
+      aes(
+        size = foreground_hits,
+        alpha = negative_log10_padj,
+        colour = organism
+      )
+    ) +
+    facet_grid(
+      direction ~ organism,
+      scales = "free_y",
+      space = "free_y"
+    ) +
+    scale_colour_manual(
+      values = c(
+        "Fusarium" = fusarium_colour,
+        "Ophiostoma" = ophiostoma_colour
+      ),
+      guide = "none"
+    ) +
+    scale_size_continuous(
+      name = "DE genes",
+      range = c(3, 9)
+    ) +
+    scale_alpha_continuous(
+      name = expression(-log[10]~adjusted~italic(P)),
+      range = c(0.45, 1)
+    ) +
+    scale_x_continuous(
+      name = "Foreground / background representation",
+      expand = expansion(
+        mult = c(0.03, 0.08)
+      )
+    ) +
+    labs(
+      y = NULL
+    ) +
+    theme_classic(
+      base_size = 10.5
+    ) +
+    theme(
+      strip.background = element_blank(),
+      strip.text = element_text(
+        face = "bold",
+        size = 10.5
+      ),
+      axis.text.y = element_text(
+        size = 8.3,
+        colour = "grey15"
+      ),
+      axis.text.x = element_text(
+        colour = "grey25"
+      ),
+      axis.title.x = element_text(
+        margin = margin(
+          t = 8
+        )
+      ),
+      panel.spacing.x = grid::unit(
+        1.3,
+        "lines"
+      ),
+      panel.spacing.y = grid::unit(
+        1,
+        "lines"
+      ),
+      legend.position = "bottom",
+      legend.box = "horizontal",
+      plot.margin = margin(
+        10,
+        15,
+        10,
+        10
+      )
+    )
+
+  ggsave(
+    filename = file.path(
+      figure_dir,
+      "Figure4_COG_enrichment_draft.pdf"
+    ),
+    plot = cog_plot,
+    width = 12,
+    height = 8.5,
+    units = "in",
+    device = cairo_pdf
+  )
+
+  ggsave(
+    filename = file.path(
+      figure_dir,
+      "Figure4_COG_enrichment_draft.png"
+    ),
+    plot = cog_plot,
+    width = 12,
+    height = 8.5,
+    units = "in",
+    dpi = 400,
+    bg = "white"
+  )
+}
+
+# ==========================================================================
+# Write outputs
+# ==========================================================================
+
+write_tsv(
+  enrichment_results,
+  file.path(
+    output_dir,
+    "cog_enrichment_complete.tsv"
+  )
+)
+
+write_tsv(
+  enrichment_results %>%
+    filter(
+      foreground_hits >= minimum_foreground_hits,
+      padj < alpha_threshold,
+      odds_ratio > 1
+    ),
+  file.path(
+    output_dir,
+    "cog_enrichment_significant.tsv"
+  )
+)
+
+write_tsv(
+  plot_data,
+  file.path(
+    output_dir,
+    "cog_enrichment_plot_data.tsv"
+  )
+)
+
+write_tsv(
+  coverage_summary,
+  file.path(
+    output_dir,
+    "cog_annotation_coverage.tsv"
+  )
+)
+
+write_tsv(
+  cog_dictionary,
+  file.path(
+    output_dir,
+    "cog_category_dictionary.tsv"
+  )
+)
+
+parameter_table <- tibble(
+  parameter = c(
+    "significance_threshold",
+    "foreground_definition",
+    "background_definition",
+    "minimum_foreground_hits",
+    "fisher_alternative",
+    "multiple_testing_method",
+    "multiple_testing_scope",
+    "plot_padj_threshold",
+    "category_S_in_complete_results",
+    "category_S_in_plot"
+  ),
+  value = c(
+    alpha_threshold,
+    "padj < 0.05; direction from raw log2FoldChange; no LFC cutoff",
+    "all DESeq2-result genes with at least one valid COG category, separately by species",
+    minimum_foreground_hits,
+    "greater",
+    "Benjamini-Hochberg",
+    "separately within each organism and regulation direction",
+    plot_padj_threshold,
+    "included",
+    "excluded"
+  )
+)
+
+write_tsv(
+  parameter_table,
+  file.path(
+    output_dir,
+    "cog_enrichment_parameters.tsv"
+  )
+)
+
+# ==========================================================================
+# Console report
+# ==========================================================================
+
+cat("\n")
+cat("============================================================\n")
+cat("COG ENRICHMENT COMPLETE\n")
+cat("============================================================\n")
+
+cat("\nAnnotation coverage:\n")
+print(
+  coverage_summary,
+  n = Inf,
+  width = Inf
+)
+
+cat("\nSignificantly enriched categories (padj < 0.05):\n")
+
+significant_console <- enrichment_results %>%
+  filter(
+    foreground_hits >= minimum_foreground_hits,
+    padj < alpha_threshold,
+    odds_ratio > 1
+  ) %>%
+  select(
+    organism,
+    direction,
+    cog,
+    cog_name,
+    foreground_hits,
+    foreground_size,
+    foreground_percent,
+    background_percent,
+    enrichment_ratio,
+    odds_ratio,
+    padj
+  )
+
+if (nrow(significant_console) == 0) {
+  cat("None.\n")
+} else {
+  print(
+    significant_console,
+    n = Inf,
+    width = Inf
+  )
+}
+
+cat("\nOutputs written to:\n")
+cat(
+  normalizePath(output_dir),
+  "\n"
+)
+
+cat("\nFigure outputs written to:\n")
+cat(
+  normalizePath(figure_dir),
+  "\n"
+)

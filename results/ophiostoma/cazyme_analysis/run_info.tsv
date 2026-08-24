@@ -1,14 +1,17 @@
 field	value
 script	15_cazyme_analysis.py
-run_timestamp_utc	2026-07-21T11:48:59.674800+00:00
+run_timestamp_utc	2026-08-04T11:29:23.156486+00:00
 repository_root	/home/alex/dual-rnaseq-elm-fungi
 annotation_file	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/functional_annotation/ophiostoma_functional_annotation.tsv
-annotation_sha256	b9221a2d297621c33661cc1ce943413f9eb197e1fae785c3a4b460fe6c10b920
+annotation_sha256	068f4a20017dcd647a8acb4141f3e0a1f8d198daffc28cced903fc0df446fcfc
 primary_cazyme_definition	dbcan_high_confidence == TRUE; equivalent to dbCAN #ofTools >= 2
 secondary_dbcan_definition	dbcan_any_hit == TRUE; #ofTools >= 1
 significant_de_definition	padj < 0.05
-strong_de_definition	padj < 0.05 and abs(log2FoldChange) > 1
-interpretation	High-confidence CAZyme candidates supported by at least two dbCAN methods; all one-method hits retained in secondary tables
-interaction_vs_self_input_sha256	e6d947a7d32775e988f944ba37a064fa2fb13bfe6008f536b0392679e9403223
-interaction_vs_onu_input_sha256	9f9cadd0141ee779e7122ad166663f7b9e57d09d2b5f7812de8e2adc30eb80b1
-onu_vs_self_input_sha256	a2746cf73d8e38db3b2b8474abf7efee91f9b5361deda77d398d6738d6d60195
+raw_lfc1_definition	padj < 0.05 and abs(log2FoldChange) > 1
+shrunk_lfc1_definition	padj < 0.05 and abs(shrunk_log2FoldChange) > 1
+direction_definition	sign of raw log2FoldChange
+effect_size_interpretation	shrunk_log2FoldChange is used for stabilized effect-size filtering and ranking
+interpretation	High-confidence CAZyme candidates supported by at least two dbCAN methods; one-method hits retained in secondary tables
+interaction_vs_self_input_sha256	c8010ae32431a0dd6e632518abe9c4f7fcdfef782a982588387134a944035150
+interaction_vs_onu_input_sha256	69d920d9522642771c2d7889f0de1043f01508aa331fd9f3a2cb157e14171f66
+onu_vs_self_input_sha256	42c77a338b21d21ceac52176137124d8e197891bd1215890abdfe7a52656e1f3

@@ -1,0 +1,11 @@
+field	value
+script	workflow/scripts/41_test_cazyme_class_direction.R
+class_input	results/publication/cazyme_comparison/plotting_tables/figure5_cazyme_class_response_plotting_table.tsv
+cazyme_audit_input	results/publication/cazyme_comparison/comparative_cazyme_audit.tsv
+class_output	results/publication/cazyme_comparison/inferential_tests/species_cazyme_class_direction_tests.tsv
+overall_output	results/publication/cazyme_comparison/inferential_tests/species_cazyme_overall_direction_test.tsv
+statistical_test	Two-sided Fisher exact test on species x induced/repressed 2x2 table
+alternative	two-sided
+multiple_testing	Benjamini-Hochberg within each layer and across all valid class-level tests
+odds_ratio_definition	OR > 1 = relatively more induction-biased in Fusarium; OR < 1 = relatively more induction-biased in Ophiostoma
+provenance_note	Class-level tests consume the exact canonical plotting counts written by script 35.

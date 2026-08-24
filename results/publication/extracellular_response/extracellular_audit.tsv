@@ -1,0 +1,17 @@
+species	check	value	expected	status
+Fusarium	significant_de_matches_expected	2973	2973	PASS
+Fusarium	significant_cazymes_match_expected	142	142	PASS
+Fusarium	secreted_subset_of_significant	346	<= 2973	PASS
+Fusarium	cazyme_subset_of_significant	142	<= 2973	PASS
+Fusarium	secreted_cazymes_subset_of_secreted	72	<= 346	PASS
+Fusarium	secreted_cazymes_subset_of_cazymes	72	<= 142	PASS
+Fusarium	cazyme_partition	142	142	PASS
+Fusarium	nonsecreted_cazymes_nonnegative	70	>= 0	PASS
+Ophiostoma	significant_de_matches_expected	4938	4938	PASS
+Ophiostoma	significant_cazymes_match_expected	206	206	PASS
+Ophiostoma	secreted_subset_of_significant	369	<= 4938	PASS
+Ophiostoma	cazyme_subset_of_significant	206	<= 4938	PASS
+Ophiostoma	secreted_cazymes_subset_of_secreted	85	<= 369	PASS
+Ophiostoma	secreted_cazymes_subset_of_cazymes	85	<= 206	PASS
+Ophiostoma	cazyme_partition	206	206	PASS
+Ophiostoma	nonsecreted_cazymes_nonnegative	121	>= 0	PASS

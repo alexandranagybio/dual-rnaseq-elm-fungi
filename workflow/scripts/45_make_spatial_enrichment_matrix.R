@@ -1,0 +1,402 @@
+#!/usr/bin/env Rscript
+
+suppressPackageStartupMessages({
+  library(readr)
+  library(dplyr)
+  library(tidyr)
+  library(ggplot2)
+})
+
+# ==========================================================================
+# Figure 6b — functional fingerprint of spatial transcriptional programs
+#
+# Uses only existing inferential results from script 39.
+# No statistical analysis is performed here.
+# ==========================================================================
+
+ROOT <- normalizePath(".", mustWork = TRUE)
+
+binary_file <- file.path(
+  ROOT,
+  "results/publication/ophiostoma_spatial_functional_enrichment",
+  "spatial_secretome_cazyme_enrichment.tsv"
+)
+
+cog_file <- file.path(
+  ROOT,
+  "results/publication/ophiostoma_spatial_functional_enrichment",
+  "spatial_cog_enrichment_complete.tsv"
+)
+
+output_dir <- file.path(
+  ROOT,
+  "figures/publication/final"
+)
+
+dir.create(
+  output_dir,
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+output_pdf <- file.path(
+  output_dir,
+  "Figure6b_spatial_functional_enrichment_matrix.pdf"
+)
+
+output_png <- file.path(
+  output_dir,
+  "Figure6b_spatial_functional_enrichment_matrix.png"
+)
+
+# ==========================================================================
+# Display order
+# ==========================================================================
+
+response_order <- c(
+  "Reaction-zone specific",
+  "Plate-wide confrontation response",
+  "Complex spatial response",
+  "Non-contact-region specific"
+)
+
+cog_order <- c(
+  "A", "B", "E", "G", "I", "J", "L", "Q"
+)
+
+column_order <- c(
+  "Secreted",
+  "CAZyme",
+  cog_order
+)
+
+# Short publication-facing row labels.
+response_labels <- c(
+  "Reaction-zone specific" =
+    "Reaction-zone specific",
+
+  "Plate-wide confrontation response" =
+    "Plate-wide response",
+
+  "Complex spatial response" =
+    "Multi-region differential response",
+
+  "Non-contact-region specific" =
+    "Non-contact specific"
+)
+
+# ==========================================================================
+# Read inputs
+# ==========================================================================
+
+for (f in c(binary_file, cog_file)) {
+  if (!file.exists(f)) {
+    stop("Missing input: ", f)
+  }
+}
+
+binary <- read_tsv(
+  binary_file,
+  show_col_types = FALSE,
+  progress = FALSE
+)
+
+cog <- read_tsv(
+  cog_file,
+  show_col_types = FALSE,
+  progress = FALSE
+)
+
+# ==========================================================================
+# Prepare secretome / CAZyme cells
+# ==========================================================================
+
+binary_plot <- binary %>%
+  mutate(
+    column = case_when(
+      feature == "Secreted protein" ~ "Secreted",
+      feature == "High-confidence CAZyme" ~ "CAZyme",
+      TRUE ~ NA_character_
+    ),
+
+    log2_or = log2(odds_ratio),
+
+    display_value = if_else(
+      significant,
+      log2_or,
+      NA_real_
+    )
+  ) %>%
+  filter(
+    !is.na(column)
+  ) %>%
+  select(
+    response_group,
+    column,
+    odds_ratio,
+    padj,
+    significant,
+    log2_or,
+    display_value
+  )
+
+# ==========================================================================
+# Prepare COG cells
+# ==========================================================================
+
+cog_plot <- cog %>%
+  filter(
+    cog %in% cog_order
+  ) %>%
+  mutate(
+    column = cog,
+
+    log2_or = log2(odds_ratio),
+
+    display_value = if_else(
+      significant,
+      log2_or,
+      NA_real_
+    )
+  ) %>%
+  select(
+    response_group,
+    column,
+    odds_ratio,
+    padj,
+    significant,
+    log2_or,
+    display_value
+  )
+
+# ==========================================================================
+# Complete full 4 × 10 matrix
+# ==========================================================================
+
+matrix_data <- bind_rows(
+  binary_plot,
+  cog_plot
+) %>%
+  complete(
+    response_group = response_order,
+    column = column_order
+  ) %>%
+  mutate(
+    response_group = factor(
+      response_group,
+      levels = rev(response_order)
+    ),
+
+    column = factor(
+      column,
+      levels = column_order
+    ),
+
+    significant = replace_na(
+      significant,
+      FALSE
+    ),
+
+    label = if_else(
+      significant,
+      sprintf("%.2f", log2_or),
+      ""
+    )
+  )
+
+# Save the exact plotting table for manuscript records.
+write_tsv(
+  matrix_data %>%
+    mutate(
+      response_group = as.character(response_group),
+      column = as.character(column)
+    ),
+  file.path(
+    output_dir,
+    "Figure6b_spatial_functional_enrichment_matrix_data.tsv"
+  )
+)
+
+# ==========================================================================
+# Shared colour scale
+# ==========================================================================
+
+max_abs <- max(
+  abs(matrix_data$display_value),
+  na.rm = TRUE
+)
+
+# Symmetric limits around zero.
+fill_limit <- ceiling(
+  max_abs * 4
+) / 4
+
+# ==========================================================================
+# Plot
+# ==========================================================================
+
+plot_data <- matrix_data %>%
+  mutate(
+    abs_log2_or = abs(log2_or),
+
+    enrichment_state = case_when(
+      significant & log2_or > 0 ~ "Enriched",
+      significant & log2_or < 0 ~ "Depleted",
+      TRUE ~ NA_character_
+    )
+  )
+
+p <- ggplot(
+  plot_data,
+  aes(
+    x = column,
+    y = response_group
+  )
+) +
+
+  # Significant results only.
+  geom_point(
+    data = plot_data %>%
+      filter(significant),
+    aes(
+      size = abs_log2_or,
+      colour = enrichment_state
+    ),
+    alpha = 0.90
+  ) +
+
+  scale_colour_manual(
+    values = c(
+      "Enriched" = "#C56F78",
+      "Depleted" = "#5D86A8"
+    ),
+    breaks = c(
+      "Enriched",
+      "Depleted"
+    ),
+    name = NULL
+  ) +
+
+  scale_size_continuous(
+    name = expression(
+      "|"*log[2]~"odds ratio|"
+    ),
+    range = c(
+      3.5,
+      8.5
+    )
+  ) +
+
+  scale_x_discrete(
+    position = "top",
+    drop = FALSE
+  ) +
+
+  scale_y_discrete(
+    labels = response_labels,
+    drop = FALSE
+  ) +
+
+  labs(
+    x = NULL,
+    y = NULL,
+    tag = "b"
+  ) +
+
+  theme_classic(
+    base_size = 10,
+    base_family = "Nimbus Sans"
+  ) +
+
+  theme(
+    axis.line = element_blank(),
+    axis.ticks = element_blank(),
+
+    axis.text.x = element_text(
+      size = 9,
+      face = "bold",
+      colour = "#222222",
+      margin = margin(
+        b = 6
+      )
+    ),
+
+    axis.text.y = element_text(
+      size = 9,
+      colour = "#222222",
+      margin = margin(
+        r = 10
+      )
+    ),
+
+    legend.position = "bottom",
+    legend.box = "horizontal",
+
+    legend.title = element_text(
+      size = 8.5
+    ),
+
+    legend.text = element_text(
+      size = 8.5
+    ),
+
+    plot.tag = element_text(
+      face = "bold",
+      size = 10,
+      colour = "#222222"
+    ),
+
+    plot.tag.position = c(
+      0.005,
+      1.02
+    ),
+
+    plot.margin = margin(
+      10,
+      8,
+      6,
+      8
+    )
+  )
+
+# ==========================================================================
+# Export
+# ==========================================================================
+
+ggsave(
+  output_pdf,
+  p,
+  width = 180,
+  height = 82,
+  units = "mm",
+  device = cairo_pdf,
+  bg = "white"
+)
+
+ggsave(
+  output_png,
+  p,
+  width = 180,
+  height = 82,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
+
+message("")
+message("==============================================")
+message("FIGURE 6B ENRICHMENT MATRIX COMPLETE")
+message("==============================================")
+message("")
+message("PDF: ", output_pdf)
+message("PNG: ", output_png)
+message("")
+message("Displayed columns:")
+message(
+  paste(
+    column_order,
+    collapse = " | "
+  )
+)
+message("")
+message("PASS: visualization only; no re-analysis.")

@@ -1,0 +1,17 @@
+field	value
+script	35_build_extracellular_summary_table.py
+run_timestamp_utc	2026-08-12T10:04:39.009758+00:00
+repository_root	/home/alex/dual-rnaseq-elm-fungi
+significance_definition	adjusted P value < 0.05
+secreted_definition	confident SignalP-positive gene; Prediction == SP with validated gene-level annotation
+cazyme_definition	high-confidence dbCAN-positive gene; at least one associated protein supported by >= 2 dbCAN tools
+secreted_cazyme_definition	intersection of significant, confident SignalP-positive, and high-confidence dbCAN-positive genes
+fusarium_contrast	interaction versus self/control
+ophiostoma_contrast	interaction versus self
+fusarium_input_file	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/publication_annotation/tables/fusarium_publication_annotation_full.tsv
+fusarium_input_sha256	2540957beade596f462ae9859241e9807d79753fdc356c24cc73d3c7d4d38b05
+fusarium_input_rows	15192
+ophiostoma_input_file	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/cazyme_analysis/tables/interaction_vs_onu_all_genes_with_dbcan.tsv
+ophiostoma_input_sha256	98fee51d17a7f69ff75d15cf6df3bde15ac22ff899cffab44addb4ecd2b353bb
+ophiostoma_input_rows	8560
+statistical_testing	none; descriptive set intersections of validated gene-level annotations and DESeq2 results

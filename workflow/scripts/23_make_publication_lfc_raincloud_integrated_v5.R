@@ -1,0 +1,529 @@
+#!/usr/bin/env Rscript
+
+suppressPackageStartupMessages({
+  library(readr)
+  library(dplyr)
+  library(ggplot2)
+  library(scales)
+})
+
+set.seed(114)
+
+# =============================================================================
+# Configuration
+# =============================================================================
+
+repo_root <- normalizePath(".", mustWork = TRUE)
+
+input_file <- file.path(
+  repo_root,
+  "results",
+  "publication",
+  "figure3",
+  "figure3_lfc_significant.tsv"
+)
+
+output_dir <- file.path(
+  repo_root,
+  "results",
+  "publication",
+  "figure3",
+  "raincloud_candidates"
+)
+
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+
+if (!file.exists(input_file)) {
+  stop(
+    "Missing input file:\n  ", input_file,
+    "\nRun workflow/scripts/21_prepare_publication_lfc_distributions.R first."
+  )
+}
+
+# =============================================================================
+# Read data
+# =============================================================================
+
+lfc <- read_tsv(
+  input_file,
+  show_col_types = FALSE,
+  progress = FALSE
+) |>
+  filter(
+    story == "Cross-species confrontation",
+    significant,
+    is.finite(abs_log2_fold_change)
+  ) |>
+  mutate(
+    organism = factor(
+      organism,
+      levels = c("Fusarium", "Ophiostoma")
+    )
+  )
+
+if (nrow(lfc) == 0) {
+  stop("No significant cross-species confrontation genes found.")
+}
+
+# =============================================================================
+# Visual settings
+# =============================================================================
+
+organism_fill <- c(
+  "Fusarium" = "#DD8628",
+  "Ophiostoma" = "#7A5795"
+)
+
+point_sample_size <- 450L
+
+density_adjust <- 1.0
+density_alpha <- 0.50
+density_height <- 0.38
+
+# Both density curves share the exact same baseline so their heights
+# are directly comparable.
+density_baseline <- 2.05
+
+box_y <- c(
+  "Ophiostoma" = 1.48,
+  "Fusarium" = 1.27
+)
+
+rain_y <- c(
+  "Ophiostoma" = 0.78,
+  "Fusarium" = 0.50
+)
+
+box_half_height <- 0.055
+whisker_cap_half_height <- 0.040
+
+rain_point_size <- 0.55
+rain_point_alpha <- 0.20
+rain_jitter_height <- 0.035
+
+# Shared linear display range.
+shared_p99 <- quantile(
+  lfc$abs_log2_fold_change,
+  probs = 0.99,
+  na.rm = TRUE,
+  names = FALSE
+)
+
+shared_p99 <- ceiling(shared_p99 * 4) / 4
+
+# =============================================================================
+# Reusable helper functions
+# =============================================================================
+
+make_density_layer <- function(
+    data,
+    organism_name,
+    colour,
+    baseline,
+    x_max,
+    adjust = 1.0,
+    height = 0.38,
+    alpha = 0.46,
+    trim_fraction = 0.0025
+) {
+
+  values <- data |>
+    filter(organism == organism_name) |>
+    pull(abs_log2_fold_change)
+
+  dens <- density(
+    values,
+    from = 0,
+    to = max(x_max, max(values)),
+    n = 1024,
+    adjust = adjust,
+    na.rm = TRUE
+  )
+
+  density_tbl <- tibble(
+    x = dens$x,
+    density = dens$y
+  )
+
+  cutoff <- max(density_tbl$density) * trim_fraction
+
+  density_tbl <- density_tbl |>
+    filter(
+      density >= cutoff,
+      x <= x_max
+    ) |>
+    mutate(
+      organism = organism_name,
+      baseline = baseline,
+      y = baseline + density / max(density) * height
+    )
+
+  list(
+    geom_ribbon(
+      data = density_tbl,
+      aes(
+        x = x,
+        ymin = baseline,
+        ymax = y
+      ),
+      inherit.aes = FALSE,
+      fill = colour,
+      alpha = alpha,
+      colour = NA
+    ),
+
+    geom_line(
+      data = density_tbl,
+      aes(
+        x = x,
+        y = y
+      ),
+      inherit.aes = FALSE,
+      colour = colour,
+      linewidth = 0.46
+    )
+  )
+}
+
+make_summary_data <- function(data) {
+
+  data |>
+    group_by(organism) |>
+    summarise(
+      p05 = quantile(
+        abs_log2_fold_change, 0.05,
+        na.rm = TRUE, names = FALSE
+      ),
+      q25 = quantile(
+        abs_log2_fold_change, 0.25,
+        na.rm = TRUE, names = FALSE
+      ),
+      median = median(
+        abs_log2_fold_change,
+        na.rm = TRUE
+      ),
+      q75 = quantile(
+        abs_log2_fold_change, 0.75,
+        na.rm = TRUE, names = FALSE
+      ),
+      p95 = quantile(
+        abs_log2_fold_change, 0.95,
+        na.rm = TRUE, names = FALSE
+      ),
+      p99 = quantile(
+        abs_log2_fold_change, 0.99,
+        na.rm = TRUE, names = FALSE
+      ),
+      maximum = max(
+        abs_log2_fold_change,
+        na.rm = TRUE
+      ),
+      significant_genes = n(),
+      .groups = "drop"
+    ) |>
+    mutate(
+      box_y = unname(box_y[as.character(organism)]),
+      rain_y = unname(rain_y[as.character(organism)])
+    )
+}
+
+make_summary_layers <- function(
+    summary_tbl,
+    organism_name,
+    colour,
+    box_half_height = 0.055,
+    whisker_cap_half_height = 0.040
+) {
+
+  row <- summary_tbl |>
+    filter(organism == organism_name)
+
+  list(
+    geom_segment(
+      data = row,
+      aes(
+        x = p05,
+        xend = p95,
+        y = box_y,
+        yend = box_y
+      ),
+      inherit.aes = FALSE,
+      linewidth = 0.42,
+      colour = colour
+    ),
+
+    geom_segment(
+      data = row,
+      aes(
+        x = p05,
+        xend = p05,
+        y = box_y - whisker_cap_half_height,
+        yend = box_y + whisker_cap_half_height
+      ),
+      inherit.aes = FALSE,
+      linewidth = 0.42,
+      colour = colour
+    ),
+
+    geom_segment(
+      data = row,
+      aes(
+        x = p95,
+        xend = p95,
+        y = box_y - whisker_cap_half_height,
+        yend = box_y + whisker_cap_half_height
+      ),
+      inherit.aes = FALSE,
+      linewidth = 0.42,
+      colour = colour
+    ),
+
+    geom_rect(
+      data = row,
+      aes(
+        xmin = q25,
+        xmax = q75,
+        ymin = box_y - box_half_height,
+        ymax = box_y + box_half_height
+      ),
+      inherit.aes = FALSE,
+      fill = colour,
+      alpha = 0.78,
+      colour = colour,
+      linewidth = 0.42
+    ),
+
+    geom_segment(
+      data = row,
+      aes(
+        x = median,
+        xend = median,
+        y = box_y - box_half_height,
+        yend = box_y + box_half_height
+      ),
+      inherit.aes = FALSE,
+      linewidth = 0.48,
+      colour = colour
+    ),
+
+    geom_point(
+      data = row,
+      aes(
+        x = median,
+        y = box_y
+      ),
+      inherit.aes = FALSE,
+      shape = 21,
+      size = 2.05,
+      stroke = 0.42,
+      fill = "white",
+      colour = "#202020"
+    )
+  )
+}
+
+make_rain_layer <- function(
+    point_tbl,
+    organism_name,
+    colour,
+    y_position,
+    point_size = 0.55,
+    point_alpha = 0.20,
+    jitter_height = 0.035
+) {
+
+  geom_point(
+    data = point_tbl |>
+      filter(organism == organism_name) |>
+      mutate(plot_y = y_position),
+    aes(
+      x = abs_log2_fold_change,
+      y = plot_y
+    ),
+    inherit.aes = FALSE,
+    position = position_jitter(
+      width = 0,
+      height = jitter_height,
+      seed = 114
+    ),
+    size = point_size,
+    alpha = point_alpha,
+    stroke = 0,
+    colour = colour
+  )
+}
+
+# =============================================================================
+# Prepare summaries and sampled points
+# =============================================================================
+
+summary_data <- make_summary_data(lfc)
+
+write_tsv(
+  summary_data,
+  file.path(output_dir, "integrated_distribution_summary.tsv")
+)
+
+point_data <- lfc |>
+  group_by(organism) |>
+  group_modify(
+    ~ slice_sample(
+      .x,
+      n = min(point_sample_size, nrow(.x))
+    )
+  ) |>
+  ungroup()
+
+# =============================================================================
+# Build integrated panel
+# =============================================================================
+
+p_integrated <- ggplot() +
+
+  # Semi-transparent overlapping density clouds
+  make_density_layer(
+    data = lfc,
+    organism_name = "Ophiostoma",
+    colour = organism_fill[["Ophiostoma"]],
+    baseline = density_baseline,
+    x_max = shared_p99,
+    adjust = density_adjust,
+    height = density_height,
+    alpha = density_alpha
+  ) +
+
+  make_density_layer(
+    data = lfc,
+    organism_name = "Fusarium",
+    colour = organism_fill[["Fusarium"]],
+    baseline = density_baseline,
+    x_max = shared_p99,
+    adjust = density_adjust,
+    height = density_height,
+    alpha = density_alpha
+  ) +
+
+  # Offset box summaries
+  make_summary_layers(
+    summary_tbl = summary_data,
+    organism_name = "Ophiostoma",
+    colour = organism_fill[["Ophiostoma"]],
+    box_half_height = box_half_height,
+    whisker_cap_half_height = whisker_cap_half_height
+  ) +
+
+  make_summary_layers(
+    summary_tbl = summary_data,
+    organism_name = "Fusarium",
+    colour = organism_fill[["Fusarium"]],
+    box_half_height = box_half_height,
+    whisker_cap_half_height = whisker_cap_half_height
+  ) +
+
+  # Separate rain rows
+  make_rain_layer(
+    point_tbl = point_data,
+    organism_name = "Ophiostoma",
+    colour = organism_fill[["Ophiostoma"]],
+    y_position = rain_y[["Ophiostoma"]],
+    point_size = rain_point_size,
+    point_alpha = rain_point_alpha,
+    jitter_height = rain_jitter_height
+  ) +
+
+  make_rain_layer(
+    point_tbl = point_data,
+    organism_name = "Fusarium",
+    colour = organism_fill[["Fusarium"]],
+    y_position = rain_y[["Fusarium"]],
+    point_size = rain_point_size,
+    point_alpha = rain_point_alpha,
+    jitter_height = rain_jitter_height
+  ) +
+
+  scale_y_continuous(
+    breaks = NULL,
+    limits = c(0.30, 2.48),
+    expand = expansion(mult = c(0, 0))
+  ) +
+
+  scale_x_continuous(
+    breaks = pretty_breaks(n = 5),
+    expand = expansion(add = c(0.035, 0.06))
+  ) +
+
+  coord_cartesian(
+    xlim = c(0, shared_p99),
+    clip = "off"
+  ) +
+
+  labs(
+    x = expression("|log"[2] * " fold change|"),
+    y = NULL,
+    tag = "d"
+  ) +
+
+  theme_classic(base_size = 10, base_family = "Nimbus Sans") +
+
+  theme(
+    axis.title.x = element_text(
+      size = 10,
+      margin = margin(t = 9)
+    ),
+    axis.text.x = element_text(size = 9),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank(),
+
+    plot.tag = element_text(
+      face = "bold",
+      size = 10,
+      colour = "#222222"
+    ),
+    plot.tag.position = c(0.015, 0.985),
+
+    legend.position = "none",
+    plot.title = element_blank(),
+    plot.subtitle = element_blank(),
+    plot.caption = element_blank(),
+    plot.margin = margin(8, 10, 8, 8)
+  )
+
+# =============================================================================
+# Save
+# =============================================================================
+
+ggsave(
+  file.path(
+    output_dir,
+    "figure3D_raincloud_integrated_v5.pdf"
+  ),
+  p_integrated,
+  width = 170,
+  height = 75,
+  units = "mm",
+  device = cairo_pdf
+)
+
+ggsave(
+  file.path(
+    output_dir,
+    "figure3D_raincloud_integrated_v5.png"
+  ),
+  p_integrated,
+  width = 170,
+  height = 75,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
+
+message("\nGenerated shared-baseline integrated comparison panel:")
+message("  figure3D_raincloud_integrated_v5.pdf")
+message("  figure3D_raincloud_integrated_v5.png")
+message("\nFiles written to:")
+message("  ", output_dir)
+message("\nDensity transparency: ", density_alpha)
+message("Displayed x-axis maximum: ", shared_p99)
+message("\nSummary:")
+print(summary_data, n = Inf)

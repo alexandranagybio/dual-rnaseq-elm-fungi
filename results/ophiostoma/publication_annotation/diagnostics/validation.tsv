@@ -1,4 +1,7 @@
 check	value	expected	status
+complete_eggnog_annotated	8231	8231	PASS
+complete_eggnog_unannotated	409	409	PASS
+tested_eggnog_annotated_per_contrast	8185,8185,8185	8185	PASS
 structural_annotation_gene_count	8640	8640	PASS
 functional_annotation_gene_count	8640	8640	PASS
 structural_and_functional_gene_sets_identical	8640	8640	PASS

@@ -1,0 +1,4 @@
+internal_contrast	numerator	denominator	biological_contrast	degs	induced	repressed
+interaction_vs_self	interaction	self	Reaction zone vs non-contact region	5238	2529	2709
+interaction_vs_onu	interaction	onu	Reaction zone vs self-interaction control	4938	2587	2351
+onu_vs_self	onu	self	Non-contact region vs self-interaction control	4477	2288	2189

@@ -1,11 +1,11 @@
 field	value
 script	16_build_publication_annotation_table.py
-run_timestamp_utc	2026-07-21T12:06:15.925289+00:00
+run_timestamp_utc	2026-08-03T17:20:49.533286+00:00
 repository_root	/home/alex/dual-rnaseq-elm-fungi
 structural_annotation_file	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/annotation/ophiostoma_gene_annotation_map.tsv
-structural_annotation_sha256	b4902fa632ef87c7067d7f95169445ff30bb4464c1b08e89e1e63c04619a59d0
+structural_annotation_sha256	720d8dbf6227d683cfb0ec6c6ff2dd23082d55eb200d7bc863680ee071d91b6a
 functional_annotation_file	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/functional_annotation/ophiostoma_functional_annotation.tsv
-functional_annotation_sha256	b9221a2d297621c33661cc1ce943413f9eb197e1fae785c3a4b460fe6c10b920
+functional_annotation_sha256	068f4a20017dcd647a8acb4141f3e0a1f8d198daffc28cced903fc0df446fcfc
 significant_de_definition	padj < 0.05
 strong_de_definition	padj < 0.05 and abs(log2FoldChange) > 1
 signalp_positive_definition	signalp_is_sp == TRUE

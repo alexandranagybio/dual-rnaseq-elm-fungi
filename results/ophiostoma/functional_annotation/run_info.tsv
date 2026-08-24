@@ -1,0 +1,13 @@
+field	value
+script	13_build_ophiostoma_functional_annotation.py
+run_timestamp_utc	2026-08-03T17:11:00.738469+00:00
+authoritative_fasta	/home/alex/dual-rnaseq-elm-fungi/data/reference/ophiostoma/ophiostoma.proteins.clean.fa
+eggnog_annotation	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/eggnog_complete/ophiostoma_complete.emapper.annotations
+signalp_annotation	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/signalp_raw/prediction_results.txt
+dbcan_annotation	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/dbcan_raw/overview.tsv
+output_table	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/functional_annotation/ophiostoma_functional_annotation.tsv
+authoritative_fasta_sha256	7342469fd6393fc4534864dee220aac95f772124fa34c7bfc4257ea3855bcbf3
+eggnog_annotation_sha256	1070e87f223bbf736ef51f9aa6bfb99888bc5f0ecf0df262b7e85c6745bbaa75
+signalp_annotation_sha256	4aabcb4cb5fdec960e0075e0dae0ca35789d0d813109859dd2cadd2c0b955e14
+dbcan_annotation_sha256	e2a88ec7729adab4cc3eed97513802f9a95dbbd59fe508f7c5995e854cf7c8db
+output_table_sha256	068f4a20017dcd647a8acb4141f3e0a1f8d198daffc28cced903fc0df446fcfc

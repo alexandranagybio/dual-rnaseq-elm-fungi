@@ -1,0 +1,4 @@
+internal_condition	sample_ids	biological_condition
+interaction	149,150,151	Reaction zone
+self	152,153,154	Non-contact region
+onu	155,156,157	Self-interaction control

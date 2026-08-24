@@ -1,0 +1,952 @@
+#!/usr/bin/env Rscript
+
+suppressPackageStartupMessages({
+  library(readr)
+  library(dplyr)
+  library(tidyr)
+  library(stringr)
+  library(purrr)
+  library(ggplot2)
+})
+
+# ==========================================================================
+# Configuration
+# ==========================================================================
+
+alpha_threshold <- 0.05
+interaction_padj_threshold <- 0.05
+minimum_category_genes_per_species <- 10
+
+output_dir <- file.path(
+  "results",
+  "publication",
+  "cog_species_interaction"
+)
+
+figure_dir <- file.path(
+  "figures",
+  "figure4_cog_enrichment"
+)
+
+dir.create(
+  output_dir,
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+dir.create(
+  figure_dir,
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+fusarium_input <- file.path(
+  "results",
+  "fusarium",
+  "publication_annotation",
+  "tables",
+  "fusarium_publication_annotation_deseq2_dataset.tsv"
+)
+
+ophiostoma_input <- file.path(
+  "results",
+  "ophiostoma",
+  "publication_annotation",
+  "tables",
+  "interaction_vs_onu_publication_annotation.tsv"
+)
+
+fusarium_colour <- "#D9792B"
+ophiostoma_colour <- "#76519D"
+
+# ==========================================================================
+# COG dictionary
+# ==========================================================================
+
+cog_dictionary <- tribble(
+  ~cog, ~cog_name,
+  "A", "RNA processing and modification",
+  "B", "Chromatin structure and dynamics",
+  "C", "Energy production and conversion",
+  "D", "Cell-cycle control and chromosome partitioning",
+  "E", "Amino-acid transport and metabolism",
+  "F", "Nucleotide transport and metabolism",
+  "G", "Carbohydrate transport and metabolism",
+  "H", "Coenzyme transport and metabolism",
+  "I", "Lipid transport and metabolism",
+  "J", "Translation and ribosome biogenesis",
+  "K", "Transcription",
+  "L", "Replication, recombination and repair",
+  "M", "Cell wall, membrane and envelope biogenesis",
+  "N", "Cell motility",
+  "O", "Post-translational modification and protein turnover",
+  "P", "Inorganic-ion transport and metabolism",
+  "Q", "Secondary-metabolite biosynthesis and transport",
+  "R", "General function prediction only",
+  "S", "Function unknown",
+  "T", "Signal-transduction mechanisms",
+  "U", "Intracellular trafficking and secretion",
+  "V", "Defense mechanisms",
+  "W", "Extracellular structures",
+  "Y", "Nuclear structure",
+  "Z", "Cytoskeleton"
+)
+
+valid_cog_codes <- cog_dictionary$cog
+
+# ==========================================================================
+# Helpers
+# ==========================================================================
+
+clean_cog <- function(x) {
+  x <- as.character(x)
+  x[is.na(x)] <- ""
+  x <- str_to_upper(x)
+
+  x[
+    x %in% c(
+      "",
+      "-",
+      "NA",
+      "N/A",
+      "NONE"
+    )
+  ] <- ""
+
+  x
+}
+
+extract_cog_codes <- function(x) {
+  codes <- str_extract_all(
+    clean_cog(x),
+    "[A-Z]"
+  )
+
+  map(
+    codes,
+    ~ sort(
+      unique(
+        .x[.x %in% valid_cog_codes]
+      )
+    )
+  )
+}
+
+safe_fisher_or <- function(
+    response,
+    membership
+) {
+  tab <- table(
+    factor(response, levels = c(FALSE, TRUE)),
+    factor(membership, levels = c(FALSE, TRUE))
+  )
+
+  if (
+    nrow(tab) != 2 ||
+    ncol(tab) != 2 ||
+    any(rowSums(tab) == 0) ||
+    any(colSums(tab) == 0)
+  ) {
+    return(
+      list(
+        odds_ratio = NA_real_,
+        pvalue = NA_real_
+      )
+    )
+  }
+
+  test <- fisher.test(
+    tab,
+    alternative = "greater"
+  )
+
+  list(
+    odds_ratio = unname(test$estimate),
+    pvalue = test$p.value
+  )
+}
+
+fit_species_interaction <- function(
+    analysis_table,
+    category_code,
+    response_column
+) {
+  dat <- analysis_table %>%
+    mutate(
+      species = factor(
+        species,
+        levels = c(
+          "Fusarium",
+          "Ophiostoma"
+        )
+      ),
+
+      in_category = map_lgl(
+        cog_codes,
+        ~ category_code %in% .x
+      ),
+
+      response = .data[[response_column]]
+    )
+
+  category_counts <- dat %>%
+    group_by(species) %>%
+    summarise(
+      category_genes = sum(in_category),
+      total_genes = n(),
+      .groups = "drop"
+    )
+
+  if (
+    nrow(category_counts) != 2 ||
+    any(
+      category_counts$category_genes <
+        minimum_category_genes_per_species
+    )
+  ) {
+    return(NULL)
+  }
+
+  # Four cells must contain observations for an estimable interaction.
+  membership_species_table <- table(
+    dat$species,
+    dat$in_category
+  )
+
+  if (
+    nrow(membership_species_table) != 2 ||
+    ncol(membership_species_table) != 2 ||
+    any(membership_species_table == 0)
+  ) {
+    return(NULL)
+  }
+
+  model <- tryCatch(
+    glm(
+      response ~ species * in_category,
+      data = dat,
+      family = binomial()
+    ),
+    warning = function(w) {
+      invokeRestart("muffleWarning")
+    },
+    error = function(e) {
+      NULL
+    }
+  )
+
+  if (is.null(model)) {
+    return(NULL)
+  }
+
+  coefficient_table <- summary(model)$coefficients
+  interaction_term <- "speciesOphiostoma:in_categoryTRUE"
+
+  if (!interaction_term %in% rownames(coefficient_table)) {
+    return(NULL)
+  }
+
+  interaction_estimate <-
+    coefficient_table[
+      interaction_term,
+      "Estimate"
+    ]
+
+  interaction_se <-
+    coefficient_table[
+      interaction_term,
+      "Std. Error"
+    ]
+
+  interaction_pvalue <-
+    coefficient_table[
+      interaction_term,
+      "Pr(>|z|)"
+    ]
+
+  fusarium <- dat %>%
+    filter(species == "Fusarium")
+
+  ophiostoma <- dat %>%
+    filter(species == "Ophiostoma")
+
+  fusarium_test <- safe_fisher_or(
+    fusarium$response,
+    fusarium$in_category
+  )
+
+  ophiostoma_test <- safe_fisher_or(
+    ophiostoma$response,
+    ophiostoma$in_category
+  )
+
+  # Descriptive direct comparison among response-positive genes.
+  positive_only <- dat %>%
+    filter(response)
+
+  direct_table <- table(
+    factor(
+      positive_only$species,
+      levels = c(
+        "Fusarium",
+        "Ophiostoma"
+      )
+    ),
+    factor(
+      positive_only$in_category,
+      levels = c(FALSE, TRUE)
+    )
+  )
+
+  direct_test <- if (
+    nrow(direct_table) == 2 &&
+    ncol(direct_table) == 2 &&
+    all(rowSums(direct_table) > 0) &&
+    all(colSums(direct_table) > 0)
+  ) {
+    fisher.test(
+      direct_table,
+      alternative = "two.sided"
+    )
+  } else {
+    NULL
+  }
+
+  tibble(
+    response = response_column,
+    cog = category_code,
+
+    fusarium_response_hits = sum(
+      fusarium$response &
+        fusarium$in_category
+    ),
+
+    fusarium_response_total = sum(
+      fusarium$response
+    ),
+
+    fusarium_background_hits = sum(
+      fusarium$in_category
+    ),
+
+    fusarium_background_total = nrow(
+      fusarium
+    ),
+
+    ophiostoma_response_hits = sum(
+      ophiostoma$response &
+        ophiostoma$in_category
+    ),
+
+    ophiostoma_response_total = sum(
+      ophiostoma$response
+    ),
+
+    ophiostoma_background_hits = sum(
+      ophiostoma$in_category
+    ),
+
+    ophiostoma_background_total = nrow(
+      ophiostoma
+    ),
+
+    fusarium_response_percent =
+      100 *
+      fusarium_response_hits /
+      fusarium_response_total,
+
+    ophiostoma_response_percent =
+      100 *
+      ophiostoma_response_hits /
+      ophiostoma_response_total,
+
+    fusarium_within_species_or =
+      fusarium_test$odds_ratio,
+
+    fusarium_within_species_pvalue =
+      fusarium_test$pvalue,
+
+    ophiostoma_within_species_or =
+      ophiostoma_test$odds_ratio,
+
+    ophiostoma_within_species_pvalue =
+      ophiostoma_test$pvalue,
+
+    interaction_log_odds =
+      interaction_estimate,
+
+    interaction_se =
+      interaction_se,
+
+    interaction_odds_ratio =
+      exp(interaction_estimate),
+
+    interaction_ci_lower =
+      exp(
+        interaction_estimate -
+          1.96 * interaction_se
+      ),
+
+    interaction_ci_upper =
+      exp(
+        interaction_estimate +
+          1.96 * interaction_se
+      ),
+
+    interaction_pvalue =
+      interaction_pvalue,
+
+    direct_foreground_or = if (
+      is.null(direct_test)
+    ) {
+      NA_real_
+    } else {
+      unname(direct_test$estimate)
+    },
+
+    direct_foreground_pvalue = if (
+      is.null(direct_test)
+    ) {
+      NA_real_
+    } else {
+      direct_test$p.value
+    }
+  )
+}
+
+# ==========================================================================
+# Read Fusarium
+# ==========================================================================
+
+if (!file.exists(fusarium_input)) {
+  stop(
+    "Missing Fusarium table: ",
+    fusarium_input
+  )
+}
+
+fusarium_raw <- read_tsv(
+  fusarium_input,
+  show_col_types = FALSE,
+  progress = FALSE
+)
+
+fusarium <- fusarium_raw %>%
+  transmute(
+    species = "Fusarium",
+    gene_id,
+    padj = raw_padj,
+    raw_lfc = raw_log2FoldChange,
+    cog_raw = eggnog_cog_category,
+
+    induced =
+      !is.na(raw_padj) &
+      raw_padj < alpha_threshold &
+      raw_log2FoldChange > 0,
+
+    repressed =
+      !is.na(raw_padj) &
+      raw_padj < alpha_threshold &
+      raw_log2FoldChange < 0
+  ) %>%
+  filter(
+    !is.na(gene_id),
+    gene_id != "",
+    !is.na(raw_lfc)
+  )
+
+# ==========================================================================
+# Read Ophiostoma
+# ==========================================================================
+
+if (!file.exists(ophiostoma_input)) {
+  stop(
+    "Missing Ophiostoma table: ",
+    ophiostoma_input
+  )
+}
+
+ophiostoma_raw <- read_tsv(
+  ophiostoma_input,
+  show_col_types = FALSE,
+  progress = FALSE
+)
+
+ophiostoma <- ophiostoma_raw %>%
+  transmute(
+    species = "Ophiostoma",
+    gene_id,
+    padj,
+    raw_lfc = log2FoldChange,
+    cog_raw = eggnog_cog_category,
+
+    induced =
+      !is.na(padj) &
+      padj < alpha_threshold &
+      log2FoldChange > 0,
+
+    repressed =
+      !is.na(padj) &
+      padj < alpha_threshold &
+      log2FoldChange < 0
+  ) %>%
+  filter(
+    !is.na(gene_id),
+    gene_id != "",
+    !is.na(raw_lfc)
+  )
+
+# ==========================================================================
+# Restrict to genes with at least one valid COG assignment
+# ==========================================================================
+
+analysis_table <- bind_rows(
+  fusarium,
+  ophiostoma
+) %>%
+  mutate(
+    cog_codes = extract_cog_codes(
+      cog_raw
+    ),
+
+    has_valid_cog = lengths(
+      cog_codes
+    ) > 0
+  ) %>%
+  filter(
+    has_valid_cog
+  )
+
+background_summary <- analysis_table %>%
+  group_by(species) %>%
+  summarise(
+    cog_annotated_background_genes =
+      n_distinct(gene_id),
+
+    induced_genes =
+      sum(induced),
+
+    repressed_genes =
+      sum(repressed),
+
+    .groups = "drop"
+  )
+
+# ==========================================================================
+# Run interaction tests
+# ==========================================================================
+
+test_grid <- crossing(
+  response_column = c(
+    "induced",
+    "repressed"
+  ),
+  cog = valid_cog_codes
+)
+
+interaction_results <- pmap_dfr(
+  test_grid,
+  function(
+    response_column,
+    cog
+  ) {
+    result <- fit_species_interaction(
+      analysis_table = analysis_table,
+      category_code = cog,
+      response_column = response_column
+    )
+
+    if (is.null(result)) {
+      return(tibble())
+    }
+
+    result
+  }
+) %>%
+  group_by(response) %>%
+  mutate(
+    interaction_padj = p.adjust(
+      interaction_pvalue,
+      method = "BH"
+    ),
+
+    direct_foreground_padj = p.adjust(
+      direct_foreground_pvalue,
+      method = "BH"
+    )
+  ) %>%
+  ungroup() %>%
+  left_join(
+    cog_dictionary,
+    by = "cog"
+  ) %>%
+  mutate(
+    response = recode(
+      response,
+      induced = "Induced",
+      repressed = "Repressed"
+    ),
+
+    interaction_direction = case_when(
+      interaction_padj >=
+        interaction_padj_threshold ~
+        "No supported difference",
+
+      interaction_odds_ratio > 1 ~
+        "Stronger in Ophiostoma",
+
+      interaction_odds_ratio < 1 ~
+        "Stronger in Fusarium",
+
+      TRUE ~
+        "No supported difference"
+    ),
+
+    log2_interaction_or =
+      log2(interaction_odds_ratio)
+  ) %>%
+  arrange(
+    response,
+    interaction_padj,
+    desc(
+      abs(log2_interaction_or)
+    )
+  )
+
+significant_interactions <- interaction_results %>%
+  filter(
+    interaction_padj <
+      interaction_padj_threshold
+  )
+
+# ==========================================================================
+# Plotting table
+# ==========================================================================
+
+plot_data <- interaction_results %>%
+  filter(
+    cog != "S",
+    is.finite(log2_interaction_or),
+    is.finite(interaction_padj)
+  ) %>%
+  mutate(
+    category_label = paste0(
+      cog,
+      " · ",
+      cog_name
+    ),
+
+    response = factor(
+      response,
+      levels = c(
+        "Induced",
+        "Repressed"
+      )
+    ),
+
+    significant = interaction_padj <
+      interaction_padj_threshold,
+
+    point_size =
+      fusarium_response_hits +
+      ophiostoma_response_hits
+  )
+
+category_order <- plot_data %>%
+  group_by(category_label) %>%
+  summarise(
+    maximum_difference = max(
+      abs(log2_interaction_or),
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  ) %>%
+  arrange(maximum_difference) %>%
+  pull(category_label)
+
+plot_data <- plot_data %>%
+  mutate(
+    category_label = factor(
+      category_label,
+      levels = category_order
+    )
+  )
+
+interaction_plot <- ggplot(
+  plot_data,
+  aes(
+    x = log2_interaction_or,
+    y = category_label
+  )
+) +
+  geom_vline(
+    xintercept = 0,
+    linewidth = 0.35,
+    colour = "grey70"
+  ) +
+  geom_segment(
+    aes(
+      x = 0,
+      xend = log2_interaction_or,
+      yend = category_label,
+      colour = interaction_direction
+    ),
+    linewidth = 0.55,
+    alpha = 0.65
+  ) +
+  geom_point(
+    aes(
+      size = point_size,
+      colour = interaction_direction,
+      shape = significant
+    ),
+    alpha = 0.9
+  ) +
+  facet_wrap(
+    ~ response,
+    nrow = 1
+  ) +
+  scale_colour_manual(
+    values = c(
+      "Stronger in Fusarium" =
+        fusarium_colour,
+
+      "Stronger in Ophiostoma" =
+        ophiostoma_colour,
+
+      "No supported difference" =
+        "grey65"
+    ),
+    name = NULL
+  ) +
+  scale_shape_manual(
+    values = c(
+      "FALSE" = 16,
+      "TRUE" = 17
+    ),
+    labels = c(
+      "Not significant",
+      "Interaction padj < 0.05"
+    ),
+    name = NULL
+  ) +
+  scale_size_continuous(
+    name = "Responding genes",
+    range = c(2.5, 8)
+  ) +
+  scale_x_continuous(
+    name = expression(
+      log[2]~
+      interaction~odds~ratio
+    ),
+    expand = expansion(
+      mult = c(0.08, 0.08)
+    )
+  ) +
+  labs(
+    y = NULL
+  ) +
+  theme_classic(
+    base_size = 10.5
+  ) +
+  theme(
+    strip.background = element_blank(),
+    strip.text = element_text(
+      face = "bold",
+      size = 11
+    ),
+    axis.text.y = element_text(
+      size = 8.2,
+      colour = "grey15"
+    ),
+    axis.text.x = element_text(
+      colour = "grey25"
+    ),
+    legend.position = "bottom",
+    legend.box = "vertical",
+    panel.spacing.x = grid::unit(
+      1.5,
+      "lines"
+    ),
+    plot.margin = margin(
+      10,
+      15,
+      10,
+      10
+    )
+  )
+
+ggsave(
+  filename = file.path(
+    figure_dir,
+    "Figure4_species_COG_interaction_draft.pdf"
+  ),
+  plot = interaction_plot,
+  width = 13,
+  height = 8.5,
+  units = "in",
+  device = cairo_pdf
+)
+
+ggsave(
+  filename = file.path(
+    figure_dir,
+    "Figure4_species_COG_interaction_draft.png"
+  ),
+  plot = interaction_plot,
+  width = 13,
+  height = 8.5,
+  units = "in",
+  dpi = 400,
+  bg = "white"
+)
+
+# ==========================================================================
+# Outputs
+# ==========================================================================
+
+write_tsv(
+  interaction_results,
+  file.path(
+    output_dir,
+    "species_cog_interaction_complete.tsv"
+  )
+)
+
+write_tsv(
+  significant_interactions,
+  file.path(
+    output_dir,
+    "species_cog_interaction_significant.tsv"
+  )
+)
+
+write_tsv(
+  plot_data,
+  file.path(
+    output_dir,
+    "species_cog_interaction_plot_data.tsv"
+  )
+)
+
+write_tsv(
+  background_summary,
+  file.path(
+    output_dir,
+    "species_cog_interaction_background_summary.tsv"
+  )
+)
+
+write_tsv(
+  cog_dictionary,
+  file.path(
+    output_dir,
+    "cog_category_dictionary.tsv"
+  )
+)
+
+parameter_table <- tibble(
+  parameter = c(
+    "response_definition_induced",
+    "response_definition_repressed",
+    "background_definition",
+    "model",
+    "interaction_test",
+    "reference_species",
+    "multiple_testing_method",
+    "multiple_testing_scope",
+    "interaction_padj_threshold",
+    "minimum_category_genes_per_species",
+    "multiple_COG_assignments",
+    "category_S_in_statistics",
+    "category_S_in_plot"
+  ),
+
+  value = c(
+    "padj < 0.05 and raw log2FoldChange > 0",
+    "padj < 0.05 and raw log2FoldChange < 0",
+    "all DESeq2-result genes with at least one valid COG category, separately by species",
+    "binomial GLM: response ~ species * COG_membership",
+    "Wald test for speciesOphiostoma:COG_membershipTRUE",
+    "Fusarium",
+    "Benjamini-Hochberg",
+    "separately for induced and repressed tests",
+    interaction_padj_threshold,
+    minimum_category_genes_per_species,
+    "each category tested independently as binary membership",
+    "included",
+    "excluded"
+  )
+)
+
+write_tsv(
+  parameter_table,
+  file.path(
+    output_dir,
+    "species_cog_interaction_parameters.tsv"
+  )
+)
+
+# ==========================================================================
+# Console report
+# ==========================================================================
+
+cat("\n")
+cat("============================================================\n")
+cat("SPECIES × COG INTERACTION TEST COMPLETE\n")
+cat("============================================================\n")
+
+cat("\nCOG-annotated analysis universe:\n")
+print(
+  background_summary,
+  n = Inf,
+  width = Inf
+)
+
+cat("\nSignificant interaction terms (BH padj < 0.05):\n")
+
+if (nrow(significant_interactions) == 0) {
+  cat("None.\n")
+} else {
+  significant_interactions %>%
+    select(
+      response,
+      cog,
+      cog_name,
+      fusarium_response_hits,
+      fusarium_response_total,
+      fusarium_response_percent,
+      ophiostoma_response_hits,
+      ophiostoma_response_total,
+      ophiostoma_response_percent,
+      interaction_odds_ratio,
+      interaction_ci_lower,
+      interaction_ci_upper,
+      interaction_padj,
+      interaction_direction
+    ) %>%
+    print(
+      n = Inf,
+      width = Inf
+    )
+}
+
+cat("\nInterpretation:\n")
+cat(
+  "  interaction OR > 1: stronger COG-response association in Ophiostoma\n"
+)
+cat(
+  "  interaction OR < 1: stronger COG-response association in Fusarium\n"
+)
+
+cat("\nOutputs:\n")
+cat(
+  normalizePath(output_dir),
+  "\n"
+)
+
+cat("\nFigure:\n")
+cat(
+  normalizePath(figure_dir),
+  "\n"
+)

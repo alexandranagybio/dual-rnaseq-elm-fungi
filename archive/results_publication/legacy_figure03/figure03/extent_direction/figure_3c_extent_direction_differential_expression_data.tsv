@@ -1,0 +1,5 @@
+organism	contrast	tested_genes	significant_down	significant_up	significant_total	percent_down	percent_up	percent_total	source_file
+Fusarium	interaction_vs_self	9000	1423	1550	2973	15.811111111111112	17.22222222222222	33.03333333333333	results/fusarium/deseq2_results/fusarium_interaction_vs_self_raw.tsv
+Ophiostoma	interaction_vs_onu	8560	2351	2587	4938	27.464953271028037	30.22196261682243	57.68691588785047	results/ophiostoma/deseq2_results/tables/interaction_vs_onu_all_genes.tsv
+Ophiostoma	onu_vs_self	8560	2189	2288	4477	25.572429906542055	26.72897196261682	52.30140186915888	results/ophiostoma/deseq2_results/tables/onu_vs_self_all_genes.tsv
+Ophiostoma	interaction_vs_self	8560	2709	2529	5238	31.647196261682243	29.544392523364486	61.191588785046726	results/ophiostoma/deseq2_results/tables/interaction_vs_self_all_genes.tsv

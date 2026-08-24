@@ -1,0 +1,580 @@
+#!/usr/bin/env Rscript
+
+suppressPackageStartupMessages({
+  library(readr)
+  library(dplyr)
+  library(ggplot2)
+  library(patchwork)
+  library(scales)
+})
+
+# ==========================================================================
+# Final manuscript Figure 5
+#
+# a — directional CAZyme-class response within each fungus
+# b — formal species comparison of induced/repressed balance by CAZyme class
+#
+# Visualization only. No statistical testing is performed here.
+# ==========================================================================
+
+ROOT <- normalizePath(".", mustWork = TRUE)
+
+COUNT_FILE <- file.path(
+  ROOT,
+  "results/publication/cazyme_comparison/plotting_tables",
+  "figure5_cazyme_class_response_plotting_table.tsv"
+)
+
+TEST_FILE <- file.path(
+  ROOT,
+  "results/publication/cazyme_comparison/inferential_tests",
+  "species_cazyme_class_direction_tests.tsv"
+)
+
+OUTDIR <- file.path(
+  ROOT,
+  "figures/publication/final"
+)
+
+dir.create(
+  OUTDIR,
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+OUTPDF <- file.path(
+  OUTDIR,
+  "Figure5_CAZyme_directional_response.pdf"
+)
+
+OUTPNG <- file.path(
+  OUTDIR,
+  "Figure5_CAZyme_directional_response.png"
+)
+
+# --------------------------------------------------------------------------
+# House style
+# --------------------------------------------------------------------------
+
+fusarium_colour <- "#D9792B"
+ophiostoma_colour <- "#76519D"
+
+class_order <- c(
+  "AA",
+  "CBM",
+  "CE",
+  "GH",
+  "GT",
+  "PL"
+)
+
+# ==========================================================================
+# Read and validate
+# ==========================================================================
+
+for (f in c(COUNT_FILE, TEST_FILE)) {
+  if (!file.exists(f)) {
+    stop("Missing input: ", f)
+  }
+}
+
+counts <- read_tsv(
+  COUNT_FILE,
+  show_col_types = FALSE
+)
+
+tests <- read_tsv(
+  TEST_FILE,
+  show_col_types = FALSE
+)
+
+required_count_cols <- c(
+  "species",
+  "class",
+  "direction",
+  "genes",
+  "layer",
+  "signed_genes"
+)
+
+required_test_cols <- c(
+  "layer",
+  "class",
+  "odds_ratio",
+  "ci_lower",
+  "ci_upper",
+  "padj_within_layer",
+  "testable",
+  "significant_within_layer"
+)
+
+if (!all(required_count_cols %in% names(counts))) {
+  stop("Figure 5 count table is missing required columns.")
+}
+
+if (!all(required_test_cols %in% names(tests))) {
+  stop("Figure 5 test table is missing required columns.")
+}
+
+# ==========================================================================
+# Panel a data
+# Only the high-confidence significant CAZyme set.
+# ==========================================================================
+
+panel_a_data <- counts %>%
+  filter(
+    layer == "All significant"
+  ) %>%
+  mutate(
+    class = factor(
+      class,
+      levels = rev(class_order)
+    )
+  )
+
+axis_limit <- max(
+  abs(panel_a_data$signed_genes),
+  na.rm = TRUE
+)
+
+axis_limit <- ceiling(
+  axis_limit / 10
+) * 10
+
+axis_breaks <- pretty(
+  c(
+    -axis_limit,
+    axis_limit
+  ),
+  n = 5
+)
+
+make_species_bar_panel <- function(
+    species_name,
+    colour,
+    species_title,
+    panel_tag = NULL) {
+
+  dat <- panel_a_data %>%
+    filter(
+      species == species_name
+    )
+
+  ggplot(
+    dat,
+    aes(
+      x = signed_genes,
+      y = class
+    )
+  ) +
+    annotate(
+      "text",
+      x = -Inf,
+      y = Inf,
+      label = ifelse(
+        species_name == "Fusarium",
+        "F. cf. salinense",
+        "O. novo-ulmi"
+      ),
+      family = "Nimbus Sans",
+      fontface = "italic",
+      size = 3.4,
+      hjust = 0,
+      vjust = -2.15
+    ) +
+    geom_vline(
+      xintercept = 0,
+      linewidth = 0.30,
+      colour = "grey78"
+    ) +
+    geom_col(
+      fill = colour,
+      width = 0.62,
+      alpha = 0.72
+    ) +
+    annotate(
+      "text",
+      x = -axis_limit * 0.52,
+      y = Inf,
+      label = "Repressed",
+      family = "Nimbus Sans",
+      fontface = "bold",
+      size = 3.2,
+      vjust = -0.55
+    ) +
+    annotate(
+      "text",
+      x = axis_limit * 0.52,
+      y = Inf,
+      label = "Induced",
+      family = "Nimbus Sans",
+      fontface = "bold",
+      size = 3.2,
+      vjust = -0.55
+    ) +
+    scale_x_continuous(
+      limits = c(
+        -axis_limit,
+        axis_limit
+      ),
+      breaks = axis_breaks,
+      labels = function(x) comma(abs(x)),
+      expand = expansion(
+        mult = c(
+          0,
+          0
+        )
+      )
+    ) +
+    scale_y_discrete(
+      expand = expansion(
+        add = c(
+          0.25,
+          0.75
+        )
+      )
+    ) +
+    coord_cartesian(
+      clip = "off"
+    ) +
+    labs(
+      x = NULL,
+      y = NULL,
+      tag = panel_tag
+    ) +
+    theme_classic(
+      base_size = 10,
+      base_family = "Nimbus Sans"
+    ) +
+    theme(
+      axis.text.x = element_text(
+        size = 9
+      ),
+
+      axis.text.y = element_text(
+        size = 9,
+        face = "bold"
+      ),
+
+      axis.ticks.y = element_blank(),
+      axis.line.y = element_blank(),
+
+      plot.tag = element_text(
+        face = "bold",
+        size = 10
+      ),
+
+      plot.tag.position = c(
+        0.01,
+        1.02
+      ),
+
+      plot.margin = margin(
+        5,
+        5,
+        5,
+        5
+      )
+    )
+}
+
+fusarium_panel <- make_species_bar_panel(
+  species_name = "Fusarium",
+  colour = fusarium_colour,
+  species_title = expression(
+    italic("F.")~"cf."~italic("salinense")
+  ),
+  panel_tag = "a"
+)
+
+ophiostoma_panel <- make_species_bar_panel(
+  species_name = "Ophiostoma",
+  colour = ophiostoma_colour,
+  species_title = expression(
+    italic("O. novo-ulmi")
+  )
+)
+
+panel_a <- (
+  fusarium_panel |
+    ophiostoma_panel
+) +
+  plot_layout(
+    widths = c(
+      1,
+      1
+    )
+  )
+
+
+
+
+panel_a <- panel_a +
+  plot_annotation(
+    caption = "Number of genes"
+  ) &
+  theme(
+    plot.caption = element_text(
+      family = "Nimbus Sans",
+      size = 9.5,
+      hjust = 0.5,
+      margin = margin(
+        t = 3,
+        b = 1
+      )
+    )
+  )
+# Shared x-axis label for panel a.
+panel_a_axis_label <- ggplot() +
+  annotate(
+    "text",
+    x = 0.5,
+    y = 0.5,
+    label = "Number of genes",
+    family = "Nimbus Sans",
+    size = 3.35
+  ) +
+  theme_void()
+
+
+# ==========================================================================
+# Panel b — formal species comparison
+# ==========================================================================
+
+panel_b_data <- tests %>%
+  filter(
+    layer == "All significant"
+  ) %>%
+  mutate(
+    class = factor(
+      class,
+      levels = rev(class_order)
+    ),
+
+    log2_or = log2(
+      odds_ratio
+    ),
+
+    log2_ci_lower = log2(
+      ci_lower
+    ),
+
+    log2_ci_upper = log2(
+      ci_upper
+    ),
+
+    supported_in = case_when(
+      odds_ratio > 1 ~ "Fusarium",
+      odds_ratio < 1 ~ "Ophiostoma",
+      TRUE ~ "Neither"
+    ),
+
+    sig_label = if_else(
+      significant_within_layer,
+      "*",
+      ""
+    )
+  )
+
+interaction_limit <- max(
+  abs(
+    c(
+      panel_b_data$log2_ci_lower,
+      panel_b_data$log2_ci_upper
+    )
+  ),
+  na.rm = TRUE
+)
+
+interaction_limit <- ceiling(
+  interaction_limit * 2
+) / 2
+
+panel_b <- ggplot(
+  panel_b_data,
+  aes(
+    x = log2_or,
+    y = class
+  )
+) +
+  geom_vline(
+    xintercept = 0,
+    linewidth = 0.45,
+    linetype = "dashed",
+    colour = "grey75"
+  ) +
+  geom_errorbar(
+    aes(
+      xmin = log2_ci_lower,
+      xmax = log2_ci_upper,
+      colour = supported_in
+    ),
+    orientation = "y",
+    width = 0,
+    linewidth = 0.70
+  ) +
+  geom_point(
+    aes(
+      colour = supported_in
+    ),
+    size = 3,
+    na.rm = TRUE
+  ) +
+  geom_text(
+    data = panel_b_data %>%
+      filter(!testable),
+    aes(
+      x = 0,
+      y = class,
+      label = "not testable"
+    ),
+    inherit.aes = FALSE,
+    family = "Nimbus Sans",
+    size = 3,
+    colour = "grey50"
+  ) +
+  geom_text(
+    aes(
+      x = pmin(
+        log2_ci_upper + 0.12,
+        interaction_limit - 0.05
+      ),
+      y = class,
+      label = sig_label
+    ),
+    inherit.aes = FALSE,
+    data = panel_b_data,
+    family = "Nimbus Sans",
+    fontface = "bold",
+    size = 4,
+    hjust = 0
+  ) +
+  scale_colour_manual(
+    values = c(
+      Fusarium = fusarium_colour,
+      Ophiostoma = ophiostoma_colour,
+      Neither = "grey40"
+    ),
+    breaks = c(
+      "Fusarium",
+      "Ophiostoma"
+    ),
+    labels = c(
+      expression(
+        italic("F.")~"cf."~italic("salinense")
+      ),
+      expression(
+        italic("O. novo-ulmi")
+      )
+    ),
+    name = NULL
+  ) +
+  scale_x_continuous(
+    limits = c(
+      -interaction_limit,
+      interaction_limit
+    ),
+    expand = expansion(
+      mult = c(
+        0.03,
+        0.03
+      )
+    )
+  ) +
+  labs(
+    x = expression(
+      log[2]~
+      "species × direction odds ratio"
+    ),
+    y = NULL,
+    tag = "b"
+  ) +
+  theme_classic(
+    base_size = 10,
+    base_family = "Nimbus Sans"
+  ) +
+  theme(
+    axis.text.x = element_text(
+      size = 9
+    ),
+
+    axis.text.y = element_text(
+      size = 9,
+      face = "bold"
+    ),
+
+    axis.ticks.y = element_blank(),
+    axis.line.y = element_blank(),
+
+    legend.position = "bottom",
+
+    legend.text = element_text(
+      size = 8.5
+    ),
+
+    plot.tag = element_text(
+      face = "bold",
+      size = 10
+    ),
+
+    plot.tag.position = c(
+      0.01,
+      1.02
+    ),
+
+    plot.margin = margin(
+      5,
+      25,
+      5,
+      8
+    )
+  )
+
+# ==========================================================================
+# Final layout
+# ==========================================================================
+
+final_figure <- (
+  plot_spacer() /
+    panel_a /
+    panel_a_axis_label /
+    panel_b
+) +
+  plot_layout(
+    heights = c(
+      0.055,
+      1.02,
+      0.075,
+      0.80
+    )
+  )
+
+ggsave(
+  OUTPDF,
+  final_figure,
+  width = 180,
+  height = 182,
+  units = "mm",
+  device = cairo_pdf,
+  bg = "white"
+)
+
+ggsave(
+  OUTPNG,
+  final_figure,
+  width = 180,
+  height = 182,
+  units = "mm",
+  dpi = 600,
+  bg = "white"
+)
+
+message("")
+message("==============================================")
+message("FINAL FIGURE 5 COMPLETE")
+message("==============================================")
+message("")
+message("PDF: ", OUTPDF)
+message("PNG: ", OUTPNG)
+message("")
+message("PASS: visualization only; no re-analysis.")

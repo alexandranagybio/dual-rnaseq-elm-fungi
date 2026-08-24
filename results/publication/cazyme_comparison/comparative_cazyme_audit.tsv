@@ -1,0 +1,3 @@
+species	input_file	input_gene_count	unique_gene_count	family_assignment_rows	unique_families	genes_with_multiple_families	secreted_genes	upregulated_genes	downregulated_genes	input_sha256	status
+Fusarium	/home/alex/dual-rnaseq-elm-fungi/results/fusarium/cazyme_analysis/tables/fusarium_cazymes_high_confidence_significant.tsv	142	142	150	95	8	72	80	62	515b57e975a04817008b6622a13a000a9a5ab1f3a879431bbc0bf683490540a9	PASS
+Ophiostoma	/home/alex/dual-rnaseq-elm-fungi/results/ophiostoma/cazyme_analysis/tables/interaction_vs_onu_high_confidence_cazyme_significant.tsv	206	206	219	113	12	85	110	96	23521b117d67bc9ca320136d619615beaa2978b073c018c33fb5e9b4fb2b225b	PASS

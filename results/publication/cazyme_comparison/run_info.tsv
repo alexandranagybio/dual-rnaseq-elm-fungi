@@ -1,0 +1,12 @@
+field	value
+script	33_build_comparative_cazyme_family_table.py
+run_timestamp_utc	2026-08-12T10:04:38.591679+00:00
+repository_root	/home/alex/dual-rnaseq-elm-fungi
+contrast	matched interaction_vs_control; Fusarium internal contrast=interaction_vs_self; Ophiostoma internal contrast=interaction_vs_onu
+cazyme_definition	dbCAN high confidence; at least two tools
+significance_definition	padj < 0.05
+direction_definition	sign of raw log2 fold change
+effect_size	apeglm-shrunken log2 fold change
+family_counting	one gene counted once per distinct recommended CAZyme family
+fusarium_input_sha256	515b57e975a04817008b6622a13a000a9a5ab1f3a879431bbc0bf683490540a9
+ophiostoma_input_sha256	23521b117d67bc9ca320136d619615beaa2978b073c018c33fb5e9b4fb2b225b

@@ -1,0 +1,5 @@
+response_group	genes	secreted_genes	secreted_percent	high_confidence_cazyme_genes	cazyme_percent
+Reaction-zone specific	1653	111	6.715063520871143	67	4.053236539624924
+Plate-wide confrontation response	937	57	6.08324439701174	23	2.454642475987193
+Complex spatial response	1969	183	9.294057897409854	106	5.383443372270188
+Non-contact-region specific	1262	71	5.625990491283677	37	2.931854199683043

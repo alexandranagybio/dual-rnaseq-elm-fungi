@@ -1,0 +1,10 @@
+organism	direction	significant	genes	genes_with_cog	cog_coverage_percent
+Fusarium	Induced	FALSE	3545	2092	59.012693935119884
+Fusarium	Induced	TRUE	1550	1213	78.25806451612904
+Fusarium	Repressed	FALSE	3896	2396	61.49897330595483
+Fusarium	Repressed	TRUE	1423	1219	85.66408995080815
+Ophiostoma	Induced	FALSE	1784	1487	83.35201793721973
+Ophiostoma	Induced	TRUE	2587	2220	85.81368380363355
+Ophiostoma	Repressed	FALSE	1829	1442	78.84089666484418
+Ophiostoma	Repressed	TRUE	2351	1859	79.07273500638027
+Ophiostoma	Unchanged	FALSE	9	3	33.333333333333336

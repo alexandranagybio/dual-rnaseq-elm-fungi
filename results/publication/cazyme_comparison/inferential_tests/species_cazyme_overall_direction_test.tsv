@@ -1,0 +1,2 @@
+comparison	fusarium_induced	fusarium_repressed	ophiostoma_induced	ophiostoma_repressed	fusarium_induced_percent	ophiostoma_induced_percent	odds_ratio	ci_lower	ci_upper	pvalue	interpretation
+All significant high-confidence CAZymes	80	62	110	96	56.33802816901409	53.398058252427184	1.1257141985376868	0.7163437495592823	1.7724054832995648	0.6613666733883444	more induction-biased in Fusarium

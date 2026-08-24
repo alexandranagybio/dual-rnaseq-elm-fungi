@@ -1,0 +1,9 @@
+field	value
+analysis	Ophiostoma spatial functional enrichment
+classification_file	results/publication/ophiostoma_spatial_heatmap/ophiostoma_spatial_response_classification_all.tsv
+annotation_file	results/ophiostoma/publication_annotation/tables/ophiostoma_publication_annotation_wide.tsv
+classified_gene_count	5821
+alpha	0.05
+multiple_testing_binary	BH correction within feature across four spatial programs
+multiple_testing_cog	BH correction within spatial program across COG categories
+comparison	each spatial response program versus all other classified genes

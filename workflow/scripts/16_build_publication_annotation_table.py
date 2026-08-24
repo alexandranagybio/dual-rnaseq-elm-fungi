@@ -91,6 +91,9 @@ EXPECTED_SIGNALP_POSITIVE = 591
 EXPECTED_DBCAN_ANY_HIT = 1440
 EXPECTED_HIGH_CONFIDENCE_CAZYMES = 315
 
+EXPECTED_EGGNOG_ANNOTATED = 8231
+EXPECTED_EGGNOG_UNANNOTATED = 409
+EXPECTED_TESTED_EGGNOG_ANNOTATED = 8185
 REQUIRED_STRUCTURAL_COLUMNS = {
     "gene_id",
     "protein_id",
@@ -115,6 +118,7 @@ REQUIRED_STRUCTURAL_COLUMNS = {
 
 REQUIRED_FUNCTIONAL_COLUMNS = {
     "gene_id",
+    "eggnog_annotated",
     "mrna_id",
     "signalp_prediction",
     "signalp_is_sp",
@@ -313,6 +317,33 @@ def main() -> None:
         for row in functional.values()
     )
 
+
+    eggnog_annotated_count = sum(
+        row["eggnog_annotated"] == "TRUE"
+        for row in functional.values()
+    )
+
+    eggnog_unannotated_count = (
+        len(functional) - eggnog_annotated_count
+    )
+
+    if eggnog_annotated_count != EXPECTED_EGGNOG_ANNOTATED:
+        fail(
+            f"expected {EXPECTED_EGGNOG_ANNOTATED} "
+            "eggNOG-annotated genes, observed "
+            f"{eggnog_annotated_count}"
+        )
+
+    if (
+        eggnog_unannotated_count
+        != EXPECTED_EGGNOG_UNANNOTATED
+    ):
+        fail(
+            f"expected {EXPECTED_EGGNOG_UNANNOTATED} genes "
+            "without final eggNOG annotation, observed "
+            f"{eggnog_unannotated_count}"
+        )
+
     if signalp_count != EXPECTED_SIGNALP_POSITIVE:
         fail(
             f"expected {EXPECTED_SIGNALP_POSITIVE} SignalP-positive genes, "
@@ -386,6 +417,39 @@ def main() -> None:
             f"expected {EXPECTED_STRUCTURAL_GENES - EXPECTED_TESTED_GENES} "
             f"genes excluded from DESeq2, observed {len(excluded_genes)}"
         )
+    tested_eggnog_annotated_by_contrast = {
+        contrast: sum(
+            functional[gene_id]["eggnog_annotated"] == "TRUE"
+            for gene_id in de_by_contrast[contrast]
+        )
+        for contrast in CONTRASTS
+    }
+
+    tested_eggnog_counts = set(
+        tested_eggnog_annotated_by_contrast.values()
+    )
+
+    if len(tested_eggnog_counts) != 1:
+        fail(
+            "eggNOG-annotated tested-gene counts differ among "
+            f"contrasts: {tested_eggnog_annotated_by_contrast}"
+        )
+
+    tested_eggnog_annotated_count = next(
+        iter(tested_eggnog_counts)
+    )
+
+    if (
+        tested_eggnog_annotated_count
+        != EXPECTED_TESTED_EGGNOG_ANNOTATED
+    ):
+        fail(
+            f"expected {EXPECTED_TESTED_EGGNOG_ANNOTATED} "
+            "eggNOG-annotated tested genes per contrast, "
+            f"observed {tested_eggnog_annotated_count}"
+        )
+
+
 
     # Explicitly rename the functional mRNA identifier to avoid confusion
     # with the numeric JGI transcript_id in the structural map.
@@ -568,6 +632,31 @@ def main() -> None:
     )
 
     validation = [
+        {
+            "check": "complete_eggnog_annotated",
+            "value": eggnog_annotated_count,
+            "expected": EXPECTED_EGGNOG_ANNOTATED,
+            "status": "PASS",
+        },
+        {
+            "check": "complete_eggnog_unannotated",
+            "value": eggnog_unannotated_count,
+            "expected": EXPECTED_EGGNOG_UNANNOTATED,
+            "status": "PASS",
+        },
+        {
+            "check": "tested_eggnog_annotated_per_contrast",
+            "value": ",".join(
+                str(
+                    tested_eggnog_annotated_by_contrast[
+                        contrast
+                    ]
+                )
+                for contrast in CONTRASTS
+            ),
+            "expected": EXPECTED_TESTED_EGGNOG_ANNOTATED,
+            "status": "PASS",
+        },
         {
             "check": "structural_annotation_gene_count",
             "value": len(structural),

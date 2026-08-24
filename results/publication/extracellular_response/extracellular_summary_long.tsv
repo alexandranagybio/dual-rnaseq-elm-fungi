@@ -1,0 +1,11 @@
+species	metric	category	count
+Fusarium	Significant DE genes	all	2973
+Fusarium	Significant secreted genes	secreted	346
+Fusarium	Significant high-confidence CAZymes	cazyme	142
+Fusarium	Significant secreted CAZymes	secreted_cazyme	72
+Fusarium	Significant non-secreted CAZymes	nonsecreted_cazyme	70
+Ophiostoma	Significant DE genes	all	4938
+Ophiostoma	Significant secreted genes	secreted	369
+Ophiostoma	Significant high-confidence CAZymes	cazyme	206
+Ophiostoma	Significant secreted CAZymes	secreted_cazyme	85
+Ophiostoma	Significant non-secreted CAZymes	nonsecreted_cazyme	121

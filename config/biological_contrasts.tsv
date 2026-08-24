@@ -1,0 +1,10 @@
+organism	internal_condition_or_contrast	biological_meaning	analysis_role
+Fusarium	interaction	interaction zone	condition
+Fusarium	control	self-interaction control	condition
+Fusarium	interaction_vs_self	interaction vs self-interaction control	main confrontation
+Ophiostoma	interaction	interaction zone	condition
+Ophiostoma	self	distal non-contact region of challenged colony	condition
+Ophiostoma	onu	self-interaction control	condition
+Ophiostoma	interaction_vs_onu	interaction zone vs self-interaction control	main confrontation
+Ophiostoma	interaction_vs_self	interaction zone vs distal non-contact region	spatial
+Ophiostoma	onu_vs_self	self-interaction control vs distal non-contact region	spatial

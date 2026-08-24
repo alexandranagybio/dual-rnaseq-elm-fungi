@@ -1,0 +1,12 @@
+class	species	significant_genes	up	down	secreted	secreted_up	secreted_down
+AA	Fusarium	18	8	10	11	3	8
+AA	Ophiostoma	32	20	12	19	13	6
+CBM	Fusarium	6	2	4	2	0	2
+CBM	Ophiostoma	15	5	10	8	2	6
+CE	Fusarium	7	4	3	7	4	3
+CE	Ophiostoma	8	4	4	4	2	2
+GH	Fusarium	83	51	32	49	30	19
+GH	Ophiostoma	109	46	63	59	24	35
+GT	Fusarium	32	16	16	3	3	0
+GT	Ophiostoma	53	36	17	2	1	1
+PL	Fusarium	2	1	1	2	1	1

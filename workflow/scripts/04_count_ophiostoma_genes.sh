@@ -2,7 +2,6 @@
 set -Eeuo pipefail
 IFS=$'\n\t'
 
-# ---------------------------------------------------------------------------
 # 04_count_ophiostoma_genes.sh
 #
 # Purpose:
@@ -22,7 +21,6 @@ IFS=$'\n\t'
 #
 # Optional overrides:
 #   THREADS=8 bash workflow/scripts/04_count_ophiostoma_genes.sh
-# ---------------------------------------------------------------------------
 
 readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 readonly REPO_ROOT="$(cd -- "${SCRIPT_DIR}/../.." && pwd)"
