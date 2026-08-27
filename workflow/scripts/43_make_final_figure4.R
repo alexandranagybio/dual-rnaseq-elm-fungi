@@ -215,7 +215,7 @@ panel_a <- ggplot(
     ),
     labels = c(
       expression(
-        italic("F.")~"cf."~italic("salinense")
+        italic("F. salinense")
       ),
       expression(
         italic("O. novo-ulmi")

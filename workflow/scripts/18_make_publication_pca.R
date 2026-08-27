@@ -10,7 +10,7 @@ suppressPackageStartupMessages({
 # Final publication PCA figure
 #
 # Two PCA panels:
-#   A. Fusarium cf. salinense
+#   A. Fusarium salinense
 #   B. Ophiostoma novo-ulmi
 #
 # One custom horizontal legend is placed beneath both panels.
@@ -356,7 +356,7 @@ fusarium_plot <- make_pca_plot(
   data = fusarium_pca,
   pc1 = fusarium_pc1,
   pc2 = fusarium_pc2,
-  species_title = "Fusarium cf. salinense",
+  species_title = "Fusarium salinense",
   panel_tag = "a"
 )
 

@@ -315,14 +315,14 @@ plot_data <- summary_data |>
   ) |>
   mutate(
     plot_label = case_when(
-      organism == "Fusarium" ~ "Fusarium cf. salinense",
+      organism == "Fusarium" ~ "Fusarium salinense",
       organism == "Ophiostoma" ~ "Ophiostoma novo-ulmi"
     ),
     plot_label = factor(
       plot_label,
       levels = c(
         "Ophiostoma novo-ulmi",
-        "Fusarium cf. salinense"
+        "Fusarium salinense"
       )
     )
   ) |>
@@ -391,7 +391,7 @@ p <- ggplot(
   scale_y_discrete(
     labels = expression(
       italic("Ophiostoma novo-ulmi"),
-      italic("Fusarium cf. salinense")
+      italic("Fusarium salinense")
     )
   ) +
   scale_x_continuous(

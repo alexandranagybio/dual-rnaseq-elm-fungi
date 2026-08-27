@@ -274,7 +274,7 @@ fusarium_panel <- make_species_bar_panel(
   species_name = "Fusarium",
   colour = fusarium_colour,
   species_title = expression(
-    italic("F.")~"cf."~italic("salinense")
+    italic("F. salinense")
   ),
   panel_tag = "a"
 )
@@ -413,7 +413,7 @@ panel_b <- ggplot(
     ),
     labels = c(
       expression(
-        italic("F.")~"cf."~italic("salinense")
+        italic("F. salinense")
       ),
       expression(
         italic("O. novo-ulmi")

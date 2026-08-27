@@ -447,6 +447,46 @@ p_integrated <- ggplot() +
     expand = expansion(mult = c(0, 0))
   ) +
 
+  annotate(
+    "point",
+    x = shared_p99 * 0.75,
+    y = box_y[["Ophiostoma"]],
+    shape = 16,
+    size = 3,
+    colour = organism_fill[["Ophiostoma"]]
+  ) +
+  annotate(
+    "text",
+    x = Inf,
+    y = box_y[["Ophiostoma"]],
+    label = "Ophiostoma novo-ulmi",
+    hjust = 1.05,
+    vjust = 0.5,
+    family = "Nimbus Sans",
+    fontface = "italic",
+    size = 3.5,
+    colour = "grey20"
+  ) +
+  annotate(
+    "point",
+    x = shared_p99 * 0.75,
+    y = box_y[["Fusarium"]],
+    shape = 16,
+    size = 3,
+    colour = organism_fill[["Fusarium"]]
+  ) +
+  annotate(
+    "text",
+    x = Inf,
+    y = box_y[["Fusarium"]],
+    label = "Fusarium salinense",
+    hjust = 1.05,
+    vjust = 0.5,
+    family = "Nimbus Sans",
+    fontface = "italic",
+    size = 3.5,
+    colour = "grey20"
+  ) +
   scale_x_continuous(
     breaks = pretty_breaks(n = 5),
     expand = expansion(add = c(0.035, 0.06))
