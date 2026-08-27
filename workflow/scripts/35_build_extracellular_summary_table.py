@@ -3,7 +3,7 @@
 35_build_extracellular_summary_table.py
 
 Build the canonical publication summary of extracellular transcriptional
-responses in Fusarium cf. salinense and Ophiostoma novo-ulmi.
+responses in Fusarium salinense and Ophiostoma novo-ulmi.
 
 No new statistical test is performed.
 

@@ -1,3 +1,0 @@
-direction	significant_genes	raw_abs_lfc_gt_1	shrunk_abs_lfc_gt_1	preferred_name	informative_description	readable_annotation	signal_peptide	cazyme	readable_annotation_percent
-Downregulated	1423	35	26	615	1210	1232	180	381	86.6
-Upregulated	1550	114	78	333	1199	1236	166	405	79.7

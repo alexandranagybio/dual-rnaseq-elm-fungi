@@ -5,7 +5,7 @@
 Build gene-level and family-level comparative CAZyme tables for the
 biologically matched interaction-versus-self contrasts in:
 
-    Fusarium cf. salinense
+    Fusarium salinense
     Ophiostoma novo-ulmi
 
 Primary input subset

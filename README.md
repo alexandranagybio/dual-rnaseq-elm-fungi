@@ -1,20 +1,38 @@
-# Dual RNA-seq workflow for transcriptomic analysis of fungal antagonism between *Ophiostoma novo-ulmi* and *Fusarium cf. salinense*
+# Fungal confrontation reveals distinct and spatially structured transcriptional responses in the elm endophyte Fusarium salinense and the Dutch elm disease pathogen Ophiostoma novo-ulmi
 
 ## Overview
 
-This repository contains the complete computational workflow used to analyze dual RNA-seq data from interactions between the Dutch elm disease pathogen *Ophiostoma novo-ulmi* and the fungal endophyte *Fusarium cf. salinense*. The workflow accompanies a transcriptomic study investigating molecular responses associated with fungal antagonism.
+This repository contains the computational workflow and validated analysis outputs used for a dual RNA-seq study of fungal confrontation between the Dutch elm disease pathogen *Ophiostoma novo-ulmi* and the fungal endophyte *Fusarium salinense*.
 
-Because the two organisms required different analytical strategies, the repository contains two complementary pipelines. *Ophiostoma novo-ulmi* gene expression is quantified using reference-guided alignment and gene-level counting, whereas *Fusarium cf. salinense* gene expression is quantified from a de novo assembled transcriptome. Downstream analyses include differential expression, functional annotation, Gene Ontology (GO) enrichment, and generation of publication-ready tables and figures.
+The two fungi were analyzed using complementary transcriptomic strategies:
 
-The repository has been systematically audited to maximize computational reproducibility. Analysis scripts perform extensive validation of inputs and intermediate results, generate checksum manifests, and produce machine-readable validation reports to ensure transparent and repeatable analyses.
+* *Ophiostoma novo-ulmi*: reference-guided alignment and gene-level quantification
+* *Fusarium salinense*: de novo transcriptome assembly followed by transcript quantification and gene-level analysis
+
+The repository focuses on the reproducible manuscript-analysis workflow from validated processed inputs. Large sequencing files and computationally expensive upstream products are not stored in Git. Instead, repository-relative paths under `data/external/` provide local access to these inputs when available.
+
+Downstream analyses include differential expression, functional annotation, Gene Ontology and KEGG enrichment, secretome and CAZyme analyses, comparative functional analyses, spatial transcriptional responses, and generation of publication figures and manuscript-facing result tables.
 
 ---
 
 ## Experimental design
 
-Dual RNA-seq libraries were generated from dual cultures of *Ophiostoma novo-ulmi* and *Fusarium cf. salinense*, together with species-specific control cultures. Biological triplicates were analyzed for each experimental condition.
+Dual RNA-seq libraries were generated from fungal interaction cultures and species-specific controls, with biological triplicates for each experimental condition.
 
-Following sequencing, reads originating from *Ophiostoma novo-ulmi* were analyzed using a reference-guided workflow based on genome alignment and gene-level counting. Reads not assigned to *Ophiostoma* were assembled de novo to reconstruct the *Fusarium cf. salinense* transcriptome, which was subsequently used for transcript quantification and downstream differential expression analysis.
+For *O. novo-ulmi*, three sampled conditions were analyzed:
+
+* reaction zone during interaction
+* non-contact region of the interacting colony
+* control colony
+
+For *Fusarium salinense*, confrontation samples were compared with the corresponding control condition.
+
+The authoritative sample definitions and biological contrast mappings used by the computational workflow are stored in:
+
+```text
+config/samples.tsv
+config/biological_contrasts.tsv
+```
 
 ---
 
@@ -22,233 +40,343 @@ Following sequencing, reads originating from *Ophiostoma novo-ulmi* were analyze
 
 ```text
 .
-├── config/              Canonical sample metadata
-├── data/                Reference data, annotations and supporting resources
-├── figures/             Publication figures
-├── logs/                Workflow execution logs
-├── manuscript/          Manuscript source files
-├── results/             Generated analysis results
-├── workflow/            Analysis scripts, workflow rules and environments
-├── CHANGELOG.md         Repository development history
-├── CITATION.cff         Citation metadata
-├── environment.yml      Conda software environment
-├── LICENSE              Repository license
+├── config/
+│   ├── samples.tsv
+│   └── biological_contrasts.tsv
+│
+├── data/
+│   ├── annotation/
+│   ├── external/
+│   ├── metadata/
+│   └── reference/
+│
+├── figures/
+│   ├── figure4_cog_enrichment/
+│   ├── figure5_secretome_cazymes/
+│   ├── figure6_ophiostoma_spatial_response/
+│   └── publication/
+│
+├── results/
+│   ├── fusarium/
+│   ├── ophiostoma/
+│   └── publication/
+│
+├── workflow/
+│   ├── rules/
+│   ├── scripts/
+│   └── setup/
+│
+├── CHANGELOG.md
+├── CITATION.cff
+├── environment.yml
+├── LICENSE
 └── README.md
 ```
 
 ---
 
-## Workflow overview
+## Data organization
 
-The repository implements two complementary transcriptomic analysis pipelines.
+### Version-controlled data
 
-```text
-                           Raw RNA-seq reads
-                                   │
-                    ┌──────────────┴──────────────┐
-                    │                             │
-                    ▼                             ▼
-          Ophiostoma novo-ulmi        Fusarium cf. salinense
-                    │                             │
-          Reference genome            De novo transcriptome
-               alignment                   assembly
-               (HISAT2)                   (Trinity)
-                    │                             │
-           Gene-level counting         Transcript quantification
-           (featureCounts)                 (Salmon)
-                    │                             │
-                    ▼                             ▼
-                  DESeq2                       DESeq2
-                    │                             │
-        Functional annotation       Functional annotation
-    (eggNOG-mapper, SignalP, dbCAN for both pipelines)
-                    └──────────────┬──────────────┘
-                                   ▼
-                       Gene Ontology enrichment
-                         (clusterProfiler)
-                                   │
-                                   ▼
-                           Tables and figures
-```
+Small reference, annotation, metadata, validation, and derived analysis files required by the manuscript workflow are stored under `data/`, `results/`, and `config/`.
 
-Although the analytical strategies differ between the two organisms, both pipelines follow the same principles of reproducible data processing, validation, and downstream functional interpretation.
+### External data
 
----
+Large sequencing and intermediate files are not version-controlled.
 
-## Repository organization
-
-### `config/`
-
-Contains the canonical sample metadata used throughout the repository.
-
-The file
+Local external inputs are accessed through:
 
 ```text
-config/samples.tsv
+data/external/
 ```
 
-is the single authoritative description of the experimental design. Workflow scripts derive analysis-specific metadata directly from this file while validating consistency with the audited study design.
+On the original analysis workstation these paths are symbolic links to data stored outside the repository.
 
----
-
-### `workflow/`
-
-Contains the complete computational workflow, including:
-
-* shell scripts
-* Python utilities
-* R analysis scripts
-* workflow rules
-* software environments
-
-All scripts use repository-relative paths to maximize portability and reproducibility.
-
----
-
-### `data/`
-
-Contains reference genomes, transcriptomes, annotations, metadata, and supplementary resources required by the workflow.
-
----
-
-### `results/`
-
-Stores all generated analysis outputs.
+External inputs include:
 
 ```text
-results/
-├── ophiostoma/
-│   ├── gene counts
-│   ├── DESeq2 analyses
-│   ├── functional annotation
-│   └── GO enrichment
-│
-└── fusarium/
-    ├── transcript quantification
-    ├── DESeq2 analyses
-    ├── functional annotation
-    └── GO enrichment
+data/external/raw_reads/
+data/external/trimmed_reads/
+data/external/ophiostoma_bams/
+data/external/fusarium_assembly/
+data/external/fusarium_salmon/
+data/external/fusarium_annotation/
+data/external/fusarium_eggnog/
 ```
 
-Results are generated automatically by the workflow and should not be edited manually.
+Examples of canonical external inputs include:
 
----
+* paired-end sequencing reads
+* trimmed sequencing reads
+* coordinate-sorted *O. novo-ulmi* BAM files
+* the final *Fusarium* Trinity assembly
+* Salmon quantifications
+* TransDecoder protein predictions
+* eggNOG-mapper annotations
+* dbCAN results
 
-### `figures/`
+These files and local symbolic links are excluded from Git.
 
-Contains publication figures generated from the workflow outputs.
-
----
-
-### `manuscript/`
-
-Contains manuscript source files associated with this repository.
-
----
-
-## Reproducibility
-
-Computational reproducibility is a central design objective of this repository.
-
-The workflow incorporates multiple safeguards, including:
-
-* repository-relative file paths
-* canonical sample metadata
-* deterministic sample ordering
-* strict input validation
-* automatic integrity checks
-* SHA-256 checksum manifests
-* machine-readable validation reports
-* explicit failure when expected biological or technical constraints are violated
-
-These validation steps prevent silent propagation of errors and ensure that downstream analyses are performed only on verified inputs.
-
----
-
-## Software requirements
-
-The primary computational environment is defined in:
+See:
 
 ```text
-environment.yml
+data/external/README.md
 ```
 
-The workflow uses widely adopted open-source software, including:
-
-### Read processing and quantification
-
-* fastp
-* HISAT2
-* samtools
-* featureCounts (Subread)
-* Trinity
-* Salmon
-
-### Statistical analysis
-
-* R
-* DESeq2
-
-### Functional annotation
-
-* eggNOG-mapper
-* SignalP
-* dbCAN
-
-### Functional enrichment
-
-* clusterProfiler
+for details.
 
 ---
 
-## Running the workflow
+## Analysis workflow
 
-Clone the repository:
+### *Ophiostoma novo-ulmi*
 
-```bash
-git clone <repository-url>
-cd dual-rnaseq-elm-fungi
+The *O. novo-ulmi* analysis uses a reference-guided workflow.
+
+```text
+validated alignment inputs
+        │
+        ▼
+gene-level counting
+(featureCounts)
+        │
+        ▼
+DESeq2 dataset construction and QC
+        │
+        ▼
+differential expression
+        │
+        ├── functional annotation
+        ├── GO enrichment
+        ├── KEGG enrichment
+        ├── secretome analysis
+        ├── CAZyme analysis
+        └── spatial transcriptional analysis
 ```
 
-Workflow components are executed from the repository root. Individual analysis scripts are located in:
+The repository includes validation of reference annotations, sample identities, gene-count matrices, contrast definitions, and downstream result consistency.
+
+### *Fusarium salinense*
+
+The *Fusarium* analysis uses a de novo transcriptome-based workflow.
+
+```text
+Trinity assembly + Salmon quantifications
+        │
+        ▼
+gene-level abundance reconstruction
+        │
+        ▼
+DESeq2
+        │
+        ▼
+differential expression
+        │
+        ├── eggNOG functional annotation
+        ├── GO enrichment
+        ├── KEGG enrichment
+        ├── SignalP-based secretome analysis
+        └── dbCAN-based CAZyme analysis
+```
+
+The Trinity assembly, Salmon quantifications, TransDecoder proteins, and large annotation outputs are treated as external upstream inputs.
+
+---
+
+## Comparative and publication analyses
+
+Cross-species manuscript analyses are stored primarily under:
+
+```text
+results/publication/
+```
+
+These include:
+
+* global transcriptional response summaries
+* PCA analyses
+* differential-expression extent and direction
+* COG annotation coverage and enrichment
+* species × COG interaction tests
+* comparative CAZyme analyses
+* extracellular-response summaries
+* *O. novo-ulmi* spatial response analyses
+* audit and validation outputs
+
+Publication figure scripts are located in:
 
 ```text
 workflow/scripts/
 ```
 
-Intermediate and final outputs are written to the `results/` directory, where validated outputs from one stage serve as inputs for subsequent analyses. Validation reports and checksum manifests are generated automatically throughout the workflow to document computational integrity.
+Final publication figures and previews are stored under:
+
+```text
+figures/publication/
+```
 
 ---
 
-## Main outputs
+## Canonical manuscript result source
 
-The repository produces publication-ready outputs, including:
+Manuscript-facing numerical results are consolidated in:
 
-* validated count matrices and transcript quantifications
-* DESeq2 datasets
-* differential expression tables
-* functional annotation tables
-* Gene Ontology enrichment analyses
-* quality-control summaries
-* validation reports
-* SHA-256 checksum manifests
-* publication figures
+```text
+results/publication/MANUSCRIPT_RESULTS_SOURCE.tsv
+```
+
+with provenance information in:
+
+```text
+results/publication/MANUSCRIPT_RESULTS_SOURCE_run_info.tsv
+```
+
+The table is generated by:
+
+```text
+workflow/scripts/40_build_manuscript_results_source.py
+```
+
+The generating workflow extracts values from validated analysis tables rather than manually entering manuscript numbers. Canonical input files are SHA-256 hashed, and expected biological mappings and result structures are checked before the manuscript source table is produced.
+
+This table should be treated as the primary computational source for numerical values reported in the manuscript.
+
+---
+
+## Reproducibility and validation
+
+The repository was organized to minimize silent inconsistencies between analyses.
+
+Safeguards include:
+
+* canonical sample metadata
+* explicit biological contrast definitions
+* repository-relative paths
+* deterministic sample ordering
+* input validation
+* expected gene and transcript count checks
+* contrast consistency checks
+* annotation coverage checks
+* cross-species comparability checks
+* SHA-256 checksums
+* machine-readable audit tables
+* explicit failure when expected analytical constraints are violated
+
+Supporting validation material is stored under locations including:
+
+```text
+data/metadata/
+results/publication/audit/
+workflow/rules/
+```
+
+---
+
+## Software environment
+
+A reconstructed Conda environment for running the released analysis workflow is provided in:
+
+```text
+environment.yml
+```
+
+Create it with:
+
+```bash
+conda env create -f environment.yml
+conda activate dual-rnaseq-elm-fungi
+```
+
+An additional R dependency used for spatial heatmap generation can be installed with:
+
+```bash
+Rscript workflow/setup/install_r_extras.R
+```
+
+Core software versions verified on the analysis workstation included:
+
+```text
+R              4.4.3
+samtools       1.19.2
+featureCounts  2.0.6
+```
+
+The R analysis stack included DESeq2, apeglm, clusterProfiler, ComplexHeatmap, tximport, and associated CRAN/Bioconductor packages.
+
+Python scripts use primarily the Python standard library, with:
+
+* `pandas` for construction of the *O. novo-ulmi* KEGG annotation table
+* PyMuPDF for assembly of composite publication figures
+
+The repository evolved across more than one computational environment. The supplied `environment.yml` is therefore a curated environment for reproducing the released workflow rather than an exact export of every historical software environment used during development.
+
+---
+
+## Upstream software
+
+Several upstream products used by this repository were generated with software that is not invoked directly by the current manuscript-analysis scripts.
+
+These include tools such as:
+
+* fastp
+* HISAT2
+* Trinity
+* Salmon
+* TransDecoder
+* eggNOG-mapper
+* SignalP
+* dbCAN
+
+Their processed outputs are supplied to the manuscript workflow as validated external inputs.
+
+---
+
+## Running the analysis
+
+Clone the repository and create the software environment:
+
+```bash
+git clone <repository-url>
+cd dual-rnaseq-elm-fungi
+
+conda env create -f environment.yml
+conda activate dual-rnaseq-elm-fungi
+
+Rscript workflow/setup/install_r_extras.R
+```
+
+Configure the external data paths described in:
+
+```text
+data/external/README.md
+```
+
+Analysis scripts are located in:
+
+```text
+workflow/scripts/
+```
+
+Scripts should be executed from the repository root so that repository-relative paths resolve consistently.
+
+The workflow is currently represented as a set of individually validated analysis scripts rather than a single workflow-manager entry point. Dependencies between major stages are reflected by their numbered filenames and validated input/output tables.
 
 ---
 
 ## Citation
 
-If you use this repository in your research, please cite the associated publication when available.
-
-Citation metadata are provided in:
+Citation information for this repository is provided in:
 
 ```text
 CITATION.cff
 ```
 
+The manuscript citation should be used once the associated article is published.
+
 ---
 
 ## License
 
-This repository is distributed under the terms of the accompanying `LICENSE` file.
+See `LICENSE` for the terms governing reuse of the repository code.
 

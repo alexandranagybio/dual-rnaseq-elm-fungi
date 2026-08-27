@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this software or workflow, please cite it using the metadata below."
+title: "Dual RNA-seq analysis of fungal confrontation between Ophiostoma novo-ulmi and Fusarium salinense"
+type: software
+authors:
+  - family-names: "Nagy"
+    given-names: "Alexandra"
+license: MIT

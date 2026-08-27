@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Build a validated gene-level KEGG pathway annotation for Fusarium cf. salinense.
+Build a validated gene-level KEGG pathway annotation for Fusarium salinense.
 
 This script consumes the validated functional-annotation tables produced by
 18_build_fusarium_functional_annotation.py. It does not reparse the raw eggNOG

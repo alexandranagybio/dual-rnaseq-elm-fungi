@@ -1,0 +1,40 @@
+name: dual-rnaseq-elm-fungi
+
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  # Core languages
+  - python=3.10
+  - r-base=4.4
+
+  # Command-line tools used directly by the repository
+  - samtools=1.19.2
+  - subread=2.0.6
+
+  # Python
+  - pandas
+  - pymupdf
+
+  # R / CRAN
+  - r-circlize
+  - r-dplyr
+  - r-ggplot2
+  - r-patchwork
+  - r-purrr
+  - r-readr
+  - r-scales
+  - r-stringr
+  - r-tibble
+  - r-tidyr
+
+  # R / Bioconductor
+  - bioconductor-annotationdbi
+  - bioconductor-apeglm
+  - bioconductor-clusterprofiler
+  - bioconductor-complexheatmap
+  - bioconductor-deseq2
+  - bioconductor-go.db
+  - bioconductor-tximport

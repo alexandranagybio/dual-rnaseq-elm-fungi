@@ -2,7 +2,7 @@
 
 # 22_run_fusarium_kegg_enrichment.R
 #
-# Directional KEGG over-representation analysis for Fusarium cf. salinense
+# Directional KEGG over-representation analysis for Fusarium salinense
 # Trinity gene-level DESeq2 results.
 #
 # Primary analysis: padj < 0.05, split into up/down genes.

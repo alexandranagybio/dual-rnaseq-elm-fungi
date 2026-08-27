@@ -4,7 +4,7 @@
 
 Every figure should answer **one biological question**.
 
-Each subsequent figure should naturally arise from the previous one, progressively revealing how fungal antagonism unfolds from global transcriptional changes to functional reprogramming and extracellular mechanisms.
+Each subsequent figure should naturally arise from the previous one, progressively revealing how fungal confrontation unfolds from global transcriptional changes to functional reprogramming and extracellular mechanisms.
 
 Panels are included only if they provide **new biological evidence**. Redundant visualizations, even if common in transcriptomic studies, should be avoided.
 
@@ -16,7 +16,7 @@ How extensive, reproducible, and spatially structured are the transcriptional re
 
 ### Biological answer
 
-Both fungi exhibit robust transcriptional responses to interaction. *Ophiostoma novo-ulmi* displays a substantially broader response than *Fusarium cf. salinense*, and the inclusion of a non-interaction sampling zone reveals that pathogen transcriptional reprogramming consists of both localized and colony-wide responses.
+Both fungi exhibit robust transcriptional responses to interaction. *Ophiostoma novo-ulmi* displays a substantially broader response than *Fusarium salinense*, and the inclusion of a non-interaction sampling zone reveals that pathogen transcriptional reprogramming consists of both localized and colony-wide responses.
 
 ## Panel A
 
@@ -118,15 +118,15 @@ Species × COG interaction analysis identifies functional categories exhibiting 
 - Identify conserved versus divergent functional strategies.
 - Transition from global transcriptional changes to specific biological processes.
 
-# Figure 5 — Extracellular responses during fungal antagonism
+# Figure 5 — Extracellular responses during fungal confrontation
 
 ### Biological question
 
-Which extracellular functions characterize fungal antagonism?
+Which extracellular functions characterize fungal confrontation?
 
 ### Biological answer
 
-Both fungi regulate extracellular proteins during interaction, but *Fusarium cf. salinense* allocates a larger proportion of its response to predicted secreted proteins and secreted CAZymes, whereas *Ophiostoma novo-ulmi* exhibits a broader extracellular transcriptional response involving a larger diversity of CAZyme families.
+Both fungi regulate extracellular proteins during interaction, but *Fusarium salinense* allocates a larger proportion of its response to predicted secreted proteins and secreted CAZymes, whereas *Ophiostoma novo-ulmi* exhibits a broader extracellular transcriptional response involving a larger diversity of CAZyme families.
 
 ## Panel A
 
@@ -160,7 +160,7 @@ Comparative analysis of the principal secreted CAZyme families differentially re
 
 **Purpose**
 
-- Identify candidate enzymes associated with fungal antagonism.
+- Identify candidate enzymes associated with fungal confrontation.
 - Compare extracellular investment between fungi.
 - Connect functional categories to candidate molecular mechanisms.
 

@@ -3,7 +3,7 @@
 18_build_fusarium_functional_annotation.py
 
 Build and validate protein-, transcript-, and gene-level functional annotation
-tables for the de novo Fusarium cf. salinense Trinity assembly.
+tables for the de novo Fusarium salinense Trinity assembly.
 
 Inputs
 ------

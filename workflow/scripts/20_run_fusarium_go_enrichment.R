@@ -2,7 +2,7 @@
 
 # 20_run_fusarium_go_enrichment.R
 #
-# GO over-representation analysis for Fusarium cf. salinense Trinity genes.
+# GO over-representation analysis for Fusarium salinense Trinity genes.
 # Original protein-level eggNOG GO annotations are mapped to validated Trinity
 # genes and deduplicated before enrichment.
 #
@@ -54,8 +54,8 @@ gene_file <- file.path(
 publication_file <- file.path(
   publication_dir, "tables", "fusarium_publication_annotation_full.tsv"
 )
-eggnog_file <- paste0(
-  "/home/alex/rnaseq/results/fusarium/eggnog_complete/",
+eggnog_file <- file.path(
+  "data", "external", "fusarium_annotation",
   "fusarium_complete.emapper.annotations"
 )
 

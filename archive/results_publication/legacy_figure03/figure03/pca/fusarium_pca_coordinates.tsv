@@ -1,7 +1,0 @@
-PC1	PC2	group	condition	name	sample_id	publication_condition
--6.81103516635426	3.1744470034454	interaction	interaction	146	146	Interaction zone
--6.93146976077501	-2.82726560258299	interaction	interaction	147	147	Interaction zone
--6.93228348798039	-0.289365157111588	interaction	interaction	148	148	Interaction zone
-6.92968975489055	-0.528007930769174	control	control	158	158	Self-interaction control
-7.16019190550815	1.00987410375634	control	control	159	159	Self-interaction control
-6.58490675471097	-0.53968241673799	control	control	160	160	Self-interaction control
