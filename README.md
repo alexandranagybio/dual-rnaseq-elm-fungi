@@ -337,7 +337,7 @@ Their processed outputs are supplied to the manuscript workflow as validated ext
 Clone the repository and create the software environment:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/alexandranagybio/dual-rnaseq-elm-fungi.git
 cd dual-rnaseq-elm-fungi
 
 conda env create -f environment.yml
