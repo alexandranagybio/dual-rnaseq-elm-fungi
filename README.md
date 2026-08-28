@@ -1,4 +1,4 @@
-# Fungal confrontation reveals distinct and spatially structured transcriptional responses in the elm endophyte Fusarium salinense and the Dutch elm disease pathogen Ophiostoma novo-ulmi
+# Fungal confrontation reveals distinct and spatially structured transcriptional responses in the elm endophyte *Fusarium salinense* and the Dutch elm disease pathogen *Ophiostoma novo-ulmi*
 
 ## Overview
 
